@@ -60,12 +60,13 @@ public class Table extends JTable {
 	}
 	
 	public void init(Object[][] data) {
-		if (data != null) {
+		if (data != null && data.length != 0 ) {
             initResultData(data);
             model = new DefaultTableModel(getPageData(), header);
-        } else {
+        } 
+		else {
             // 如果结果集中没有数据，那么就用空来代替数据集中的每一行
-            Object[][] nothing = { {}, {}, {}, {}, {}, {}, {}, {}, {}, {},{}, {}, {}, {}, {}, {}};
+            Object[][] nothing = { {}, {}, {}, {}, {}, {}, {}, {}, {}, {}};
             model = new DefaultTableModel(nothing, header);
             totalRowCount = 0;
         }

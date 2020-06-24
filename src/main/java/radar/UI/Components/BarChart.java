@@ -50,6 +50,7 @@ public class BarChart extends JPanel{
 		this.title = title;
 		this.xTitle = xTitle;
 		this.yTitle = yTitle;
+		this.className = className;
 		this.methodName = methodName;
 		this.params = params;
 		setLayout(new BorderLayout(0, 0));

@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import radar.Dao.TestDao;
+import radar.Entity.DynamicData;
+import radar.Entity.Manager;
+import radar.Entity.Radar;
 
 @Repository("TestDaoImpl")
 @SuppressWarnings("unchecked")

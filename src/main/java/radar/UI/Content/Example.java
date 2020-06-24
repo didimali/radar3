@@ -93,11 +93,11 @@ public class Example extends ContentPanel implements Init{
 		ContentBody.setLayout(new MigLayout("", "[grow][grow]", "[grow][grow]"));
 		
 		pie = new PieChart("饼图标题","TestServiceImpl", "getPieData",new Object[] {"qq"});
-//		pie.init();		
+		pie.init();		
 		line = new LineChart("折线图标题","x轴","y轴","TestServiceImpl", "getLineData",new Object[] {"qq",1});
-//		line.init();		
-		bar = new BarChart("柱状图标题","x轴","y轴","TestServiceImpl", "getLineData",new Object[] {1,2,3});
-//		bar.init();	
+		line.init();		
+		bar = new BarChart("柱状图标题","x轴","y轴","TestServiceImpl", "getBarData",new Object[] {1,2,3});
+		bar.init();	
 		String[] header = { "序号", "部队编号", "所在位置"};
 		table = new Table("TestServiceImpl", "getManagers",new Object[] {"asd",1},header);
 		panel_2 = new JScrollPane(table);		

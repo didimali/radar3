@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import radar.Dao.TestDao;
+import radar.Entity.DynamicData;
+import radar.Entity.Manager;
+import radar.Entity.Radar;
 import radar.Service.TestService;
 
 @Service("TestServiceImpl")
@@ -74,7 +77,7 @@ public class TestServiceImpl implements TestService{
 		DefaultCategoryDataset result = new DefaultCategoryDataset();
 		for(int i=0;i<list.size();i++) {
 			DynamicData data = list.get(i);
-			result.setValue(Float.valueOf(data.getDataVaule()),data.getParamId().getParamName(),data.getCollectDate());
+			result.setValue(Float.valueOf(data.getDataVaule()),null,data.getCollectDate());
 		}
 		return result;
 	}
