@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name = "partConsume")
+@Table(name = "repairPlan")
 public class RepairPlan {
 
 	private Integer repairPlanId; // 维修计划ID

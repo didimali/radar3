@@ -35,7 +35,7 @@ public class PartConsume {
 
 	
 	@ManyToOne
-	@JoinColumn(name="partsId",columnDefinition = "INT not null default 0")
+	@JoinColumn(name="partsId",columnDefinition = "INT not null")
 	public Parts getPartsId() {
 		return partsId;
 	}

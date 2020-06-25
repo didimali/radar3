@@ -28,7 +28,7 @@ public class Parts {
 		this.partsId = partsId;
 	}
 	
-	@Column(name ="managerName",length = 32)
+	@Column(name ="partsName",length = 32)
 	public String getPartsName() {
 		return partsName;
 	}
