@@ -29,19 +29,7 @@ public class TestTopPanel extends TopPanel{
 	
 	public TestTopPanel() {
 	
-		topTools.setLayout(new MigLayout("", "[140][140][140][140]", "[5][40][5]"));
-		
-		JButton btnNewButton_1 = new Button("New button");
-		topTools.add(btnNewButton_1, "cell 0 1,grow");
-		
-		JButton btnNewButton_7 = new Button("New button");
-		topTools.add(btnNewButton_7, "cell 1 1,grow");
-		
-		JButton btnNewButton_8 = new Button("New button");
-		topTools.add(btnNewButton_8, "cell 2 1,grow");
-		
-		JButton btnNewButton_9 = new Button("New button");
-		topTools.add(btnNewButton_9, "cell 3 1,grow");
+	
 	}
 	
 	/**

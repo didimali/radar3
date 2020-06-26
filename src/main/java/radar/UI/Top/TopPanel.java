@@ -27,7 +27,6 @@ public class TopPanel extends JPanel{
 	
 	private JPanel logo;
 	private JLabel title;
-	protected JPanel topTools;
 	public TopPanel() {
 		setBackground(Color.WHITE);
 		setOpaque(true);
@@ -35,21 +34,16 @@ public class TopPanel extends JPanel{
 		setLayout(new BorderLayout(0, 0));
 		
 		logo = new JPanel();
-		add(logo, BorderLayout.WEST);
+		add(logo, BorderLayout.CENTER);
 		logo.setLayout(new BorderLayout(0, 0));
 		
-		title = new JLabel("雷达PHM系统");
+		title = new JLabel("基于大数据的现役雷达装备预测性维修保障平台");
 		title.setIcon(getIcon("radar1",this));
 		title.setOpaque(true);
 		title.setBackground(new Color(0, 204, 255));
-		title.setFont(new Font("仿宋", Font.BOLD, 20));
+		title.setFont(new Font("仿宋", Font.BOLD, 24));
 		title.setPreferredSize(new Dimension(164, 60));
 		logo.add(title, BorderLayout.CENTER);
-		
-		
-		topTools = new JPanel();
-		topTools.setBackground(Color.WHITE);
-		add(topTools, BorderLayout.CENTER);
 		
 	}
 	

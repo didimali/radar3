@@ -1,10 +1,7 @@
 package radar.UI.Content;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.util.List;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
@@ -14,29 +11,25 @@ import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.labels.PieSectionLabelGenerator;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
-import org.jfree.chart.plot.PieLabelLinkStyle;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.title.TextTitle;
 import org.jfree.chart.title.Title;
-import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 
 import net.miginfocom.swing.MigLayout;
 import radar.SpringUtil;
-import radar.Entity.RadarHealth;
-import radar.ServiceImpl.BigDataServiceImpl;
 import radar.ServiceImpl.RadarServiceImpl;
 import radar.Tools.BigDataTableUI;
-import radar.Tools.TableStyleUI;
-
 import javax.swing.JScrollPane;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class RadarTypeList extends ContentPanel{
 
 	private static final long serialVersionUID = -6029898662509471669L;
 	RadarServiceImpl radarServiceImpl = (RadarServiceImpl) SpringUtil.getBean("RadarServiceImpl");
+	private JTable RadarTable;
 	public RadarTypeList() {		
 		initContentTop();
 		initContentBody();
@@ -65,7 +58,8 @@ public class RadarTypeList extends ContentPanel{
 		//ContentBody.setLayout(new MigLayout("", "[grow]", "[168px][grow]"));
 		ContentBody.setLayout(new MigLayout("", "[grow]", "[45%][grow]"));
 		Object[][] list=radarServiceImpl.countRadarList();
-		JTable RadarTable = new JTable();
+		RadarTable = new JTable();
+		RadarTable.setToolTipText("查看详情");
 		//RadarTable.setEnabled(false);
 		//RadarTable.setRowSelectionAllowed(false);
 		RadarTable.setModel(new DefaultTableModel(list,new String[] {"编号", "雷达型号","总数量(台)","较差(台)","不良(台)","健康(台)"}			
@@ -77,6 +71,7 @@ public class RadarTypeList extends ContentPanel{
 		ContentBody.add(JSP, "cell 0 0,grow");
 	
 		JPanel panel = new JPanel(new MigLayout("", "[grow][grow]", "[grow]"));
+		panel.setBackground(Color.WHITE);
 		JFreeChart jFreeChart1 = createPieChart1();
 		JPanel radarPanel1 = new ChartPanel(jFreeChart1);
 		panel.add(radarPanel1, "cell 0 0,grow");
@@ -121,4 +116,7 @@ public class RadarTypeList extends ContentPanel{
 	    piePlot.setLabelGenerator(new StandardPieSectionLabelGenerator("{0},{1}"));
 	    return jFreeChart;
 	  }
+	public JTable getRadarTable() {
+		return RadarTable;
+	}
 }

@@ -1,31 +1,20 @@
 package radar.ServiceImpl;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import radar.Dao.RadarDao;
-import radar.Entity.DynamicData;
-import radar.Entity.Manager;
 import radar.Entity.Radar;
 import radar.Entity.RadarForecast;
-import radar.Entity.RadarHealth;
 import radar.Entity.RepairPlan;
-import radar.Entity.SysOrEquipHealth;
-import radar.Entity.System;
 import radar.Service.RadarService;
-import radar.Service.TestService;
 
 @Service("RadarServiceImpl")
 
-@SuppressWarnings({ "rawtypes", "unchecked" })
 public class RadarServiceImpl implements RadarService{
 	
 	@Autowired
@@ -40,11 +29,11 @@ public class RadarServiceImpl implements RadarService{
 		String repair;
 		for(int i=0;i<Rlist.size();i++) {
 			Radar r=Rlist.get(i);
-			if(r.getRadarHealth().equals("0")) {
+			if(r.getRadarHealth() == 0) {
 				state="健康";
-			}else if(r.getRadarHealth().equals("1")) {
+			}else if(r.getRadarHealth()==1) {
 				state="良好";
-			}else if(r.getRadarHealth().equals("2")) {
+			}else if(r.getRadarHealth()==2) {
 				state="较差";
 			}else {
 				state="未预测";

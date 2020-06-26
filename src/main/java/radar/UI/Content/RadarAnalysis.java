@@ -37,10 +37,11 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.util.ShapeUtilities;
 
+/**
+ * 雷达管理-大数据分析-健康评估
+ */
 public class RadarAnalysis extends ContentPanel{
-	/**
-	 * 雷达管理-大数据分析-健康评估
-	 */
+	
 	private static final long serialVersionUID = 2288694751645396402L;
 	BigDataServiceImpl bigDataServiceImpl = (BigDataServiceImpl) SpringUtil.getBean("BigDataServiceImpl");
 	public RadarAnalysis(String id) {

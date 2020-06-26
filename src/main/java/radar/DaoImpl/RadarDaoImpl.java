@@ -32,6 +32,11 @@ public class RadarDaoImpl implements RadarDao {
 	public List<Radar> getRadarsByType(String id) {
 		EntityManager em = emf.createEntityManager();
 		String sql = "select * from Radar where radar_type_id="+id+" and radar_status = 0";
+		Query query = em.createNativeQuery(sql,Radar.class);
+		List<Radar> list = query.getResultList();
+		em.close();
+		return list;
+		}
 	
 	@Override
 	public List<Radar> getRadarCountByHealth() {
@@ -48,6 +53,9 @@ public class RadarDaoImpl implements RadarDao {
 		String sql = "select * from repair_plan where radar_id="+id+" and plan_effective = 0";
 		Query query = em.createNativeQuery(sql,RepairPlan.class);
 		List<RepairPlan> list = query.getResultList();
+		return list;
+		}
+	
 	public List<Object> getRadarHCount(int managerId) {
 		int id = managerId;
 		EntityManager em = emf.createEntityManager();

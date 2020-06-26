@@ -1,10 +1,7 @@
 package radar.UI.Content;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.util.List;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
@@ -13,8 +10,6 @@ import javax.swing.table.DefaultTableModel;
 
 import net.miginfocom.swing.MigLayout;
 import radar.SpringUtil;
-import radar.Entity.RadarHealth;
-import radar.ServiceImpl.BigDataServiceImpl;
 import radar.ServiceImpl.RadarServiceImpl;
 import radar.Tools.TableStyleUI;
 
@@ -24,6 +19,8 @@ public class RadarListOnType extends ContentPanel{
 
 	private static final long serialVersionUID = -6029898662509471669L;
 	RadarServiceImpl radarServiceImpl = (RadarServiceImpl) SpringUtil.getBean("RadarServiceImpl");
+	private JTable radarTable;
+	private JLabel title;
 	public RadarListOnType(String id) {		
 		initContentTop(id);
 		initContentBody(id);
@@ -37,7 +34,7 @@ public class RadarListOnType extends ContentPanel{
 		panel.setBackground(Color.WHITE);
 		
 		String type=radarServiceImpl.getType(id);
-		JLabel title = new JLabel("宏观评控>>"+type+"列表");
+		title = new JLabel("宏观评控>>"+type+"列表");
 		title.setFont(new Font("仿宋", Font.BOLD, 24));			
 		contentTop.add(title, "cell 0 0,grow");	
 		
@@ -53,7 +50,7 @@ public class RadarListOnType extends ContentPanel{
 		ContentBody.setLayout(new MigLayout("", "[grow]", "[grow]"));
 		
 		Object[][] list=radarServiceImpl.getRadarList(id);
-		JTable radarTable = new JTable();
+		radarTable = new JTable();
 		//radarTable.setEnabled(false);
 		//radarTable.setRowSelectionAllowed(false);
 		radarTable.setModel(new DefaultTableModel(list,new String[] {"编号", "名称","所属部队","健康状态","故障预测","维修计划"}));
@@ -68,4 +65,10 @@ public class RadarListOnType extends ContentPanel{
 		
 	}
 
+	public JTable getRadarTable() {
+		return radarTable;
+	}
+	public JLabel getTitle() {
+		return title;
+	}
 }
