@@ -23,5 +23,14 @@ public interface RadarDao {
 
 	Integer countHealth(Integer typeid, Integer health);
 
-	
+	List<Radar> getRadarCountByHealth();
+
+	List<Object> getRadarHCount(int managerId);
+
+	List<Object> getRadarCountByRadarHeath(String managerName, String radarTypeName);
+
+	List<Radar> getRadarDetails(String managerName, String radarTypeName);
+
+	List<Object> getRadarCountByRadarType(String managerName);
+
 }

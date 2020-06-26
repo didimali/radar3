@@ -13,7 +13,7 @@ public class Manager {
 	
 	private Integer managerId; //雷达所属部队id
 	private String managerName; //雷达所属部队代号
-	private String managerLocation; //雷达所属部队位置
+	private int managerLocation; //雷达所属部队位置
 	private Integer managerStatus; //雷达所属部队状态 0:存在；1：已删除 Default：0
 	
 	@Id
@@ -32,11 +32,11 @@ public class Manager {
 	public void setManagerName(String managerName) {
 		this.managerName = managerName;
 	}
-	@Column(name ="managerLocation",length = 32)
-	public String getManagerLocation() {
+	@Column(name ="managerLocation",length = 1)
+	public int getManagerLocation() {
 		return managerLocation;
 	}
-	public void setManagerLocation(String managerLocation) {
+	public void setManagerLocation(int managerLocation) {
 		this.managerLocation = managerLocation;
 	}
 	@Column(columnDefinition = "INT not null default 0")
