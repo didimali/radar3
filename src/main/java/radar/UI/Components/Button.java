@@ -29,6 +29,18 @@ public class Button extends JButton implements Init{
 		setText(text);
 		setBorder(new BevelBorder(BevelBorder.RAISED, new Color(255, 255, 255), new Color(255, 255, 255), Color.WHITE, new Color(255, 255, 255))); 
 	}
+	
+	public void changeColor(boolean change) {
+		if(change) {
+			setBackground(new Color(0, 204, 255));
+			repaint();
+		}
+		else {
+			setBackground(Color.WHITE);
+			repaint();
+		}
+		
+	}
 
 	@Override
 	public void Action() {

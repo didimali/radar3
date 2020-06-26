@@ -17,7 +17,7 @@ public class Radar {
 	private String radarName; //雷达编号
 	private RadarType  radarTypeId;//雷达型号id
 	private Manager managerId;//雷达所属部队id，外键
-	private String radarHealth;//雷达健康状态
+	private int radarHealth;//雷达健康状态
 	private Integer radarStatus;//雷达状态，0:存在；1：已删除，Default：0
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -51,10 +51,11 @@ public class Radar {
 	public void setManagerId(Manager managerId) {
 		this.managerId = managerId;
 	}
-	public String getRadarHealth() {
+	@Column(columnDefinition = "INT not null default 0")
+	public int getRadarHealth() {
 		return radarHealth;
 	}
-	public void setRadarHealth(String radarHealth) {
+	public void setRadarHealth(int radarHealth) {
 		this.radarHealth = radarHealth;
 	}
 	@Column(columnDefinition = "INT not null default 0")

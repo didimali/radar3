@@ -1,0 +1,65 @@
+package radar.UI.AcuteForecast;
+
+import java.awt.Color;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
+import net.miginfocom.swing.MigLayout;
+import radar.UI.Components.LineChart;
+import radar.UI.Components.PieChart;
+import radar.UI.Components.Table;
+/**
+ * 精准预测-内容三
+ */
+public class CBody3 extends JPanel {
+
+	private static final long serialVersionUID = 1L;
+	
+	private JScrollPane jTable;
+	private JPanel jChart;
+	
+	private Table table;
+	private PieChart pie;
+	private LineChart line;
+	private Object[] params = {null,null,null,null};
+	
+	
+	public CBody3(String managerName, String radarType, String sDate, String eDate) {
+		params[0] = managerName;
+		params[1] = radarType;
+		params[2] = sDate;
+		params[3] = eDate;
+		setBackground(Color.WHITE);
+		setLayout(new MigLayout("", "[60%][grow]", "[grow]"));	
+		
+		setJTable();		
+		setJChart();
+	}
+
+	private void setJChart() {
+		
+		pie = new PieChart(params[1]+"备件消耗统计", "AcuteForecastServiceImpl", "getDataForPartConsumePie", params);
+		pie.setBackground(Color.WHITE);
+		pie.init();
+		line = new LineChart(params[1]+"备件消耗",null,null, "AcuteForecastServiceImpl", "getDataForPartConsumeLine", params);
+		line.setBackground(Color.WHITE);
+		line.init();
+
+		jChart = new JPanel();
+		jChart.setBackground(Color.WHITE);
+		add(jChart, "cell 1 0,grow");
+		jChart.setLayout(new MigLayout("", "[grow]", "[grow][grow]"));
+		
+		jChart.add(pie, "cell 0 0,grow");
+		jChart.add(this.line, "cell 0 1,grow");
+	}
+
+	private void setJTable() {
+		String[] header = {"序号","备件","消耗数量"};
+		table = new Table("AcuteForecastServiceImpl", "getAcuteForecastTable3Data", params, header);
+		
+		jTable = new JScrollPane(table);
+		add(jTable, "cell 0 0,grow");
+	}
+		
+}

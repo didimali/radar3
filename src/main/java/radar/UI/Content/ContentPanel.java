@@ -42,17 +42,20 @@ public class ContentPanel extends JPanel{
 		flowLayout.setVgap(1);
 		flowLayout.setHgap(1);
 		contentTop.setBackground(Color.WHITE);
+		contentTop.setOpaque(true);
 		
 		panel.add(contentTop, "cell 0 0,grow");				
 		FlowLayout flowLayout_1 = (FlowLayout) ContentBody.getLayout();
 		flowLayout_1.setVgap(1);
 		flowLayout_1.setHgap(1);
 		ContentBody.setBackground(Color.WHITE);
+		ContentBody.setOpaque(true);
 		panel.add(ContentBody, "cell 0 1,grow");			
 		FlowLayout flowLayout_2 = (FlowLayout) contentFoot.getLayout();
 		flowLayout_2.setVgap(1);
 		flowLayout_2.setHgap(1);
 		contentFoot.setBackground(Color.WHITE);
+		contentFoot.setOpaque(true);
 		panel.add(contentFoot, "cell 0 2,grow");
 	}
 		

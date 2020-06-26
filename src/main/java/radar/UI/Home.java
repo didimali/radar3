@@ -3,7 +3,9 @@ package radar.UI;
 import javax.swing.JPanel;
 
 import radar.Tools.Init;
+import radar.UI.Content.AcuteForecast;
 import radar.UI.Content.Example;
+import radar.UI.Left.Left;
 import radar.UI.Left.TestLeftPanel;
 import radar.UI.Top.TestTopPanel;
 
@@ -19,8 +21,8 @@ public class Home extends JPanel implements Init {
 	private static final long serialVersionUID = 1L;
 	
 	private TestTopPanel top;
-	private TestLeftPanel left;
-	private Example center;
+	private Left left;
+	private JPanel center;
 	public Home() {
 		setBackground(Color.WHITE);
 		setOpaque(true);
@@ -32,11 +34,11 @@ public class Home extends JPanel implements Init {
 		top = new TestTopPanel();
 		add(top, BorderLayout.NORTH);
 		
-		left = new TestLeftPanel();
+		left = new Left();
 		add(left, BorderLayout.WEST);
 		
 		//注意了，现在可以往后台传参查询获取数据了，穿的参数数量类型不限
-		center = new Example();
+		center = new AcuteForecast();
 		add(center, BorderLayout.CENTER);
 	}
 

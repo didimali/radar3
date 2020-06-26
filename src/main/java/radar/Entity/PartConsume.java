@@ -18,6 +18,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(name = "partConsume")
 public class PartConsume {
 	private Integer consumeId;// 消耗记录id 主键
+	private Manager managerId;//消耗备件的部队id 外键
 	private Parts partsId; // 备件ID 外键
 	private Integer pConsumeCount;// 备件消耗数量 非空
 	private Date consumeDate; // 消耗时间
@@ -31,6 +32,16 @@ public class PartConsume {
 
 	public void setConsumeId(Integer consumeId) {
 		this.consumeId = consumeId;
+	}
+	
+	@ManyToOne
+	@JoinColumn(name="managerId",columnDefinition = "INT not null")
+	public Manager getManagerId() {
+		return managerId;
+	}
+
+	public void setManagerId(Manager managerId) {
+		this.managerId = managerId;
 	}
 
 	
@@ -62,5 +73,7 @@ public class PartConsume {
 	public void setConsumeDate(Date consumeDate) {
 		this.consumeDate = consumeDate;
 	}
+
+	
 
 }

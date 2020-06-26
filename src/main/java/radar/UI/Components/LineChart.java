@@ -97,7 +97,7 @@ public class LineChart extends JPanel{
 		//修改高级属性
 		CategoryPlot plot = lineChart.getCategoryPlot();
 		
-		plot.setNoDataMessage("请选择雷达的某一监控参数！"); // 没有数据的时候显示的内容 
+		plot.setNoDataMessage("暂无数据，请稍候......"); // 没有数据的时候显示的内容 
 		
 		// 透明度
 		plot.setForegroundAlpha(0.5f);

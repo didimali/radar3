@@ -20,6 +20,7 @@ public class RepairPlan {
 	private Integer repairPlanId; // 维修计划ID
 	private Radar radarId; // 对应雷达ID
 	private Date repairPlanDate; // 计划维修时间
+	private Integer planEffective; //维修计划有效性
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -50,6 +51,15 @@ public class RepairPlan {
 
 	public void setRepairPlanDate(Date repairPlanDate) {
 		this.repairPlanDate = repairPlanDate;
+	}
+
+	@JoinColumn(name="planEffective",columnDefinition = "INT not null default 0")
+	public Integer getPlanEffective() {
+		return planEffective;
+	}
+
+	public void setPlanEffective(Integer planEffective) {
+		this.planEffective = planEffective;
 	}
 
 }
