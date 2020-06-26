@@ -7,6 +7,7 @@ import net.miginfocom.swing.MigLayout;
 import radar.SpringUtil;
 import radar.Entity.Manager;
 import radar.ServiceImpl.ManagerServiceImpl;
+import radar.ServiceImpl.RadarServiceImpl;
 import radar.SwingWorker.SwingWorkerForNewManager;
 import radar.Tools.Init;
 import radar.UI.Components.BarChart;
@@ -25,6 +26,8 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JSeparator;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -140,6 +143,26 @@ public class NewManager extends ContentPanel implements Init{
 	 * 添加页面组件事件
 	 */
 	public void Action() {
+		//部队下拉框事件（更新驻地类型下拉框数据）
+//		managerNameComboBox.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				try {
+//				locationTypeComboBox.initManagerLoaction(managerNameComboBox.getSelectedItem().toString());
+//				}
+//				catch(Exception execption) {
+//					execption.printStackTrace();
+				
+//				}
+//				if(managerNameComboBox.getSelectedItem().toString().equals("")) {
+//					String[] locationTypes = { "", "高原","山地","平原","沿海","沙漠"};
+//					locationTypeComboBox.setModel(new DefaultComboBoxModel(locationTypes));
+//				}else if(!managerNameComboBox.getSelectedItem().toString().equals("")) {
+//					SpringUtil s = new SpringUtil();
+//					ManagerServiceImpl managerServiceImpl = (ManagerServiceImpl) s.getBean("ManagerServiceImpl"); 
+//				
+//				}
+//			}
+//		});
 		add.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
