@@ -3,7 +3,10 @@ package radar.UI;
 import javax.swing.JPanel;
 
 import radar.Tools.Init;
-import radar.UI.Content.Example;
+import radar.UI.Content.Equipment;
+import radar.UI.Content.Parts;
+import radar.UI.Content.PartsConsume;
+import radar.UI.Content.XiTong;
 import radar.UI.Left.TestLeftPanel;
 import radar.UI.Top.TestTopPanel;
 
@@ -20,7 +23,10 @@ public class Home extends JPanel implements Init {
 	
 	private TestTopPanel top;
 	private TestLeftPanel left;
-	private Example center;
+//	private Example center;
+//	private NewManager center1;
+	private  Equipment center1;
+
 	public Home() {
 		setBackground(Color.WHITE);
 		setOpaque(true);
@@ -36,8 +42,8 @@ public class Home extends JPanel implements Init {
 		add(left, BorderLayout.WEST);
 		
 		//注意了，现在可以往后台传参查询获取数据了，穿的参数数量类型不限
-		center = new Example();
-		add(center, BorderLayout.CENTER);
+		center1 = new Equipment();
+		add(center1, BorderLayout.CENTER);
 	}
 
 	@Override

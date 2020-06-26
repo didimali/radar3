@@ -25,7 +25,7 @@ public Integer getEquipId() {
 public void setEquipId(Integer equipId) {
 	this.equipId = equipId;
 }
-@Column(name="radarName",length=32,unique=true)
+@Column(name="equipName",length=32,unique=true)
 
 public String getEquipName() {
 	return equipName;
