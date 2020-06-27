@@ -6,6 +6,7 @@ import javax.swing.JTable;
 
 import radar.UI.Components.PieChart;
 import radar.UI.Components.Table;
+import radar.UI.Components.Table1;
 import net.miginfocom.swing.MigLayout;
 import java.awt.Color;
 
@@ -19,14 +20,15 @@ public class CBody2 extends JPanel{
 	private JScrollPane jTable;
 	private JPanel jChart;
 	
-	private Table table;
+	private Table1 table;
 	private PieChart pie1;
 	private PieChart pie2;
-	private Object[] params = {null,null};
+	private Object[] params = {null,null,null};
 	
-	public CBody2(String managerName, String radarType) {
+	public CBody2(int managerId, String managerName, String radarType) {
 		params[0] = managerName;
 		params[1] = radarType;
+		params[2] = managerId;
 		setBackground(Color.WHITE);
 		setLayout(new MigLayout("", "[60%][grow]", "[grow]"));	
 		
@@ -40,7 +42,7 @@ public class CBody2 extends JPanel{
 		pie1 = new PieChart(params[0]+"不同型号雷达统计", "AcuteForecastServiceImpl", "getDataForPie", params);
 		pie1.setBackground(Color.WHITE);
 		pie1.init();
-		pie2 = new PieChart(params[1]+"不同状态雷达统计", "AcuteForecastServiceImpl", "getDataForPie1", params);
+		pie2 = new PieChart(params[1]+"健康状态统计", "AcuteForecastServiceImpl", "getDataForPie1", params);
 		pie2.setBackground(Color.WHITE);
 		pie2.init();
 
@@ -54,14 +56,14 @@ public class CBody2 extends JPanel{
 	}
 
 	private void setJTable() {
-		String[] header = {"序号","雷达","健康评估结果","故障预测","维修计划"};
-		table = new Table("AcuteForecastServiceImpl", "getAcuteForecastTable2Data", params, header);
+		String[] header = {"radarId","序号","雷达","健康评估结果","故障预测","维修计划"};
+		table = new Table1("AcuteForecastServiceImpl", "getAcuteForecastTable2Data", params, header,true,0);
 		table.setToolTipText("查看详情");
 		
 		jTable = new JScrollPane(table);
 		add(jTable, "cell 0 0,grow");
 	}
-	public Table getTable() {
+	public Table1 getTable() {
 		return table;
 	}
 }

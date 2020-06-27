@@ -16,6 +16,7 @@ import radar.Entity.Parts;
 import radar.Entity.Radar;
 import radar.Entity.RadarForecast;
 import radar.Entity.RadarHealth;
+import radar.Entity.RadarType;
 import radar.Entity.RepairPlan;
 import radar.Entity.SysOrEquipHealth;
 import radar.Entity.System;
@@ -108,11 +109,10 @@ public class RadarDaoImpl implements RadarDao {
 		return Integer.parseInt(list.get(0).toString());
 	
 }
-	public List<Object> getRadarCountByRadarHeath(String managerName, String radarTypeName) {
+	public List<Object> getRadarCountByRadarHeath(int managerId, String radarTypeName) {
 		EntityManager em = emf.createEntityManager();
 		String sql = "select COUNT(*),radar_health from radar where radar_status = '0' "
-				+ "and manager_id = (select manager_id from manager where manager_name = '"+managerName+"')"				
-				+ " and radar_type_id = "
+				+ "and manager_id = '"+managerId+"'  and radar_type_id = "
 				+ "(select radar_type_id from radar_type where radar_type_name = '"+radarTypeName+"')"
 				+ "  group by radar_health";
 		Query query = em.createNativeQuery(sql);
@@ -122,10 +122,9 @@ public class RadarDaoImpl implements RadarDao {
 	}
 
 	@Override
-	public List<Radar> getRadarDetails(String managerName, String radarTypeName) {
+	public List<Radar> getRadarDetails(int managerId, String radarTypeName) {
 		EntityManager em = emf.createEntityManager();
-		String sql = "select * from radar where manager_id = "
-				+ "(select manager_id from manager where manager_name = '"+managerName+"')"
+		String sql = "select * from radar where manager_id = '"+managerId+"'"
 				+" and radar_status = '0' and radar_type_id = "
 				+ "(select radar_type_id from radar_type where radar_type_name = '"+radarTypeName+"')";
 		Query query = em.createNativeQuery(sql,Radar.class);
@@ -135,16 +134,76 @@ public class RadarDaoImpl implements RadarDao {
 	}
 
 	@Override
-	public List<Object> getRadarCountByRadarType(String managerName) {
+	public List<Object> getRadarCountByRadarType(int managerId) {
 		EntityManager em = emf.createEntityManager();
 		String sql = "select COUNT(radar.radar_id),radar_type.radar_type_name from radar left join radar_type "
-					+" on radar.radar_type_id = radar_type.radar_type_id where radar.manager_id = "
-					+ "(select manager_id from manager where manager_name = '"+managerName+"')"
+					+" on radar.radar_type_id = radar_type.radar_type_id where radar.manager_id = '"+managerId+"'"
 					+ " and radar.radar_status = '0' group by radar_type.radar_type_name;";
 		Query query = em.createNativeQuery(sql);
 		List<Object> list = query.getResultList();
 		em.close();
 		return list;
 	}
+	@Override
+	public List<Radar> getRadars() {
+		EntityManager em = emf.createEntityManager();
+		String sql = "select * from radar where radar_status = '0'";
+		Query query = em.createNativeQuery(sql,Radar.class);
+		List<Radar> list = query.getResultList();
+		em.close();
+		return list;
+	}
+	@Override
+	public	List<RadarType> selectRadarType(String name1) {
+		EntityManager em = emf.createEntityManager();
+		String sql = "select * from radar_type where radar_type_name = '"+name1+"'";
+		Query query = em.createNativeQuery(sql,RadarType.class);
+		List<RadarType> list = query.getResultList();
+		em.close();
+		return list;
+	};
+	@Override
+	public	List<Parts> getParts() {
+		EntityManager em = emf.createEntityManager();
+		String sql = "select * from parts";
+		Query query = em.createNativeQuery(sql,Parts.class);
+		List<Parts> list = query.getResultList();
+		em.close();
+		return list;
+	};
+	@Override
+	public	List<RadarType> getRadarTypes() {
+		EntityManager em = emf.createEntityManager();
+		String sql = "select * from radar_type ";
+		Query query = em.createNativeQuery(sql,RadarType.class);
+		List<RadarType> list = query.getResultList();
+		em.close();
+		return list;
+	};
+	public boolean deleteRadar(String radarName) {
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		try {
+			String selectSql = " update radar set radar_status=1 where radar_name=:radarName";
+			Query query = em.createNativeQuery(selectSql);
+			query.setParameter("radarName", radarName);
+			query.executeUpdate();
+			em.flush();
+			em.getTransaction().commit();
+		} finally {
+			em.close();
+		}
+		return true;
+
+	}
+	public List<Radar> selectRadar(String choosenRadarName){
+		EntityManager em = emf.createEntityManager();
+		String sql = "select * from radar where radar_name = '"+choosenRadarName+"'";
+		Query query = em.createNativeQuery(sql,Radar.class);
+		List<Radar> list = query.getResultList();
+		em.close();
+		return list;
+	};
+
 
 }

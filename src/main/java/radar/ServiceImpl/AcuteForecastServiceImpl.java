@@ -10,18 +10,27 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import radar.Dao.EquipDao;
 import radar.Dao.ManagerDao;
 import radar.Dao.PartConsumeDao;
 import radar.Dao.RadarDao;
 import radar.Dao.RadarForecastDao;
+import radar.Dao.RadarHealthDao;
 import radar.Dao.RadarTypeDao;
+import radar.Dao.RepairContentDao;
 import radar.Dao.RepairPlanDao;
+import radar.Dao.SysOrEquipHealthDao;
+import radar.Dao.SystemDao;
+import radar.Entity.Equip;
 import radar.Entity.Manager;
 import radar.Entity.PartConsume;
 import radar.Entity.Radar;
 import radar.Entity.RadarForecast;
+import radar.Entity.RadarHealth;
 import radar.Entity.RadarType;
+import radar.Entity.RepairContent;
 import radar.Entity.RepairPlan;
+import radar.Entity.SysOrEquipHealth;
 import radar.Service.AcuteForecastService;
 
 @Service("AcuteForecastServiceImpl")
@@ -43,7 +52,23 @@ public class AcuteForecastServiceImpl implements AcuteForecastService{
 	RadarForecastDao radarForecastDao;
 	
 	@Autowired
+	RadarHealthDao radarHealthDao;
+	
+	@Autowired
+	SysOrEquipHealthDao sysOrEquipHealthDao;
+	
+	@Autowired
 	RepairPlanDao repairPlanDao;
+	
+	@Autowired
+	SystemDao systemDao;
+	
+	@Autowired
+	EquipDao equipDao;
+	
+	@Autowired
+	RepairContentDao repairContentDao;
+	
 	/**
 	 * 获取部队驻地类型
 	 * @return
@@ -82,7 +107,7 @@ public class AcuteForecastServiceImpl implements AcuteForecastService{
 		
 		for(int i=0;i<m.size();i++) {
 			Node n = m.get(i);
-			Object[] o = {i+1,n.managerName,n.locationType,n.radarTypeName,n.radarCount,n.rCount,n.yCount,n.gCount,n.pcCount};
+			Object[] o = {n.managerId,i+1,n.managerName,n.locationType,n.radarTypeName,n.radarCount,n.rCount,n.yCount,n.gCount,n.pcCount};
 			result[i] = o;
 		}
 		return result;		
@@ -93,11 +118,11 @@ public class AcuteForecastServiceImpl implements AcuteForecastService{
 	 * @return
 	 */
 	public Object[][] getAcuteForecastTable2Data(Object[] params){
-		String managerName = (String) params[0];
+		int managerId = (int) params[2];
 		String radarTypeName = (String)params[1];
-		List<Radar> list = radarDao.getRadarDetails(managerName,radarTypeName);
-		List<RadarForecast> list1 = radarForecastDao.getRadarForecastResult(managerName,radarTypeName);
-		List<RepairPlan> list2  = repairPlanDao.getRepairPlanResult(managerName,radarTypeName);
+		List<Radar> list = radarDao.getRadarDetails(managerId,radarTypeName);
+		List<RadarForecast> list1 = radarForecastDao.getRadarForecastResult(managerId,radarTypeName);
+		List<RepairPlan> list2  = repairPlanDao.getRepairPlanResult(managerId,radarTypeName);
 		String[] a = {"绿","黄","红"};
 		String[] b = {"未预测","已预测"};
 		String[] c = {"暂缺","已生成"};
@@ -106,7 +131,7 @@ public class AcuteForecastServiceImpl implements AcuteForecastService{
 			Radar r = list.get(i);
 			int bIndex = 0;
 			int cIndex = 0;
-			Object[] o = {i+1,r.getRadarName(),a[r.getRadarHealth()],null,null};
+			Object[] o = {r.getRadarId(),i+1,r.getRadarName(),a[r.getRadarHealth()],null,null};
 			for(int j=0;j<list1.size();j++) {
 				RadarForecast rf = list1.get(j);
 				if(rf.getRadarId().getRadarId() == r.getRadarId()) {
@@ -114,7 +139,7 @@ public class AcuteForecastServiceImpl implements AcuteForecastService{
 					break;
 				}
 			}
-			o[3] = b[bIndex];
+			o[4] = b[bIndex];
 			for(int k=0;k<list2.size();k++) {
 				RepairPlan rp = list2.get(k);
 				if(rp.getRadarId().getRadarId() == r.getRadarId()) {
@@ -122,7 +147,7 @@ public class AcuteForecastServiceImpl implements AcuteForecastService{
 					break;
 				}
 			}
-			o[4] = c[cIndex];			
+			o[5] = c[cIndex];			
 			result[i] = o;
 		}
 		return result;		
@@ -134,11 +159,11 @@ public class AcuteForecastServiceImpl implements AcuteForecastService{
 	 * @return
 	 */
 	public Object[][] getAcuteForecastTable3Data(Object[] params){
-		String managerName = (String) params[0];
+		int managerId = (int) params[4];
 		String radarType = (String) params[1];
 		String sDate = (String) params[2];
 		String eDate = (String) params[3];
-		List<Node1> list = getPartsConsumeDetails(managerName,radarType,sDate,eDate);		
+		List<Node1> list = getPartsConsumeDetails(managerId,radarType,sDate,eDate);		
 		Object[][] result = new Object[list.size()][];
 		for(int i=0;i<result.length;i++) {
 			Node1 n = list.get(i);
@@ -148,8 +173,112 @@ public class AcuteForecastServiceImpl implements AcuteForecastService{
 		return result;		
 	}
 	
-	private List<Node1> getPartsConsumeDetails(String managerName, String radarType, String sDate, String eDate) {
-		List<PartConsume> list = partConsumeDao.getPartsConsumeDetails(managerName,radarType,sDate,eDate);
+	/**
+	 * 获取某雷达健康评估结果表格的数据
+	 * @param params
+	 * @return
+	 */
+	public Object[][] getDataForRadarHealthResultTable(Object[] params){
+		int radarId = (int) params[0];
+		SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+		//获取整机雷达的健康评估结果
+		List<RadarHealth> list1 = radarHealthDao.getTotalRadarHealthResult(radarId);
+		int healthResultId = list1.get(0).getHealthResultId();
+		String date = ft.format(list1.get(0).getAssessDate());
+		List<SysOrEquipHealth> list2 = sysOrEquipHealthDao.getRadarHealthResultContent(healthResultId);
+		int length = list1.size()+list2.size();
+		Object[][] result = new Object[length][];
+		String[] health = {"绿","黄","红"};
+		Object[] t = {1,"整机",health[Integer.parseInt(list1.get(0).getAssessResult())],date};
+		result[0] = t;
+		for(int i=1;i<length;i++) {
+			SysOrEquipHealth s = list2.get(i-1);
+			Object[] o = {i+1,s.getSystemId().getSystemName(),health[Integer.parseInt(s.getAssResult())],date};
+			result[i] = o;
+		}
+		return result;
+		
+	}
+	/**
+	 * 获取某雷达整机健康变化趋势图 数据
+	 * @param params
+	 * @return
+	 */
+	public DefaultCategoryDataset getDataForRadarHiLine(Object[] params) {
+		int radarId = (int) params[0];
+		SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+		List<RadarHealth> list = radarHealthDao.getDataForRadarHiLine(radarId);
+		DefaultCategoryDataset result = new DefaultCategoryDataset();
+		int[] h = {2,1,0};
+		for(int i=list.size()-1;i>-1;i--) {
+			RadarHealth r = list.get(i);
+			String data = ft.format(r.getAssessDate());
+			int assessResult = Integer.parseInt(r.getAssessResult());
+			result.addValue(h[assessResult],"HI",data);			
+		}
+		return result;		
+	}
+	
+	/**
+	 * 获取某雷达故障预测结果
+	 * @param params
+	 * @return
+	 */
+	public Object[][] getDataForRadarForecastTable(Object[] params){
+		int radarId = (int) params[0];
+		List<RadarForecast> list =  radarForecastDao.getRadarForecastResult(radarId);
+		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+		List<radar.Entity.System> s = systemDao.getAllSystem();
+		List<Equip> e = equipDao.getAllEquip();
+		Object[][] result = new Object[list.size()][];
+		for(int i=0;i<list.size();i++) {
+			RadarForecast rf = list.get(i);
+			String date = sf.format(rf.getForecastDate());
+			String name = null;
+			String key = rf.getFaultTypeId().getFaultLocaltion();
+			int id = Integer.parseInt(key.substring(1,key.length()));
+			if(key.contains("s")) 
+				for(int j=0;j<s.size();j++) {
+					radar.Entity.System item = s.get(j);
+					if(item.getSystemId() == id) {
+						name = item.getSystemName();
+						break;
+					}						
+				}
+			else
+				for(int j=0;j<e.size();j++) {
+					Equip item = e.get(j);
+					if(item.getEquipId() == id) {
+						name = item.getEquipName();
+						break;
+					}						
+				}
+			Object[] o = {i+1,name,date};
+			result[i] = o;
+		}
+		return result;		
+	}
+	
+	/**
+	 * 获取某部队维修计划内容
+	 * @param params
+	 * @return
+	 */
+	public Object[][] getDataForRadarRepairPlanContent(Object[] params){
+		int radarId = (int) params[0];
+		List<RepairContent> list = repairContentDao.getRadarRepairContent(radarId);
+		int length = list.size();
+		Object[][] result = new Object[length][];
+		for(int i=0;i<length;i++) {
+			RepairContent rc = list.get(i);
+			Object[] o = {i+1,rc.getPartsId().getPartsName(),rc.getPartsCount()};
+			result[i] = o;
+		}
+		return result;		
+	}
+	
+	private List<Node1> getPartsConsumeDetails(int managerId, String radarType, String sDate, String eDate) {
+		List<PartConsume> list = partConsumeDao.getPartsConsumeDetails(managerId,radarType,sDate,eDate);
 		List<Node1> result = new ArrayList<Node1>();
 		for(PartConsume pc:list) {
 			Node1 node = new Node1(pc.getPartsId().getPartsName(),pc.getpConsumeCount());
@@ -178,9 +307,9 @@ public class AcuteForecastServiceImpl implements AcuteForecastService{
 	 * @return
 	 */
 	public DefaultPieDataset getDataForPie(Object[] params) {
-		String managerName = (String) params[0];
+		int managerId = (int) params[2];
 		DefaultPieDataset result = new DefaultPieDataset();
-		List<Object> list = radarDao.getRadarCountByRadarType(managerName);
+		List<Object> list = radarDao.getRadarCountByRadarType(managerId);
 		Iterator it  = list.iterator();
 		while(it.hasNext()) {
 			Object[] o = (Object[]) it.next();
@@ -197,10 +326,10 @@ public class AcuteForecastServiceImpl implements AcuteForecastService{
 	 * @return
 	 */
 	public DefaultPieDataset getDataForPie1(Object[] params) {
-		String managerName = (String) params[0];
+		int managerId = (int) params[2];
 		String radarTypeName = (String) params[1];
 		DefaultPieDataset result = new DefaultPieDataset();
-		List<Object> list = radarDao.getRadarCountByRadarHeath(managerName,radarTypeName);
+		List<Object> list = radarDao.getRadarCountByRadarHeath(managerId,radarTypeName);
 		Iterator it  = list.iterator();
 		String[] h = {"绿","黄","红"};
 		int[][] data = {{0,0},{1,0},{2,0}};
@@ -222,11 +351,11 @@ public class AcuteForecastServiceImpl implements AcuteForecastService{
 	 * @return
 	 */
 	public DefaultPieDataset getDataForPartConsumePie(Object[] params) {
-		String managerName = (String) params[0];
+		int managerId = (int) params[4];
 		String radarType = (String) params[1];
 		String sDate = (String) params[2];
 		String eDate = (String) params[3];		
-		List<Node1> list = getPartsConsumeDetails(managerName,radarType,sDate,eDate);		
+		List<Node1> list = getPartsConsumeDetails(managerId,radarType,sDate,eDate);		
 		DefaultPieDataset result = new DefaultPieDataset();
 		for(int i=0;i<list.size();i++) {
 			Node1 n = list.get(i);
@@ -242,11 +371,11 @@ public class AcuteForecastServiceImpl implements AcuteForecastService{
 	 * @return
 	 */
 	public DefaultCategoryDataset getDataForPartConsumeLine(Object[] params) {
-		String managerName = (String) params[0];
+		int managerId = (int) params[4];
 		String radarType = (String) params[1];
 		String sDate = (String) params[2];
 		String eDate = (String) params[3];	
-		List<PartConsume> list = partConsumeDao.getPartsConsumeDetails(managerName,radarType,sDate,eDate);
+		List<PartConsume> list = partConsumeDao.getPartsConsumeDetails(managerId,radarType,sDate,eDate);
 		DefaultCategoryDataset result = new DefaultCategoryDataset();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		for(int i=0;i<list.size();i++) {
@@ -255,6 +384,20 @@ public class AcuteForecastServiceImpl implements AcuteForecastService{
 		}
 		return result;		
 	}
+	
+	/**
+	 * 获取某雷达备件维修计划时间
+	 * @param params
+	 * @return
+	 */
+	public String getDataForRadarRepairPlanDate(Object[] params) {
+		int radarId = (int) params[0];
+		List<RepairPlan> list = repairPlanDao.geRadarRepairPlanDate(radarId);
+		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+		String result = sf.format(list.get(0).getRepairPlanDate());
+		return result;
+		
+	}
 
 
 	private List<Node> getRData() {
@@ -262,7 +405,7 @@ public class AcuteForecastServiceImpl implements AcuteForecastService{
 		List<Node> result = new ArrayList<Node>();
 		for(int i=0;i<r.size();i++) {
 			Radar radar = r.get(i);
-			Node node = new Node(radar.getManagerId().getManagerName(),radar.getRadarTypeId().getRadarTypeName());
+			Node node = new Node(radar.getManagerId().getManagerId(),radar.getManagerId().getManagerName(),radar.getRadarTypeId().getRadarTypeName());
 			if(result.size() == 0) {
 				result.add(node);
 			}
@@ -306,7 +449,7 @@ public class AcuteForecastServiceImpl implements AcuteForecastService{
 		List<PartConsume> pc = partConsumeDao.getPartConsume();	//部队，备件消耗数量
 		for(int i=0;i<pc.size();i++) {
 			PartConsume p = pc.get(i);
-			Node n = new Node(p.getManagerId().getManagerName(),p.getPartsId().getRadarTypeId().getRadarTypeName());
+			Node n = new Node(p.getManagerId().getManagerId(),p.getManagerId().getManagerName(),p.getPartsId().getRadarTypeId().getRadarTypeName());
 			for(int j=0;j<r.size();j++) {
 				Node node = r.get(j);
 				if(n.managerName.equals(node.managerName) && n.radarTypeName.equals(node.radarTypeName)) {
@@ -336,6 +479,7 @@ public class AcuteForecastServiceImpl implements AcuteForecastService{
 	
 	
 	private class Node{
+		private int managerId;
 		private String managerName;
 		private String locationType;
 		private String radarTypeName;
@@ -345,7 +489,8 @@ public class AcuteForecastServiceImpl implements AcuteForecastService{
 		private int gCount = 0;
 		private int pcCount = 0;
 		
-		public Node(String managerName, String radarTypeName) {
+		public Node(int managerId,String managerName, String radarTypeName) {
+			this.managerId = managerId;
 			this.managerName = managerName;
 			this.radarTypeName = radarTypeName;
 		}

@@ -21,15 +21,23 @@ public class RepairPlanDao implements radar.Dao.RepairPlanDao {
 	EntityManagerFactory emf;
 
 	@Override
-	public List<RepairPlan> getRepairPlanResult(String managerName,String radarTypeName) {
+	public List<RepairPlan> getRepairPlanResult(int managerId,String radarTypeName) {
 		EntityManager em = emf.createEntityManager();
 		String sql = "select repair_plan.* from radar left join repair_plan on radar.radar_id = repair_plan.radar_id"
-					+" where radar.manager_id = "
-					+ "(select manager_id from manager where manager_name = '"+managerName+"')"
-					+ " and radar.radar_type_id = "
+					+" where radar.manager_id = '"+managerId+"' and radar.radar_type_id = "
 					+ "(select radar_type_id from radar_type where radar_type_name = '"+radarTypeName+"')"
 					+ " and radar.radar_status = '0'"
 					+" and repair_plan.plan_effective = '0' group by repair_plan.radar_id";
+		Query query = em.createNativeQuery(sql,RepairPlan.class);
+		List<RepairPlan> list = query.getResultList();
+		em.close();
+		return list;
+	}
+
+	@Override
+	public List<RepairPlan> geRadarRepairPlanDate(int radarId) {
+		EntityManager em = emf.createEntityManager();
+		String sql = "select * from repair_plan where radar_id = '"+radarId+"' and plan_effective = '0'";
 		Query query = em.createNativeQuery(sql,RepairPlan.class);
 		List<RepairPlan> list = query.getResultList();
 		em.close();

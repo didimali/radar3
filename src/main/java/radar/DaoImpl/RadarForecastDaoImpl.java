@@ -21,15 +21,25 @@ public class RadarForecastDaoImpl implements RadarForecastDao {
 	EntityManagerFactory emf;
 
 	@Override
-	public List<RadarForecast> getRadarForecastResult(String managerName,String radarTypeName) {
+	public List<RadarForecast> getRadarForecastResult(int managerId,String radarTypeName) {
 		EntityManager em = emf.createEntityManager();
 		String sql = "select radar_forecast.* from radar left join radar_forecast"
-						+" on radar.radar_id = radar_forecast.radar_id where radar.manager_id = "
-						+"(select manager_id from manager where manager_name = '"+managerName+"')"
+						+" on radar.radar_id = radar_forecast.radar_id where radar.manager_id = '"+managerId+"'"
 						+" and radar.radar_status = '0' and radar_forecast.fore_result_effective = '0'"
-						+"and radar.radar_type_id = "
+						+" and radar.radar_type_id = "
 						+ "(select radar_type_id from radar_type where radar_type_name = '"+radarTypeName+"')"
 						+" group by radar_forecast.radar_id";
+		Query query = em.createNativeQuery(sql,RadarForecast.class);
+		List<RadarForecast> list = query.getResultList();
+		em.close();
+		return list;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<RadarForecast> getRadarForecastResult(int radarId) {
+		EntityManager em = emf.createEntityManager();
+		String sql = "select * from radar_forecast where radar_id = '"+radarId+"' and fore_result_effective = '0';";
 		Query query = em.createNativeQuery(sql,RadarForecast.class);
 		List<RadarForecast> list = query.getResultList();
 		em.close();

@@ -44,7 +44,14 @@ public class RadarAnalysis extends ContentPanel{
 	
 	private static final long serialVersionUID = 2288694751645396402L;
 	BigDataServiceImpl bigDataServiceImpl = (BigDataServiceImpl) SpringUtil.getBean("BigDataServiceImpl");
-	public RadarAnalysis(String id) {
+	
+	private String text2;
+	private String text3;
+	private JLabel title1;
+	private JLabel title2_1;
+	public RadarAnalysis(String id,String title2,String title3) {
+		text2 = title2;
+		text3 = title3+"分析结果";
 		int num=bigDataServiceImpl.dataVerify(id);
 		if(num==0) {
 			initContentTop();	
@@ -62,9 +69,34 @@ public class RadarAnalysis extends ContentPanel{
 		panel = new JPanel();
 		panel.setBackground(Color.WHITE);
 		
-		JLabel title = new JLabel("精准预测>>部队雷达型号>>部队雷达列表>>详细分析结果");
-		title.setFont(new Font("仿宋", Font.BOLD, 24));			
-		contentTop.add(title, "cell 0 0,grow");	
+		JPanel panel = new JPanel();
+		panel.setBackground(Color.WHITE);
+		contentTop.add(panel, "cell 0 0,grow");
+		panel.setLayout(new MigLayout("", "[][][][][]", "[grow]"));
+		
+		title1 = new JLabel("宏观评控");
+		title1.setFont(new Font("仿宋", Font.BOLD, 24));
+		panel.add(title1, "cell 0 0,growx,aligny center");
+		
+		JLabel s1 = new JLabel(">>");
+		s1.setFont(new Font("仿宋", Font.BOLD, 24));
+		panel.add(s1, "cell 1 0,growx,aligny center");
+		
+		title2_1 = new JLabel(text2);
+		title2_1.setFont(new Font("仿宋", Font.BOLD, 24));
+		panel.add(title2_1, "cell 2 0,growx,aligny center");
+		
+		JLabel s2 = new JLabel(">>");
+		s2.setFont(new Font("仿宋", Font.PLAIN, 24));
+		panel.add(s2, "cell 3 0,growx,aligny center");
+		
+		JLabel title3 = new JLabel(text3);
+		title3.setFont(new Font("仿宋", Font.PLAIN, 24));
+		panel.add(title3, "cell 4 0,growx,aligny center");
+		
+//		JLabel title = new JLabel("精准预测>>部队雷达型号>>部队雷达列表>>详细分析结果");
+//		title.setFont(new Font("仿宋", Font.BOLD, 24));			
+//		contentTop.add(title, "cell 0 0,grow");	
 		
 		JSeparator separator = new JSeparator();
 		separator.setForeground(Color.BLACK);
@@ -119,7 +151,7 @@ public class RadarAnalysis extends ContentPanel{
 		ContentBody.add(healthPanel, "cell 0 3,growx");		
 		//备件资源定制
 		JLabel maintainLable = new JLabel(name+"所需维修备件资源");
-		maintainLable.setFont(new Font("宋体", Font.BOLD, 14));	
+		maintainLable.setFont(new Font("仿宋", Font.BOLD, 14));	
 		ContentBody.add(maintainLable, "cell 1 2,alignx center");
 		
 		JFreeChart partsChart = PartsChart(partsData(id));
@@ -140,8 +172,8 @@ public class RadarAnalysis extends ContentPanel{
 		    JFreeChart jFreeChart = ChartFactory.createLineChart(null,null, null, paramCategoryDataset, PlotOrientation.VERTICAL,false, true, false);
 		    CategoryPlot categoryPlot = (CategoryPlot)jFreeChart.getPlot();
 		    categoryPlot.setBackgroundAlpha(0.0f); //背景透明
-		    SymbolAxis symbolAxis = new SymbolAxis(null, new String[] { "较差", "良好", "健康"});
-		    symbolAxis.setTickLabelFont(new Font("宋体",Font.BOLD, 14));
+		    SymbolAxis symbolAxis = new SymbolAxis(null, new String[] { "红", "黄", "绿"});
+		    symbolAxis.setTickLabelFont(new Font("仿宋",Font.BOLD, 14));
 		    categoryPlot.setRangeAxis((ValueAxis)symbolAxis);	
 		    CategoryAxis categoryAxis = categoryPlot.getDomainAxis();
 			categoryAxis.setCategoryLabelPositions(CategoryLabelPositions.DOWN_45);
@@ -177,4 +209,10 @@ public class RadarAnalysis extends ContentPanel{
 		    barRenderer.setBaseItemLabelGenerator((CategoryItemLabelGenerator)new StandardCategoryItemLabelGenerator());   //显示字
 		    return jFreeChart;
 		  }
+	public JLabel getTitle1() {
+		return title1;
+	}
+	public JLabel getTitle2() {
+		return title2_1;
+	}
 }

@@ -31,5 +31,39 @@ public class ManagerDaoImpl implements ManagerDao {
 		em.close();
 		return list;
 	}
+	@Override
+	public List<Manager> getManagers() {
+		EntityManager em = emf.createEntityManager();
+		String sql = "select * from manager where manager_status = '0'";
+		Query query = em.createNativeQuery(sql,Manager.class);
+		List<Manager> list = query.getResultList();
+		em.close();
+		return list;
+	}
+	public boolean deleteManager(String managerName) {
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		try {
+			String selectSql = " update manager set manager_status=1 where manager_name=:managerName";
+			Query query = em.createNativeQuery(selectSql);
+			query.setParameter("managerName", managerName);
+			query.executeUpdate();
+			em.flush();
+			em.getTransaction().commit();
+		} finally {
+			em.close();
+		}
+		return true;
+
+	}
+	@Override
+	public	List<Manager> selectManager(String name2) {
+		EntityManager em = emf.createEntityManager();
+		String sql = "select * from manager where manager_name = '"+name2+"'";
+		Query query = em.createNativeQuery(sql,Manager.class);
+		List<Manager> list = query.getResultList();
+		em.close();
+		return list;
+	};
 
 }

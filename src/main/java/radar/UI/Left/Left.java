@@ -32,6 +32,7 @@ public class Left extends JPanel {
 		add(b1, "cell 0 0,grow");
 		
 		b2 = new Button("宏 观 评 控");
+		b2.setText("统 计 分 析");
 		add(b2, "cell 0 1,grow");
 		
 		b3 = new Button("系 统 设 置");
@@ -66,4 +67,10 @@ public class Left extends JPanel {
 		
 	}
 
+	public Button getB1() {
+		return b1;
+	}
+	public Button getB2() {
+		return b2;
+	}
 }

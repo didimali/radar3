@@ -11,6 +11,8 @@ import java.awt.Font;
 import java.awt.Color;
 import java.awt.BorderLayout;
 import javax.swing.JSeparator;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 /**
  * 精准预测内容-顶部栏一
@@ -26,6 +28,7 @@ public class CTop1 extends JPanel implements Init{
 	private ComboBox radarT;
 	private JPanel panel;
 	private JPanel panel1;
+	private JComboBox comboBox;
 	
 	public CTop1() {
 		setBackground(Color.WHITE);
@@ -41,11 +44,11 @@ public class CTop1 extends JPanel implements Init{
 		panel.setBackground(Color.WHITE);		
 		add(panel,"cell 0 0,grow");
 					
-		panel.setLayout(new MigLayout("", "[grow][160px][][120px][260px][][120px][100px]", "[grow][grow]"));
-		title = new JLabel("精准测评");
+		panel.setLayout(new MigLayout("", "[grow][160px,grow][][120px][260px][][120px][100px]", "[grow][grow]"));
+		title = new JLabel("基本状态");
 		title.setFont(new Font("仿宋", Font.BOLD, 24));
-		panel.add(title, "cell 0 0,growx,aligny center");
-		
+		panel.add(title, "cell 0 0,alignx trailing,aligny center");
+				
 		lType = new JLabel("驻地类型");
 		lType.setFont(new Font("仿宋", Font.PLAIN, 14));
 		panel.add(lType, "cell 2 0,growx,aligny center");

@@ -1,5 +1,6 @@
 package radar.Tools;
 
+import java.awt.Color;
 import java.lang.reflect.Method;
 import java.util.concurrent.ExecutionException;
 
@@ -11,12 +12,12 @@ import org.jfree.data.general.DefaultPieDataset;
 import radar.SpringUtil;
 import radar.UI.Components.PieChart;
 
+/**
+ * 获取饼图数据的SwingWorker类
+ * @author madi
+ */
 public class SwingWorkerForPieChart extends SwingWorker<DefaultPieDataset,Void>{
 
-	/**
-	 * 获取饼图数据的SwingWorker类
-	 * @author madi
-	 */
 	private PieChart panel;
 	private String className;
 	private String methodName;
@@ -50,6 +51,12 @@ public class SwingWorkerForPieChart extends SwingWorker<DefaultPieDataset,Void>{
 			data = get();
 			PiePlot p = (PiePlot) panel.getJFreeChart().getPlot();
 			p.setDataset(data);
+			if(data.getKeys().contains("绿")) {
+				p.setSectionPaint("绿",Color.GREEN);
+				p.setSectionPaint("黄",Color.YELLOW);
+				p.setSectionPaint("红",Color.RED);
+			}
+			
 		} catch (InterruptedException | ExecutionException e) {
 			e.printStackTrace();
 		}

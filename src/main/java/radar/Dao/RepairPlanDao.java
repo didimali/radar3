@@ -6,6 +6,8 @@ import radar.Entity.RepairPlan;
 
 public interface RepairPlanDao {
 
-	List<RepairPlan> getRepairPlanResult(String managerName, String radarTypeName);
+	List<RepairPlan> getRepairPlanResult(int managerId, String radarTypeName);
+
+	List<RepairPlan> geRadarRepairPlanDate(int radarId);
 
 }

@@ -2,11 +2,18 @@ package radar.UI;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+
+import radar.ImageFrame;
 
 /**
  * 整个窗体框架类
@@ -19,7 +26,7 @@ public class SystemEntrance extends JFrame{
 		getContentPane().setLayout(new BorderLayout(0, 0));
 	}
 	
-	public void initUI() {
+	public void initUI(ImageFrame imageFrame, Thread t) {
 		//调用Swing皮肤psg
     	try{
 	   	  UIManager.setLookAndFeel(javax.swing.plaf.nimbus.NimbusLookAndFeel.class.getName());
@@ -29,6 +36,16 @@ public class SystemEntrance extends JFrame{
    	    {
    	    	System.out.println(e);
    	    }
+    	
+    	InputStream inputStream=this.getClass().getResourceAsStream("/images/logo2.png") ;
+		try {
+			BufferedImage bi=ImageIO.read(inputStream);
+			Image im=(Image)bi;
+			//设置右上角图标
+	       	setIconImage(im);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		Toolkit kit = Toolkit.getDefaultToolkit();
         Dimension dimension = kit.getScreenSize();
@@ -37,7 +54,7 @@ public class SystemEntrance extends JFrame{
         //设置窗口全屏
         setBounds(0, 0, dimension.width, dimension.height);
 		
-       	setTitle("雷达PHM系统-首页");
+       	setTitle(null);
        	//设置窗口屏幕居中
        	setLocationRelativeTo(null);
        	//关闭窗口即退出程序
@@ -48,6 +65,8 @@ public class SystemEntrance extends JFrame{
        	home.initUI();
         // 添加面板
         getContentPane().add(home);
+        imageFrame.setVisible(false);
+		t.interrupt();
         // 设置界面可见
         setVisible(true);
 	    }

@@ -8,6 +8,8 @@ public interface PartConsumeDao {
 
 	List<PartConsume> getPartConsume();
 
-	List<PartConsume> getPartsConsumeDetails(String managerName, String radarType, String sDate, String eDate);
+	List<PartConsume> getPartsConsumeDetails(int managerId, String radarType, String sDate, String eDate);
+
+	List<PartConsume> geRadarPartsConsume(int radarId);
 
 }

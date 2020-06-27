@@ -21,6 +21,7 @@ public class RadarListOnType extends ContentPanel{
 	RadarServiceImpl radarServiceImpl = (RadarServiceImpl) SpringUtil.getBean("RadarServiceImpl");
 	private JTable radarTable;
 	private JLabel title;
+	private String text;
 	public RadarListOnType(String id) {		
 		initContentTop(id);
 		initContentBody(id);
@@ -33,8 +34,8 @@ public class RadarListOnType extends ContentPanel{
 		panel = new JPanel();
 		panel.setBackground(Color.WHITE);
 		
-		String type=radarServiceImpl.getType(id);
-		title = new JLabel("宏观评控>>"+type+"列表");
+		text=radarServiceImpl.getType(id);
+		title = new JLabel("宏观评控>>"+text);
 		title.setFont(new Font("仿宋", Font.BOLD, 24));			
 		contentTop.add(title, "cell 0 0,grow");	
 		
@@ -70,5 +71,8 @@ public class RadarListOnType extends ContentPanel{
 	}
 	public JLabel getTitle() {
 		return title;
+	}
+	public String getText() {
+		return text;
 	}
 }

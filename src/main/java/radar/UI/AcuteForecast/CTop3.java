@@ -56,12 +56,12 @@ public class CTop3 extends JPanel implements Init{
 		add(panel,"cell 0 0,grow");
 			
 		panel.setLayout(new MigLayout("", "[][][][grow][][grow 64][][grow 64][10%][]", "[grow][grow]"));
-		title = new JLabel("精准测评");
+		title = new JLabel("基本状态");
 		title.setToolTipText("返回上一页");
 		title.setFont(new Font("仿宋", Font.BOLD, 24));
 		panel.add(title, "cell 0 0,growx,aligny center");
 		
-		lblNewLabel = new JLabel("》");
+		lblNewLabel = new JLabel(">>");
 		lblNewLabel.setFont(new Font("仿宋", Font.PLAIN, 24));
 		panel.add(lblNewLabel, "cell 1 0,grow");
 		

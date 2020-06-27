@@ -27,6 +27,7 @@ public class Table extends JTable {
     private String className;
     private String methodName;
     private Object[] params;
+    private boolean noFirstColumn = false;
     public  String[] header;
 	
    /**
@@ -44,12 +45,29 @@ public class Table extends JTable {
 		this.header = header;
 		initTable();
 	}
+	/**
+	 * 
+	 * @param className :表格数据获取方法所在类的类名
+    * @param methodName ：表格数据获取方法的方法名
+    * @param params ：表格数据获取方法的参数
+    * @param header ：表格表头
+	 * @param noFirstColumn 不显示第一列
+	 */
+	public Table(String className,String methodName,Object[] params, String[] header,boolean noFirstColumn) {
+    	setBackground(Color.WHITE);
+		this.className = className;
+		this.methodName = methodName;
+		this.params = params;
+		this.header = header;
+		this.noFirstColumn = noFirstColumn;
+		initTable();
+	}
 
 	private void initTable() {
 		SwingWorkerForTable swt = new SwingWorkerForTable(this, className,methodName,params);
 		swt.execute();
 		// 如果结果集中没有数据，那么就用空来代替数据集中的每一行
-        Object[][] nothing = { {}, {}, {}, {}, {}, {}, {}, {}, {}, {},{}, {}, {}, {}, {}, {}};
+        Object[][] nothing = { {}, {}, {}, {}, {}, {}, {}, {}, {}, {}};
         model = new DefaultTableModel(nothing, header);
         totalRowCount = 0;
         this.setModel(model);
@@ -81,6 +99,8 @@ public class Table extends JTable {
 		//设置表格样式
         TableStyleUI ui = new TableStyleUI();
         ui.makeFace(this);
+        if(noFirstColumn)
+        	hideLastColumn();
 	}
 	
 	/**
@@ -171,6 +191,14 @@ public class Table extends JTable {
             restCount = totalRowCount % pageCount == 0 ? 10 : totalRowCount
                     % pageCount;// 最后一页的数据数
         }
+    }
+    
+    public void hideLastColumn() {
+    	//设置表格第一列不可见（该列存储雷达的radarId）
+		this.getColumnModel().getColumn(0).setMinWidth(0);
+		this.getColumnModel().getColumn(0).setWidth(0);
+		this.getColumnModel().getColumn(0).setMaxWidth(0);
+		this.getColumnModel().getColumn(0).setPreferredWidth(0);
     }
 
 }
