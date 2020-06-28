@@ -11,6 +11,7 @@ import radar.UI.Content.NewManager;
 import radar.UI.Content.NewRadar;
 import radar.UI.Content.Parts;
 import radar.UI.Content.PartsConsume;
+import radar.UI.Content.Radartype;
 import radar.UI.Content.XiTong;
 import radar.UI.Left.Left;
 import radar.UI.Top.TopPanel;
@@ -37,6 +38,7 @@ public class Home extends JPanel implements Init {
 //	private Parts parts;
 //	private PartsConsume partsConsume;
 	private XiTong xiTong;
+	private Radartype test;
 	
 	private AcuteForecast c1;
 	private MacroEvaluation c2;
@@ -52,7 +54,7 @@ public class Home extends JPanel implements Init {
 		top = new TopPanel();
 		add(top, BorderLayout.NORTH);
 		
-		set1();
+//		set1();
 //		equipment = new Equipment();
 //		add(equipment, BorderLayout.CENTER);
 //
@@ -70,7 +72,9 @@ public class Home extends JPanel implements Init {
 		
 //		xiTong = new XiTong();
 //		add(xiTong, BorderLayout.CENTER);
-
+		test = new Radartype();
+		add(test, BorderLayout.CENTER);
+		
 		left = new Left();
 		left.getB1().addMouseListener(new MouseAdapter() {
 			@Override
