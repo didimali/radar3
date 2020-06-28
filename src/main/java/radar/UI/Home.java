@@ -11,6 +11,8 @@ import radar.UI.Content.NewManager;
 import radar.UI.Content.NewRadar;
 import radar.UI.Content.Parts;
 import radar.UI.Content.PartsConsume;
+import radar.UI.Content.PrecisePrediction;
+import radar.UI.Content.RadarStruct;
 import radar.UI.Content.XiTong;
 import radar.UI.Left.Left;
 import radar.UI.Top.TopPanel;
@@ -40,6 +42,10 @@ public class Home extends JPanel implements Init {
 	
 	private AcuteForecast c1;
 	private MacroEvaluation c2;
+	
+	private PrecisePrediction c3;
+	
+	private RadarStruct c4;
 	public Home() {
 		setBackground(Color.WHITE);
 		setOpaque(true);
@@ -52,7 +58,8 @@ public class Home extends JPanel implements Init {
 		top = new TopPanel();
 		add(top, BorderLayout.NORTH);
 		
-		set1();
+//		set1();
+		set4();
 //		equipment = new Equipment();
 //		add(equipment, BorderLayout.CENTER);
 //
@@ -105,6 +112,11 @@ public class Home extends JPanel implements Init {
 		
 	}
 
+	private void set3() {
+		c3 = new PrecisePrediction();
+		add(c3, BorderLayout.CENTER);
+	}
+
 	private void set1() {
 		c1 = new AcuteForecast();
 		add(c1, BorderLayout.CENTER);
@@ -113,6 +125,11 @@ public class Home extends JPanel implements Init {
 	private void set2() {
 		c2 = new MacroEvaluation();
 		add(c2, BorderLayout.CENTER);
+	}
+	
+	private void set4() {
+		c4 = new RadarStruct();
+		add(c4, BorderLayout.CENTER);
 	}
 
 	@Override

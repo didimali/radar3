@@ -22,7 +22,7 @@ import radar.Tools.SwingWorkerForPieChart;
 
 import java.awt.BorderLayout;
 
-public class PieChart extends JPanel{
+public class PieChart extends JPanelTransparent{
 	
 	/**
 	 * 饼图控件
@@ -59,9 +59,7 @@ public class PieChart extends JPanel{
 
 	public void init() {
 		//容器样式初始化
-		setBackground(Color.WHITE);
 		setBorder(null);
-		setOpaque(true);
 		
 		//图表初始化
 		setPieChart();

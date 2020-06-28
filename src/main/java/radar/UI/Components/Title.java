@@ -13,7 +13,7 @@ import java.awt.Font;
  * @author madi
  *
  */
-public class Title extends JPanel {
+public class Title extends JPanelTransparent {
 	
 	private static final long serialVersionUID = 1L;
 	//表格将要调用的ServiceImpl类的名字

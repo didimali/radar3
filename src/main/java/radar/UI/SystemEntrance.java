@@ -1,17 +1,18 @@
 package radar.UI;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 import radar.ImageFrame;
 
@@ -29,11 +30,10 @@ public class SystemEntrance extends JFrame{
 	public void initUI(ImageFrame imageFrame, Thread t) {
 		//调用Swing皮肤psg
     	try{
-	   	  UIManager.setLookAndFeel(javax.swing.plaf.nimbus.NimbusLookAndFeel.class.getName());
-	   	  SwingUtilities.updateComponentTreeUI(this);
+    		UIManager.setLookAndFeel(new NimbusLookAndFeel());  
+	   	  	SwingUtilities.updateComponentTreeUI(this);
    	    }
-   	    catch(Exception e)
-   	    {
+   	    catch(Exception e){
    	    	System.out.println(e);
    	    }
     	
@@ -61,15 +61,16 @@ public class SystemEntrance extends JFrame{
        	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
        	//窗口不可以拉伸放缩
 //       	setResizable(false);
+              	
        	Home home = new Home();
        	home.initUI();
         // 添加面板
         getContentPane().add(home);
+        getContentPane().setBackground(Color.RED); //正确显示黑色
         imageFrame.setVisible(false);
 		t.interrupt();
         // 设置界面可见
         setVisible(true);
 	    }
-
 }
 

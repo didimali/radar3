@@ -7,7 +7,7 @@ import javax.swing.JPanel;
  * @author madi
  *
  */
-public class PieCharForHealth extends JPanel {
+public class PieCharForHealth extends JPanelTransparent {
 
 	private static final long serialVersionUID = 1L;
 

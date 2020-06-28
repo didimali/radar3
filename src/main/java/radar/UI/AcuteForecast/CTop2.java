@@ -12,6 +12,8 @@ import javax.swing.JSeparator;
 import net.miginfocom.swing.MigLayout;
 import radar.Tools.Init;
 import radar.UI.Components.ComboBox;
+import radar.UI.Components.JPanelTransparent;
+
 import javax.swing.JRadioButton;
 
 /**
@@ -19,7 +21,7 @@ import javax.swing.JRadioButton;
  * @author madi
  *
  */
-public class CTop2 extends JPanel implements Init{
+public class CTop2 extends JPanelTransparent implements Init{
 
 	private static final long serialVersionUID = 1L;
 	private JLabel title;
@@ -48,8 +50,7 @@ public class CTop2 extends JPanel implements Init{
 
 	@Override
 	public void initUI() {
-		panel = new JPanel();
-		panel.setBackground(Color.WHITE);		
+		panel = new JPanelTransparent();
 		add(panel,"cell 0 0,grow");
 			
 		panel.setLayout(new MigLayout("", "[][][][grow][][40px][][]", "[grow]"));
@@ -80,8 +81,7 @@ public class CTop2 extends JPanel implements Init{
 		group.add(radioButton);
 		group.add(radioButton_1);
 		
-		panel1 = new JPanel();
-		panel1.setBackground(Color.WHITE);
+		panel1 = new JPanelTransparent();
 		
 		add(panel1,"cell 0 1,grow");
 		panel1.setLayout(new BorderLayout(0, 0));

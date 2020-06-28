@@ -93,6 +93,7 @@ public class AcuteForecastServiceImpl implements AcuteForecastService{
 		
 	}
 	
+	
 	/**
 	 * 获取精准预测第一张总表的数据
 	 * @param params
@@ -183,6 +184,8 @@ public class AcuteForecastServiceImpl implements AcuteForecastService{
 		SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
 		//获取整机雷达的健康评估结果
 		List<RadarHealth> list1 = radarHealthDao.getTotalRadarHealthResult(radarId);
+		if(list1.size() == 0)
+			return null ;
 		int healthResultId = list1.get(0).getHealthResultId();
 		String date = ft.format(list1.get(0).getAssessDate());
 		List<SysOrEquipHealth> list2 = sysOrEquipHealthDao.getRadarHealthResultContent(healthResultId);
@@ -394,7 +397,30 @@ public class AcuteForecastServiceImpl implements AcuteForecastService{
 		int radarId = (int) params[0];
 		List<RepairPlan> list = repairPlanDao.geRadarRepairPlanDate(radarId);
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+		if(list.size() == 0)
+			return null;
 		String result = sf.format(list.get(0).getRepairPlanDate());
+		return result;
+		
+	}
+	
+	/**
+	 * 获取雷达组织结构表的数据
+	 * @param params
+	 * @return
+	 */
+	public Object[][] getDataForRadarStructTable(Object[] params){
+		List<Equip> list  = equipDao.getAllEquip();
+		int length = list.size();
+		if(length == 0)
+			return null;
+		Object[][] result = new Object[length][];
+		for(int i=0;i<length;i++) {
+			Equip e = list.get(i);
+			Object[] o = {i+1,e.getSystemId().getRadarTypeId().getRadarTypeName(),
+					e.getSystemId().getSystemName(),e.getEquipName()};
+			result[i] = o;
+		}
 		return result;
 		
 	}

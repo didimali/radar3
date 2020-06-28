@@ -12,13 +12,14 @@ import javax.swing.JSeparator;
 
 import net.miginfocom.swing.MigLayout;
 import radar.Tools.Init;
+import radar.UI.Components.JPanelTransparent;
 
 /**
  * 精准预测-雷达维修预测顶部栏
  * @author madi
  *
  */
-public class CTop4 extends JPanel implements Init{
+public class CTop4 extends JPanelTransparent implements Init{
 
 	private static final long serialVersionUID = 1L;
 	private JLabel title;
@@ -34,7 +35,6 @@ public class CTop4 extends JPanel implements Init{
 	public CTop4(String managerName, String radarName) {
 		this.text = managerName;
 		text1 = radarName;
-		setBackground(Color.WHITE);
 		setLayout(new MigLayout("", "[grow]", "[grow][4px]"));
 		
 		initUI();
@@ -43,8 +43,7 @@ public class CTop4 extends JPanel implements Init{
 
 	@Override
 	public void initUI() {
-		panel = new JPanel();
-		panel.setBackground(Color.WHITE);		
+		panel = new JPanelTransparent();	
 		add(panel,"cell 0 0,grow");
 			
 		panel.setLayout(new MigLayout("", "[][][][][][40px][][]", "[grow]"));
@@ -69,8 +68,7 @@ public class CTop4 extends JPanel implements Init{
 		title3.setFont(new Font("仿宋", Font.PLAIN, 24));
 		panel.add(title3, "cell 4 0");
 				
-		panel1 = new JPanel();
-		panel1.setBackground(Color.WHITE);
+		panel1 = new JPanelTransparent();
 		
 		add(panel1,"cell 0 1,grow");
 		panel1.setLayout(new BorderLayout(0, 0));
@@ -83,8 +81,6 @@ public class CTop4 extends JPanel implements Init{
 
 	@Override
 	public void Action() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	public JLabel getTitle() {

@@ -28,7 +28,7 @@ import java.awt.BorderLayout;
  * @author madi
  *
  */
-public class HistoryLineForHI extends JPanel implements Init{
+public class HistoryLineForHI extends JPanelTransparent implements Init{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -53,7 +53,6 @@ public class HistoryLineForHI extends JPanel implements Init{
 		this.className = className;
 		this.methodName = methodName;
 		params[0] = radarId;
-		setBackground(Color.WHITE);
 		setLayout(new BorderLayout(0, 0));
 		initUI();
 	}

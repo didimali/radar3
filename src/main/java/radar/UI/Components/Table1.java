@@ -133,7 +133,10 @@ public class Table1 extends JTable{
 			Object[] o = tmp.get(j);
 			if(o == null)
 				break;
-			o[1] = j+1;
+			if(noFirstColumn)
+				o[1] = j+1;
+			else
+				o[0] = j+1;
 			rData[j] = o;
 		}
 		if(tmp.size() == 0) {
