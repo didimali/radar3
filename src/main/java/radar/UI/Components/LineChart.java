@@ -16,7 +16,7 @@ import net.miginfocom.swing.MigLayout;
 import radar.Tools.SwingWorkerForLineChart;
 
 
-public class LineChart extends JPanel{
+public class LineChart extends JPanelTransparent{
 
 	/**
 	 * 
@@ -60,8 +60,6 @@ public class LineChart extends JPanel{
 	public void init() {
 		
 		//容器初始化
-		setBackground(Color.WHITE);
-		setOpaque(true);
 		setLayout(new MigLayout("", "[grow]", "[grow]"));
 		
 		//创建图表

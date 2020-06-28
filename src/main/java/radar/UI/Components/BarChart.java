@@ -21,7 +21,7 @@ import java.awt.BorderLayout;
 /**
  * 柱状图工具类
  */
-public class BarChart extends JPanel{
+public class BarChart extends JPanelTransparent{
 	
 	private static final long serialVersionUID = 7549911555945545120L;
 	
@@ -59,8 +59,6 @@ public class BarChart extends JPanel{
 	
 	public void init() {
 		//容器初始化
-		setBackground(Color.WHITE);
-		setOpaque(true);
 		
 		//创建图表
 		createBarChart();
@@ -96,7 +94,7 @@ public class BarChart extends JPanel{
 		//修改高级属性
 		CategoryPlot plot = barChart.getCategoryPlot();
 		
-		plot.setNoDataMessage("暂时没有数据，请稍候"); // 没有数据的时候显示的内容 
+		plot.setNoDataMessage("暂无数据，请稍候......"); // 没有数据的时候显示的内容 
 		
 		// 透明度
 		plot.setForegroundAlpha(0.5f);
@@ -120,7 +118,7 @@ public class BarChart extends JPanel{
 		//设置网格横线颜色 
 		plot.setRangeGridlinesVisible(false); 
 		//图片背景色 
-		plot.setBackgroundPaint(Color.WHITE); 
+		plot.setBackgroundPaint(null); 
 		plot.setOutlineVisible(false); 
 		//图边框颜色 
 		plot.setOutlinePaint(Color.WHITE); 

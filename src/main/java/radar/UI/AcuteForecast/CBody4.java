@@ -6,6 +6,7 @@ import javax.swing.JSplitPane;
 import net.miginfocom.swing.MigLayout;
 import radar.SpringUtil;
 import radar.UI.Components.HistoryLineForHI;
+import radar.UI.Components.JPanelTransparent;
 import radar.UI.Components.Table;
 import radar.UI.Components.Table1;
 
@@ -24,7 +25,7 @@ import java.awt.Font;
  * @author madi
  *
  */
-public class CBody4 extends JPanel {
+public class CBody4 extends JPanelTransparent {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -53,8 +54,7 @@ public class CBody4 extends JPanel {
 	}
 
 	private void setHealthPanel() {
-		health = new JPanel();
-		health.setBackground(Color.WHITE);
+		health = new JPanelTransparent();
 		add(health, "cell 0 0,grow");
 		health.setLayout(new MigLayout("", "[100%]", "[5%][52%][43%]"));
 		
@@ -74,8 +74,7 @@ public class CBody4 extends JPanel {
 	}
 
 	private void setFaultPanel() {
-		fault = new JPanel();
-		fault.setBackground(Color.WHITE);
+		fault = new JPanelTransparent();
 		add(fault, "cell 1 0,grow");
 		fault.setLayout(new MigLayout("", "[100%]", "[5%][95%]"));
 		

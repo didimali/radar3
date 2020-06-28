@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import radar.UI.Components.JPanelTransparent;
 import radar.UI.Components.PieChart;
 import radar.UI.Components.Table;
 import radar.UI.Components.Table1;
@@ -13,7 +14,7 @@ import java.awt.Color;
 /**
  * 精准测评-内容二
  */
-public class CBody2 extends JPanel{
+public class CBody2 extends JPanelTransparent{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -46,8 +47,7 @@ public class CBody2 extends JPanel{
 		pie2.setBackground(Color.WHITE);
 		pie2.init();
 
-		jChart = new JPanel();
-		jChart.setBackground(Color.WHITE);
+		jChart = new JPanelTransparent();
 		add(jChart, "cell 1 0,grow");
 		jChart.setLayout(new MigLayout("", "[grow]", "[grow][grow]"));
 		

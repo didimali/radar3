@@ -3,7 +3,9 @@ package radar.UI.AcuteForecast;
 import javax.swing.JPanel;
 import net.miginfocom.swing.MigLayout;
 import radar.Tools.Init;
+import radar.UI.Components.Background;
 import radar.UI.Components.ComboBox;
+import radar.UI.Components.JPanelTransparent;
 
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
@@ -17,7 +19,7 @@ import java.awt.event.ItemEvent;
 /**
  * 精准预测内容-顶部栏一
  */
-public class CTop1 extends JPanel implements Init{
+public class CTop1 extends JPanelTransparent implements Init{
 
 	private static final long serialVersionUID = 1L;
 
@@ -31,8 +33,10 @@ public class CTop1 extends JPanel implements Init{
 	private JComboBox comboBox;
 	
 	public CTop1() {
-		setBackground(Color.WHITE);
-		setLayout(new MigLayout("", "[grow]", "[grow][4px]"));
+//		setBackground(Color.WHITE);
+//		setBackground(null);
+//		setOpaque(false);
+		setLayout(new MigLayout("", "[100%]", "[grow][]"));
 		
 		initUI();
 		Action();
@@ -40,11 +44,12 @@ public class CTop1 extends JPanel implements Init{
 
 	@Override
 	public void initUI() {
-		panel = new JPanel();
-		panel.setBackground(Color.WHITE);		
+		panel = new JPanelTransparent();
+//		panel.setBackground(Color.WHITE);
+//		panel.setBackground(null);
 		add(panel,"cell 0 0,grow");
 					
-		panel.setLayout(new MigLayout("", "[grow][160px,grow][][120px][260px][][120px][100px]", "[grow][grow]"));
+		panel.setLayout(new MigLayout("", "[][160px,grow][][120px][260px][][120px][100px]", "[grow][grow]"));
 		title = new JLabel("基本状态");
 		title.setFont(new Font("仿宋", Font.BOLD, 24));
 		panel.add(title, "cell 0 0,alignx trailing,aligny center");
@@ -67,7 +72,7 @@ public class CTop1 extends JPanel implements Init{
 		radarT.setMaximumRowCount(4);		
 		panel.add(radarT, "cell 6 0,growx,aligny center");
 		
-		panel1 = new JPanel();
+		panel1 = new JPanelTransparent();
 		panel1.setBackground(Color.WHITE);
 		
 		add(panel1,"cell 0 1,grow");

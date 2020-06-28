@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import net.miginfocom.swing.MigLayout;
+import radar.UI.Components.JPanelTransparent;
 import radar.UI.Components.LineChart;
 import radar.UI.Components.PieChart;
 import radar.UI.Components.Table;
@@ -12,7 +13,7 @@ import radar.UI.Components.Table1;
 /**
  * 精准预测-内容三
  */
-public class CBody3 extends JPanel {
+public class CBody3 extends JPanelTransparent {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -47,8 +48,7 @@ public class CBody3 extends JPanel {
 		line.setBackground(Color.WHITE);
 		line.init();
 
-		jChart = new JPanel();
-		jChart.setBackground(Color.WHITE);
+		jChart = new JPanelTransparent();
 		add(jChart, "cell 1 0,grow");
 		jChart.setLayout(new MigLayout("", "[grow]", "[grow][grow]"));
 		

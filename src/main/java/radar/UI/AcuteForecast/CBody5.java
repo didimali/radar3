@@ -3,6 +3,7 @@ package radar.UI.AcuteForecast;
 import javax.swing.JPanel;
 
 import radar.Tools.Init;
+import radar.UI.Components.JPanelTransparent;
 import radar.UI.Components.PieChart;
 import radar.UI.Components.Table;
 import radar.UI.Components.Table1;
@@ -20,7 +21,7 @@ import java.awt.Font;
  * @author madi
  *
  */
-public class CBody5 extends JPanel implements Init{
+public class CBody5 extends JPanelTransparent implements Init{
 	
 	private static final long serialVersionUID = 1L;
 	private JTable planTable;

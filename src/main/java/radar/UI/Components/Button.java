@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.Color;
 import javax.swing.border.BevelBorder;
+import javax.swing.border.EmptyBorder;
 
 public class Button extends JButton implements Init{
 	
@@ -22,12 +23,12 @@ public class Button extends JButton implements Init{
 
 	@Override
 	public void initUI() {
-		setOpaque(true);
+		setOpaque(false);
+		setBackground(null);
 		setForeground(Color.BLACK);
-		setBackground(Color.WHITE);
 		setFont(new Font("仿宋", Font.BOLD, 16));
 		setText(text);
-		setBorder(new BevelBorder(BevelBorder.RAISED, new Color(255, 255, 255), new Color(255, 255, 255), Color.WHITE, new Color(255, 255, 255))); 
+		setBorder(new EmptyBorder(0, 0, 0, 0)); 
 	}
 	
 	public void changeColor(boolean change) {

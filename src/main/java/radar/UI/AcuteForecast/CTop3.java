@@ -13,6 +13,8 @@ import javax.swing.JSeparator;
 import net.miginfocom.swing.MigLayout;
 import radar.Tools.Init;
 import radar.UI.Components.Chooser;
+import radar.UI.Components.JPanelTransparent;
+import radar.UI.Top.TopPanel;
 
 import javax.swing.JTextField;
 
@@ -24,7 +26,7 @@ import java.awt.event.MouseEvent;
 /**
  * 精准预测-顶部栏三
  */
-public class CTop3 extends JPanel implements Init{
+public class CTop3 extends JPanelTransparent implements Init{
 
 	private static final long serialVersionUID = 1L;
 	private JLabel title;
@@ -51,8 +53,7 @@ public class CTop3 extends JPanel implements Init{
 
 	@Override
 	public void initUI() {
-		panel = new JPanel();
-		panel.setBackground(Color.WHITE);		
+		panel = new JPanelTransparent();	
 		add(panel,"cell 0 0,grow");
 			
 		panel.setLayout(new MigLayout("", "[][][][grow][][grow 64][][grow 64][10%][]", "[grow][grow]"));
@@ -92,11 +93,10 @@ public class CTop3 extends JPanel implements Init{
 		
 		label_1 = new JLabel("");
 		label_1.setToolTipText("刷新");
-		label_1.setIcon(new ImageIcon(CTop3.class.getResource("/com/sun/java/swing/plaf/windows/icons/Computer.gif")));
+		label_1.setIcon(TopPanel.getIcon("refresh1.png",this));
 		panel.add(label_1, "cell 9 0,grow");
 		
-		panel1 = new JPanel();
-		panel1.setBackground(Color.WHITE);
+		panel1 = new JPanelTransparent();
 		
 		add(panel1,"cell 0 1,grow");
 		panel1.setLayout(new BorderLayout(0, 0));
