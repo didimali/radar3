@@ -2,14 +2,10 @@ package radar.UI.Left;
 
 import java.awt.Color;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
-import radar.UI.Components.Background;
 import radar.UI.Components.Button;
-import radar.UI.Components.JPanelTransparent;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -25,13 +21,11 @@ public class Left extends JPanel {
 	private Button b1;
 	private Button b2;
 	private Button b3;
-	private JButton b4;
-	private JButton b5;
-	private JButton b6;
-	private JButton b7;
-	
-	private ButtonGroup group;
-	
+	private Button b4;
+	private Button b5;
+	private Button b6;
+	private Button b7;
+		
 	public Left() {
 		
 		setBackground(new Color(248,248,255));
@@ -63,16 +57,15 @@ public class Left extends JPanel {
 		b7.setFont(new Font("仿宋", Font.BOLD, 16));
 		add(b7, "cell 0 6,grow");
 		
-		group.add(b4);
-		group.add(b5);
-		group.add(b6);
-		group.add(b7);
+		showSubTitles(false);
+				
 		b1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				b1.changeColor(true);
 				b2.changeColor(false);
 				b3.changeColor(false);
+				showSubTitles(false);
 				}
 		});
 		
@@ -82,6 +75,7 @@ public class Left extends JPanel {
 				b1.changeColor(false);
 				b2.changeColor(true);
 				b3.changeColor(false);
+				showSubTitles(false);
 				}
 		});
 		
@@ -91,9 +85,63 @@ public class Left extends JPanel {
 				b1.changeColor(false);
 				b2.changeColor(false);
 				b3.changeColor(true);
+				
+				showSubTitles(true);
 				}
 		});
 		
+		b4.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				b4.changeColor(true);
+				b5.changeColor(false);
+				b6.changeColor(false);
+				b7.changeColor(false);
+				}
+		});
+		b5.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				b4.changeColor(false);
+				b5.changeColor(true);
+				b6.changeColor(false);
+				b7.changeColor(false);
+				}
+		});
+		b6.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				b4.changeColor(false);
+				b5.changeColor(false);
+				b6.changeColor(true);
+				b7.changeColor(false);
+				}
+		});
+		b7.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				b4.changeColor(false);
+				b5.changeColor(false);
+				b6.changeColor(false);
+				b7.changeColor(true);
+				}
+		});
+		
+	}
+	
+	private void showSubTitles(boolean show) {
+		b4.changeColor(true);
+		b5.changeColor(false);
+		b6.changeColor(false);
+		b7.changeColor(false);
+		
+		b4.setVisible(show);
+		b5.setVisible(show);
+		b6.setVisible(show);
+		b7.setVisible(show);
+		
+		this.validate();
+		this.repaint();
 	}
 
 	public Button getB1() {
