@@ -7,18 +7,15 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
-import radar.Tools.SwingWorkerForComboBox;
-
+import radar.Tools.LoadingData;
+import radar.Tools.LoadingDataClass;
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.Component;
 
 @SuppressWarnings({"rawtypes","unchecked"})
-public class ComboBox extends JComboBox{
+public class ComboBox extends JComboBox implements LoadingData{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 6294605107896516557L;
 	private String className;
 	private String methodName;
@@ -42,8 +39,10 @@ public class ComboBox extends JComboBox{
 		setBackground(Color.WHITE);
 		setRenderer(new TwoDecimalRenderer(getRenderer()));
 		//加载数据
-		SwingWorkerForComboBox swb = new SwingWorkerForComboBox(this,className,methodName,params);
-		swb.execute();
+		
+		LoadingDataClass loading = new LoadingDataClass(this, className, methodName,params);
+		loading.execute();
+		
 		String[] data = {};
 		init(data);
 	}
@@ -52,6 +51,13 @@ public class ComboBox extends JComboBox{
 	public void init(Object[] data) {
 		DefaultComboBoxModel mode  = new DefaultComboBoxModel(data);
 		setModel(mode);
+	}
+
+	@Override
+	public void loadingData(Object data) {
+		DefaultComboBoxModel mode  = new DefaultComboBoxModel((Object[])data);
+		setModel(mode);
+		
 	}
 }
 @SuppressWarnings({"rawtypes","unchecked"})

@@ -16,13 +16,15 @@ import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.title.LegendTitle;
 import org.jfree.chart.title.TextTitle;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.general.PieDataset;
 
-import radar.Tools.SwingWorkerForPieChart;
-
+import radar.Tools.LoadingData;
+import radar.Tools.LoadingDataClass;
 import java.awt.BorderLayout;
 
-public class PieChart extends JPanelTransparent{
+public class PieChart extends JPanelTransparent implements LoadingData{
 	
 	/**
 	 * 饼图控件
@@ -38,11 +40,7 @@ public class PieChart extends JPanelTransparent{
 	private ChartPanel chartPanel;
 	private JFreeChart pieChart;
 	private DefaultPieDataset data;
-	
-	public JFreeChart getJFreeChart() {
-		return this.pieChart;
-	}
-	
+		
 	/**
 	 * 
 	 * @param title 标题
@@ -68,8 +66,8 @@ public class PieChart extends JPanelTransparent{
 		add(chartPanel);
 		
 		//查询加载数据
-		SwingWorkerForPieChart swp = new SwingWorkerForPieChart(this, className, methodName,params);
-		swp.execute();
+		LoadingDataClass loading = new LoadingDataClass(this, className, methodName,params);
+		loading.execute();
 	}
 	
 	private void setPieChart() {
@@ -111,4 +109,14 @@ public class PieChart extends JPanelTransparent{
 		chartPanel.setBackground(Color.WHITE);
 	}
 
+	@Override
+	public void loadingData(Object data) {
+		PiePlot p = (PiePlot) pieChart.getPlot();
+		p.setDataset((DefaultPieDataset) data);
+		if(((DefaultPieDataset)data).getKeys().contains("绿")) {
+			p.setSectionPaint("绿",Color.GREEN);
+			p.setSectionPaint("黄",Color.YELLOW);
+			p.setSectionPaint("红",Color.RED);
+		}
+	}
 }

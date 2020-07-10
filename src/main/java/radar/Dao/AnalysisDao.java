@@ -2,10 +2,7 @@ package radar.Dao;
 
 import java.util.List;
 
-import radar.Entity.DynamicData;
 import radar.Entity.Equip;
-import radar.Entity.Manager;
-import radar.Entity.Radar;
 import radar.Entity.System;
 
 public interface AnalysisDao {

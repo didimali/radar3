@@ -69,12 +69,12 @@ public class CTop2 extends JPanelTransparent implements Init{
 		
 		radioButton = new JRadioButton("维修预测",true);
 		radioButton.setBackground(Color.WHITE);
-		radioButton.setFont(new Font("仿宋", Font.PLAIN, 20));
+		radioButton.setFont(new Font("仿宋", Font.PLAIN, 18));
 		panel.add(radioButton, "cell 4 0,growx,aligny center");
 		
 		radioButton_1 = new JRadioButton("器材筹措");
 		radioButton_1.setBackground(Color.WHITE);
-		radioButton_1.setFont(new Font("仿宋", Font.PLAIN, 20));
+		radioButton_1.setFont(new Font("仿宋", Font.PLAIN, 18));
 		panel.add(radioButton_1, "cell 6 0,growx,aligny center");
 		
 		group = new ButtonGroup();

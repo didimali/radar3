@@ -71,21 +71,23 @@ public class CTop3 extends JPanelTransparent implements Init{
 		panel.add(subTitle, "cell 2 0,grow");
 		
 		label = new JLabel("起始-截止时间");
-		label.setFont(new Font("仿宋", Font.PLAIN, 14));
+		label.setFont(new Font("仿宋", Font.PLAIN, 16));
 		panel.add(label, "cell 4 0,growx,aligny center");
 		
 		Chooser chooser1 = Chooser.getInstance();
 		sDate = new JTextField(getFirstDayOfThisMonth().toString());
+		sDate.setFont(new Font("仿宋", Font.PLAIN, 15));
 		chooser1.register(sDate);
 		panel.add(sDate, "cell 5 0,growx,aligny center");
 		sDate.setColumns(4);
 		
 		lblNewLabel_1 = new JLabel("--");
-		lblNewLabel_1.setFont(new Font("仿宋", Font.PLAIN, 14));
+		lblNewLabel_1.setFont(new Font("仿宋", Font.PLAIN, 16));
 		panel.add(lblNewLabel_1, "cell 6 0,growx,aligny center");
 		
 		Chooser chooser2 = Chooser.getInstance();
 		eDate = new JTextField(getMaxDayOfThisMonth().toString());
+		eDate.setFont(new Font("仿宋", Font.PLAIN, 15));
 		chooser2.register(eDate);
 		
 		panel.add(eDate, "cell 7 0,growx,aligny center");

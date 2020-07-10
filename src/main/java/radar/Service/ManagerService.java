@@ -13,7 +13,7 @@ public interface ManagerService {
 	/**
 	 * 获取部队下拉框数据
 	 */
-	Object[] getDataForManagerComboBox() ;
+	Object[] getDataForManagerComboBox(Object[] params) ;
 	
 	/**
 	 * 获取部队位置下拉框

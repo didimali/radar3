@@ -19,6 +19,8 @@ import radar.UI.AcuteForecast.CTop2;
 import radar.UI.AcuteForecast.CTop3;
 import radar.UI.AcuteForecast.CTop4;
 import radar.UI.AcuteForecast.CTop5;
+import javax.swing.JLabel;
+import java.awt.Color;
 
 /**
  * 精准预测跳转简单版本
@@ -65,7 +67,6 @@ public class PrecisePrediction extends JPanel {
 		panel.add(c4,"c4");
 		panel.add(c5,"c5");
 		
-		
 		set1();
 	}
 	
@@ -79,16 +80,17 @@ public class PrecisePrediction extends JPanel {
 			public void mouseClicked(MouseEvent e) {
 				int c = body1.getTable().getSelectedColumn();  //列数
 				int r = body1.getTable().getSelectedRow();		//行数
-				int managerId = (int) body1.getTable().getValueAt(r, 0);
-				String managerName = (String) body1.getTable().getValueAt(r, 2);
-				String radarType = (String) body1.getTable().getValueAt(r, 4);				
-				if(c == 9) {
-					set3(managerId,managerName,radarType);					
-				}
-				else if(c >=5 && c<=8){
-					set2(managerId,managerName,radarType);					
-				}
-				
+				if(body1.getTable().getValueAt(r, 0) != null) {
+					int managerId = (int) body1.getTable().getValueAt(r, 0);
+					String managerName = (String) body1.getTable().getValueAt(r, 2);
+					String radarType = (String) body1.getTable().getValueAt(r, 4);				
+					if(c == 9) {
+						set3(managerId,managerName,radarType);					
+					}
+					else if(c >=5 && c<=8){
+						set2(managerId,managerName,radarType);					
+					}
+				}				
 			}
 		});
 		
@@ -96,11 +98,15 @@ public class PrecisePrediction extends JPanel {
 		top1.getLocationT().addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if(e.getStateChange() == 1) {
-					String value = (String) e.getItem();
-					if(value.equals("All"))
-						body1.getTable().selectDataByColumnIndexAndValue(-1,value);
-					else
-						body1.getTable().selectDataByColumnIndexAndValue(3,value);
+					String value1 = (String) e.getItem();
+					String value2 = (String) top1.getRadarT().getSelectedItem();
+					int columnIndex1 = 3;
+					int columnIndex2 = 4;
+					if(value1.equals("All"))
+							columnIndex1 = -1;
+					if(value2.equals("All"))
+						columnIndex2 = -1;
+					body1.getTable().selectDataByColumnIndexsAndValues(columnIndex1,value1,columnIndex2,value2);
 				}
 			}
 		});
@@ -108,11 +114,15 @@ public class PrecisePrediction extends JPanel {
 		top1.getRadarT().addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if(e.getStateChange() == 1) {
-					String value = (String) e.getItem();
-					if(value.equals("All"))
-						body1.getTable().selectDataByColumnIndexAndValue(-1,value);
-					else
-						body1.getTable().selectDataByColumnIndexAndValue(4,value);
+					String value1 = (String) top1.getLocationT().getSelectedItem();
+					String value2 = (String) e.getItem();
+					int columnIndex1 = 3;
+					int columnIndex2 = 4;
+					if(value1.equals("All"))
+							columnIndex1 = -1;
+					if(value2.equals("All"))
+						columnIndex2 = -1;
+					body1.getTable().selectDataByColumnIndexsAndValues(columnIndex1,value1,columnIndex2,value2);
 				}
 			}
 		});
@@ -141,15 +151,17 @@ public class PrecisePrediction extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int r = body2.getTable().getSelectedRow();		//行数
-				int radarId  = (int) body2.getTable().getValueAt(r, 0);
-				String radarName = (String) body2.getTable().getValueAt(r, 2);
-				String managerName = top2.getManagerName();
-				if(top2.getRadioButton().isSelected()) {
-					set4(managerName,radarId,radarName);					
-				}
-				else{		
-					set5(managerName,radarId,radarName);					
-				};	
+				if(body2.getTable().getValueAt(r, 0) != null) {
+					int radarId  = (int) body2.getTable().getValueAt(r, 0);
+					String radarName = (String) body2.getTable().getValueAt(r, 2);
+					String managerName = top2.getManagerName();
+					if(top2.getRadioButton().isSelected()) {
+						set4(managerName,radarId,radarName);					
+					}
+					else{		
+						set5(managerName,radarId,radarName);					
+					};	
+				}				
 			}
 		});
 		if(m2) {
@@ -161,7 +173,8 @@ public class PrecisePrediction extends JPanel {
 			c2.contentTop.add(top2);
 			c2.contentBody.add(body2);
 			validate();
-			repaint();
+			c2.contentTop.repaint();
+			c2.contentBody.repaint();
 		}
 		cardLayout.show(panel,"c2");
 	}
@@ -181,8 +194,8 @@ public class PrecisePrediction extends JPanel {
 					c3.contentBody.remove(body3);
 					body3 = new CBody3(managerId,managerName,radarType, top3.getSDate().getText(), top3.getEDate().getText());
 					c3.contentBody.add(body3);
-					validate();
-					repaint();
+					c3.validate();
+					c3.repaint();
 				}
 			}
 		});
@@ -204,7 +217,8 @@ public class PrecisePrediction extends JPanel {
 			c3.contentTop.add(top3);
 			c3.contentBody.add(body3);
 			validate();
-			repaint();
+			c3.contentTop.repaint();
+			c3.contentBody.repaint();
 		}
 		
 		cardLayout.show(panel,"c3");
@@ -239,8 +253,8 @@ public class PrecisePrediction extends JPanel {
 		else {			
 			c4.contentTop.add(top4);
 			c4.contentBody.add(body4);
-			validate();
-			repaint();
+			c4.validate();
+			c4.repaint();
 		}
 		
 		cardLayout.show(panel,"c4");
@@ -275,8 +289,8 @@ public class PrecisePrediction extends JPanel {
 		else {			
 			c5.contentTop.add(top5);
 			c5.contentBody.add(body5);
-			validate();
-			repaint();
+			c5.validate();
+			c5.repaint();
 		}
 		
 		cardLayout.show(panel,"c5");

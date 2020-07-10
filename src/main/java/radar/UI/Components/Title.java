@@ -1,11 +1,11 @@
 package radar.UI.Components;
 
-import javax.swing.JPanel;
 import net.miginfocom.swing.MigLayout;
-import radar.Tools.SwingWorkerForTitle;
-
+import radar.Tools.LoadingData;
+import radar.Tools.LoadingDataClass;
 import java.awt.Color;
 import javax.swing.JLabel;
+
 import java.awt.Font;
 
 /**
@@ -13,7 +13,7 @@ import java.awt.Font;
  * @author madi
  *
  */
-public class Title extends JPanelTransparent {
+public class Title extends JPanelTransparent implements LoadingData{
 	
 	private static final long serialVersionUID = 1L;
 	//表格将要调用的ServiceImpl类的名字
@@ -39,8 +39,10 @@ public class Title extends JPanelTransparent {
 		add(lblNewLabel, "cell 0 0,growx,aligny center");
 		
 		repairPlanDate = new JLabel("");
-		SwingWorkerForTitle swt = new SwingWorkerForTitle(this,className,methodName,params);
-		swt.execute();
+		
+		LoadingDataClass loading = new LoadingDataClass(this, className, methodName,params);
+		loading.execute();
+		
 		repairPlanDate.setFont(new Font("仿宋", Font.PLAIN, 16));
 		add(repairPlanDate, "cell 1 0,growx,aligny center");
 	}
@@ -48,5 +50,10 @@ public class Title extends JPanelTransparent {
 
 	public JLabel getRepairPlanDate() {
 		return repairPlanDate;
+	}
+	
+	@Override
+	public void loadingData(Object data) {
+		repairPlanDate.setText((String) data);
 	}
 }

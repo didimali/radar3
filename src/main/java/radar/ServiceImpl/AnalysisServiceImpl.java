@@ -30,7 +30,7 @@ public class AnalysisServiceImpl implements AnalysisService{
 	AnalysisDao AnalysisDao;
 
 	@Override
-	public Object[][] countRadarType(){
+	public Object[][] countRadarType(Object[] params){
 		Object[][] data  = new Object[10][7];
 		int typeid = 1;
 		int location = 0;
@@ -101,9 +101,9 @@ public class AnalysisServiceImpl implements AnalysisService{
 		int Ghealth=AnalysisDao.countRadarByTL(typeid, location,0);
 		int Yhealth=AnalysisDao.countRadarByTL(typeid, location,1);
 		int Rhealth=AnalysisDao.countRadarByTL(typeid, location,2);
-	    defaultPieDataset.setValue("健康", Ghealth);
-	    defaultPieDataset.setValue("不良", Yhealth);
-	    defaultPieDataset.setValue("较差", Rhealth);
+	    defaultPieDataset.setValue("绿", Ghealth);
+	    defaultPieDataset.setValue("黄", Yhealth);
+	    defaultPieDataset.setValue("红", Rhealth);
 	    return (PieDataset)defaultPieDataset;
 	  }
 	@Override

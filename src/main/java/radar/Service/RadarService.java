@@ -8,7 +8,7 @@ public interface RadarService {
 
 	Object[][] countRadarList();
 
-	Object[] getDataForRadarComboBox();
+	Object[] getDataForRadarComboBox(Object[] params);
 
 
 

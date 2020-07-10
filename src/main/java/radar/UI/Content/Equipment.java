@@ -2,6 +2,8 @@ package radar.UI.Content;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -22,25 +24,28 @@ import net.miginfocom.swing.MigLayout;
 import radar.SpringUtil;
 import radar.Entity.Equip;
 import radar.Entity.System;
+import radar.ServiceImpl.ManagerServiceImpl;
 import radar.ServiceImpl.XiTongServiceImpl;
 import radar.Tools.Init;
 import radar.UI.Components.Button;
+import radar.UI.Components.ManagerCombox;
 import radar.UI.Components.Table;
+import radar.UI.Components.Table1;
+import radar.UI.Components.XiTongComBox;
+
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
 @SuppressWarnings("serial")
 public class Equipment extends ContentPanel implements Init{
 	private JLabel equipInfo;
-	private Table table;
+	private Table1 table;
 	private JScrollPane panel_2;
 	
-	private JButton firstPage;
-	private JButton previousPage;
-	private JButton nextPage;
-	private JButton lastPage;
+
 	
-	private JButton addEquipInfo;
+//	private JButton addEquipInfo;
+	private JComboBox XcomboBox;
 
 	  private static JFileChooser fileChooser;
 		public static File chooseFile;  
@@ -51,36 +56,35 @@ public class Equipment extends ContentPanel implements Init{
 	@Override
 	public void initUI() {
 		initContentTop();
-		contentTop.add(equipInfo, "flowx,cell 0 1,alignx left,aligny center");
-		contentTop.add(addEquipInfo, "cell 2 2,alignx right,aligny center");
+		contentTop.add(equipInfo, "flowx,cell 0 0,alignx left,aligny center");
 		
-		comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"","I型雷达","II型雷达"}));
-		contentTop.add(comboBox, "cell 0 2,growx");
+		systemLable = new JLabel("子系统：");
+		systemLable.setFont(new Font("仿宋", Font.PLAIN, 14));
+		contentTop.add(systemLable, "cell 0 0,alignx left");
 		
-		lookUp = new JButton("搜索");
-		contentTop.add(lookUp, "cell 1 2");
+
+		XcomboBox = new XiTongComBox("XiTongServiceImpl", "getDataForXiTongComboBox");
+		XcomboBox.setFont(new Font("仿宋", Font.PLAIN, 13));
+		contentTop.add(XcomboBox, "cell 1 0,growx");
 
 		initContentBody();
-		ContentBody.add(panel_2, "cell 0 0,grow");
+		contentBody.add(panel_2, "cell 0 0,grow");
 		//添加底部按钮
 		initContentFoot();
-		contentFoot.add(firstPage, "cell 1 1,grow");			
-		contentFoot.add(previousPage, "cell 3 1,grow");			
-		contentFoot.add(nextPage, "cell 5 1,grow");			
-		contentFoot.add(lastPage, "cell 7 1,grow");	
+
+//		contentFoot.add(addEquipInfo, "cell 9 1,alignx right,aligny center");
+
 		
 	}
 	/**
 	 * 添加内容面板头部
 	 */
 	public void initContentTop() {
-		contentTop.setLayout(new MigLayout("", "[grow][grow][grow]", "[grow][grow][][grow]"));
+		contentTop.setLayout(new MigLayout("", "[25%][grow][25%]", "[grow][grow][grow]"));
 		equipInfo = new JLabel("部件信息：");
 		equipInfo.setHorizontalAlignment(SwingConstants.LEFT);
-		equipInfo.setFont(new Font("宋体", Font.PLAIN, 14));
-		addEquipInfo = new JButton("导入信息");
-		addEquipInfo.setFont(new Font("宋体", Font.PLAIN, 12));
+		equipInfo.setFont(new Font("仿宋", Font.BOLD, 24));
+		
 		
 
 
@@ -91,10 +95,10 @@ public class Equipment extends ContentPanel implements Init{
 	 * 添加内容面板躯干
 	 */
 	public void initContentBody() {		
-		ContentBody.setLayout(new MigLayout("", "[grow]", "[grow]"));
+		contentBody.setLayout(new MigLayout("", "[grow]", "[grow]"));
 		String[] header = { "序号", "部件名称", "对应子系统"};
 		Object[] params= {};
-		table = new Table("XiTongServiceImpl", "getEquipmentInfo",params,header);
+		table = new Table1("XiTongServiceImpl", "getEquipmentInfo",params,header,false,0);
 		panel_2 = new JScrollPane(table);		
 		panel_2.setBackground(Color.WHITE);
 		panel_2.setOpaque(true);
@@ -105,24 +109,17 @@ public class Equipment extends ContentPanel implements Init{
 		 * 添加内容面板底部
 		 */
 			public void initContentFoot() {
-				contentFoot.setLayout(new MigLayout("", "[10%][grow][10][grow][10][grow][10][grow][10%]", "[10%][80%][10%]"));
-				firstPage = new Button("首 页");
-				previousPage = new Button("上 一 页");
-				nextPage = new Button("下 一 页");
-				lastPage = new Button("尾 页");
+				contentFoot.setLayout(new MigLayout("", "[10%][grow][10][grow][10][grow][10][grow][10][grow][10%]", "[10%][80%][10%]"));
+
+//				addEquipInfo = new JButton("导入信息");
+//				addEquipInfo.setFont(new Font("宋体", Font.PLAIN, 12));
 			
 				
 			}
-			private void FillTable() {
-				DefaultTableModel model = new DefaultTableModel(table.getPageData(),
-		                table.header);
-		        table.setModel(model);
-		        table.setStyle();
-			}
+
 			//弹出文件选择框
 			Integer returnValue =null;
-			private JComboBox comboBox;
-			private JButton lookUp;
+			private JLabel systemLable;
 			private int importExcel() {
 				 fileChooser = new JFileChooser();             
 			     //过滤Excel文件，只寻找以xls结尾的Excel文件，如果想过滤word文档也可以写上doc
@@ -133,100 +130,73 @@ public class Equipment extends ContentPanel implements Init{
 			}
 			public void Action() {
 				//录入系统信息
-				addEquipInfo.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						importExcel();
-						boolean flagk =false;
-
-				        //弹出一个文件选择提示框
-				        if (returnValue == JFileChooser.APPROVE_OPTION) {
-				        //当用户选择文件后获取文件路径
-				        chooseFile = fileChooser.getSelectedFile();
-				        //根据文件路径初始化Excel工作簿
-				        Workbook workBook=null;
-				         try {
-				                 workBook = Workbook.getWorkbook(chooseFile);
-				         } catch (Exception event) {	
-				        	 event.printStackTrace();
-				         } 
-				          //获取该工作表中的第一个工作表   
-				          Sheet sheet=workBook.getSheet(0);  
-				          //获取该工作表的行数，以供下面循环使用   
-				          int rowSize=sheet.getRows();  
-				        if(rowSize>1) {
-				   		 for(int i=1;i<rowSize;i++) {
-				   			 Equip equip = new Equip();
-				        	  String equipName = sheet.getCell(1,i).getContents();
-				        	  String xiTong = sheet.getCell(2,i).getContents();
-				        	  equip.setEquipName(equipName);;
-				        	  equip.setEquipStatus(0);
-					          SpringUtil s = new SpringUtil();
-					          XiTongServiceImpl xiTongServiceImpl = (XiTongServiceImpl) SpringUtil.getBean("XiTongServiceImpl"); 
-				    		  List<System> xT = xiTongServiceImpl.getXiTonglist();
-				    		  if(xT!=null||xT.size()>0) {
-				        		  for(int j=0;j<xT.size();j++) {
-				        			  
-				        				  if(xT.get(j).getSystemName().toString().equals(xiTong)||xT.get(j).getSystemName().toString()==xiTong) {
-				        					  equip.setSystemId(xT.get(j));
-				    			  }
-				    		  
-				        		  
-				        	  }
-
-				        	 //添加record 
-				    		 flagk = xiTongServiceImpl.add(equip);
-				    		 
-				          }
-				        }
-				          if(flagk) {
-					            JOptionPane.showMessageDialog(null, "部件信息成功导入");
-					            flagk = true;
-				    		 }
-				        }
-				        }
-					}
-				});
-				//底部按钮事件
-				//首页
-				firstPage.addMouseListener(new MouseAdapter() {
-					public void mouseClicked(MouseEvent e) {
-						table.getFirstPage();
-						//返回当前页
-						FillTable();
-						
-					}
-
-					
-				});
-				//底部按钮事件
-					//上一页
-				previousPage.addMouseListener(new MouseAdapter() {
-					public void mouseClicked(MouseEvent e) {
-						//页数-1
-						table.getPreviousPage();
-						//返回当前页
-						FillTable();
-					}
-				});
-				//底部按钮事件
-					//下一页
-				nextPage.addMouseListener(new MouseAdapter() {
-					public void mouseClicked(MouseEvent e) {
-						//页数+1
-						table.getNextPage();
-						//返回当前页
-						FillTable();
-					}
-				});
-				//底部按钮事件
-					//末页
-				lastPage.addMouseListener(new MouseAdapter() {
-					public void mouseClicked(MouseEvent e) {
-						table.getLastPage();
-						//返回当前页
-						FillTable();
+//				addEquipInfo.addMouseListener(new MouseAdapter() {
+//					@Override
+//					public void mouseClicked(MouseEvent e) {
+//						importExcel();
+//						boolean flagk =false;
+//
+//				        //弹出一个文件选择提示框
+//				        if (returnValue == JFileChooser.APPROVE_OPTION) {
+//				        //当用户选择文件后获取文件路径
+//				        chooseFile = fileChooser.getSelectedFile();
+//				        //根据文件路径初始化Excel工作簿
+//				        Workbook workBook=null;
+//				         try {
+//				                 workBook = Workbook.getWorkbook(chooseFile);
+//				         } catch (Exception event) {	
+//				        	 event.printStackTrace();
+//				         } 
+//				          //获取该工作表中的第一个工作表   
+//				          Sheet sheet=workBook.getSheet(0);  
+//				          //获取该工作表的行数，以供下面循环使用   
+//				          int rowSize=sheet.getRows();  
+//				        if(rowSize>1) {
+//				   		 for(int i=1;i<rowSize;i++) {
+//				   			 Equip equip = new Equip();
+//				        	  String equipName = sheet.getCell(1,i).getContents();
+//				        	  String xiTong = sheet.getCell(2,i).getContents();
+//				        	  equip.setEquipName(equipName);;
+//				        	  equip.setEquipStatus(0);
+//					          SpringUtil s = new SpringUtil();
+//					          XiTongServiceImpl xiTongServiceImpl = (XiTongServiceImpl) SpringUtil.getBean("XiTongServiceImpl"); 
+//				    		  List<System> xT = xiTongServiceImpl.getXiTonglist();
+//				    		  if(xT!=null||xT.size()>0) {
+//				        		  for(int j=0;j<xT.size();j++) {
+//				        			  
+//				        				  if(xT.get(j).getSystemName().toString().equals(xiTong)||xT.get(j).getSystemName().toString()==xiTong) {
+//				        					  equip.setSystemId(xT.get(j));
+//				    			  }
+//				    		  
+//				        		  
+//				        	  }
+//
+//				        	 //添加record 
+//				    		 flagk = xiTongServiceImpl.add(equip);
+//				    		 
+//				          }
+//				        }
+//				          if(flagk) {
+//					            JOptionPane.showMessageDialog(null, "部件信息成功导入");
+//					            flagk = true;
+//				    		 }
+//				        }
+//				        }
+//					}
+//				});
+				//下拉框筛选事件
+				XcomboBox.addItemListener(new ItemListener() {
+					public void itemStateChanged(ItemEvent e) {
+						if(e.getStateChange() == 1) {
+							String value = (String) e.getItem();
+							if(value.equals("全部"))
+								table.selectDataByColumnIndexAndValue(-1,value);
+							else
+								table.selectDataByColumnIndexAndValue(2,value);
+						}
 					}
 				});
 			}
+			
+			
 }

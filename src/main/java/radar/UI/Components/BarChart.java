@@ -3,8 +3,6 @@ package radar.UI.Components;
 import java.awt.Color;
 import java.awt.Font;
 
-import javax.swing.JPanel;
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -14,14 +12,14 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.title.LegendTitle;
 import org.jfree.chart.title.TextTitle;
 import org.jfree.data.category.DefaultCategoryDataset;
-
-import radar.Tools.SwingWorkerForBarChart;
+import radar.Tools.LoadingData;
+import radar.Tools.LoadingDataClass;
 import java.awt.BorderLayout;
 
 /**
  * 柱状图工具类
  */
-public class BarChart extends JPanelTransparent{
+public class BarChart extends JPanelTransparent implements LoadingData{
 	
 	private static final long serialVersionUID = 7549911555945545120L;
 	
@@ -65,9 +63,12 @@ public class BarChart extends JPanelTransparent{
 		add(chartPanel);
 		
 		
-		//查询加载数据		
-		SwingWorkerForBarChart swb = new SwingWorkerForBarChart(this, className, methodName,params);
-		swb.execute();
+//		//查询加载数据		
+//		SwingWorkerForBarChart swb = new SwingWorkerForBarChart(this, className, methodName,params);
+//		swb.execute();
+		
+		LoadingDataClass loading = new LoadingDataClass(this, className, methodName,params);
+		loading.execute();
 		
 	}
 
@@ -133,4 +134,9 @@ public class BarChart extends JPanelTransparent{
 		return barChart;
 	}
 
+	@Override
+	public void loadingData(Object data) {
+		CategoryPlot plot = barChart.getCategoryPlot();
+		plot.setDataset((DefaultCategoryDataset) data);
+	}
 }

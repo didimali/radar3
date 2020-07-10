@@ -31,10 +31,9 @@ import radar.Entity.RadarType;
 import radar.Entity.RepairContent;
 import radar.Entity.RepairPlan;
 import radar.Entity.SysOrEquipHealth;
-import radar.Service.AcuteForecastService;
 
 @Service("AcuteForecastServiceImpl")
-public class AcuteForecastServiceImpl implements AcuteForecastService{
+public class AcuteForecastServiceImpl {
 	
 	@Autowired
 	RadarTypeDao radarTypeDao;

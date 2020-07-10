@@ -1,6 +1,8 @@
 package radar.UI.Content;
 
 import java.awt.BorderLayout;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -34,26 +36,60 @@ public class Radartype extends ContentPanel implements Init{
 	@Override
 	public void initUI() {
 		contentTop.setLayout(new BorderLayout(0, 0));
-		ContentBody.setLayout(new BorderLayout(0, 0));
+		contentBody.setLayout(new BorderLayout(0, 0));
 		set1();
 	}
 
 	private void set1() {
-		// TODO Auto-generated method stub
 		top1 = new ATop1();	
+		top1.getRadarType().addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if(e.getStateChange() == 1) {
+					String value1 = (String) e.getItem();
+					String value2 = (String) top1.getLocationType().getSelectedItem();
+					int columnIndex1 = 1;
+					int columnIndex2 = 2;
+					if(value1.equals("All"))
+							columnIndex1 = -1;
+					if(value2.equals("All"))
+						columnIndex2 = -1;
+					body1.getTable().selectDataByColumnIndexsAndValues(columnIndex1,value1,columnIndex2,value2);
+				}
+			}
+		});
+		top1.getLocationType().addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if(e.getStateChange() == 1) {
+					String value1 = (String) top1.getRadarType().getSelectedItem();
+					String value2 = (String) e.getItem();
+					int columnIndex1 = 1;
+					int columnIndex2 = 2;
+					if(value1.equals("All"))
+							columnIndex1 = -1;
+					if(value2.equals("All"))
+						columnIndex2 = -1;
+					body1.getTable().selectDataByColumnIndexsAndValues(columnIndex1,value1,columnIndex2,value2);
+				}
+				
+			}
+		});
+		
 		body1 = new ABody1();
 		contentTop.add(top1);
-		ContentBody.add(body1);
+		contentBody.add(body1);
 		body1.getTable().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				int row = body1.getTable().getSelectedRow();		//行数
-				int[] TL=analysisServiceImpl.getTL(row);
-				contentTop.remove(top1);
-				ContentBody.remove(body1);
-				set2(TL[0],TL[1]);
-				validate();
-				repaint();				
+				if(body1.getTable().getValueAt(body1.getTable().getSelectedRow(), 0) != null) {
+					int row = body1.getTable().getSelectedRow();		//行数
+					int[] TL=analysisServiceImpl.getTL(row);
+					contentTop.remove(top1);
+					contentBody.remove(body1);
+					set2(TL[0],TL[1]);
+					validate();
+					repaint();	
+				}
+							
 			}
 		});
 	}
@@ -65,9 +101,9 @@ public class Radartype extends ContentPanel implements Init{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				contentTop.remove(top2);
-				ContentBody.remove(body2);
+				contentBody.remove(body2);
 				contentTop.add(top1);
-				ContentBody.add(body1);
+				contentBody.add(body1);
 				validate();
 				repaint();
 			}
@@ -76,7 +112,7 @@ public class Radartype extends ContentPanel implements Init{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				contentTop.remove(top2);
-				ContentBody.remove(body2);
+				contentBody.remove(body2);
 				set3(typeid,location);
 				validate();
 				repaint();
@@ -85,7 +121,7 @@ public class Radartype extends ContentPanel implements Init{
 		
 		body2 = new ABody2(typeid,location);		
 		contentTop.add(top2);
-		ContentBody.add(body2);
+		contentBody.add(body2);
 		
 	}
 	
@@ -95,9 +131,9 @@ public class Radartype extends ContentPanel implements Init{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				contentTop.remove(top3);
-				ContentBody.remove(body3);
+				contentBody.remove(body3);
 				contentTop.add(top1);
-				ContentBody.add(body1);
+				contentBody.add(body1);
 				validate();
 				repaint();
 			}
@@ -106,7 +142,7 @@ public class Radartype extends ContentPanel implements Init{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				contentTop.remove(top3);
-				ContentBody.remove(body3);
+				contentBody.remove(body3);
 				set2(typeid,location);
 				validate();
 				repaint();
@@ -116,9 +152,9 @@ public class Radartype extends ContentPanel implements Init{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(body3 != null) {
-					ContentBody.remove(body3);
+					contentBody.remove(body3);
 					body3 = new ABody3(typeid,location,top3.getSDate().getText(),top3.getEDate().getText());
-					ContentBody.add(body3);
+					contentBody.add(body3);
 					validate();
 					repaint();
 				}
@@ -127,7 +163,7 @@ public class Radartype extends ContentPanel implements Init{
 		
 		body3 = new ABody3(typeid,location,top3.getSDate().getText(), top3.getEDate().getText());		
 		contentTop.add(top3);
-		ContentBody.add(body3);
+		contentBody.add(body3);
 		
 	}
 	

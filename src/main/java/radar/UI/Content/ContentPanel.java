@@ -32,7 +32,7 @@ public class ContentPanel extends JPanel{
 	/**
 	 * 内容面板内容部分
 	 */
-	protected JPanel ContentBody = new JPanelTransparent();
+	protected JPanel contentBody = new JPanelTransparent();
 	/**
 	 * 内容面板底部栏
 	 */
@@ -40,11 +40,11 @@ public class ContentPanel extends JPanel{
 	
 	
 	public ContentPanel() {
-		setLayout(new MigLayout("", "[8px][grow][8px]", "[8px][grow][8px]"));
+		setLayout(new MigLayout("", "[8px][100%][8px]", "[8px][100%][8px]"));
 		
 		panel.setBackground(new Color(248,248,255));
 		add(panel, "cell 1 1,grow");
-		panel.setLayout(new MigLayout("", "[grow]", "[80px][grow][60px]"));		
+		panel.setLayout(new MigLayout("", "[100%]", "[80px][grow][60px]"));		
 		FlowLayout flowLayout = (FlowLayout) contentTop.getLayout();
 		flowLayout.setVgap(1);
 		flowLayout.setHgap(1);
@@ -52,11 +52,11 @@ public class ContentPanel extends JPanel{
 		contentTop.setOpaque(false);
 		
 		panel.add(contentTop, "cell 0 0,grow");				
-		FlowLayout flowLayout_1 = (FlowLayout) ContentBody.getLayout();
-		flowLayout_1.setVgap(1);
-		flowLayout_1.setHgap(1);
-		ContentBody.setBackground(null);
-		panel.add(ContentBody, "cell 0 1,grow");			
+		FlowLayout fl_contentBody = (FlowLayout) contentBody.getLayout();
+		fl_contentBody.setVgap(1);
+		fl_contentBody.setHgap(1);
+		contentBody.setBackground(null);
+		panel.add(contentBody, "cell 0 1,grow");			
 		FlowLayout flowLayout_2 = (FlowLayout) contentFoot.getLayout();
 		flowLayout_2.setVgap(1);
 		flowLayout_2.setHgap(1);

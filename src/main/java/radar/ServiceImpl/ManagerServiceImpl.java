@@ -121,13 +121,8 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 //获取部队下拉列表
 	@Override
-	public Object[] getDataForManagerComboBox() {
-//		Object[] result = new Object[8];
-//		String name = "部队";
-//		for(int i=1;i<9;i++)
-//			result[i-1] = name+i;
-//		return result;
-		List<Manager> list = new ArrayList();
+	public Object[] getDataForManagerComboBox(Object[] params) {
+		List<Manager> list = new ArrayList<Manager>();
 		list = managerDao.getManagers();
 		Object[] result = new Object[list.size()];
 		for(int i=0;i<list.size();i++) {
@@ -135,6 +130,32 @@ public class ManagerServiceImpl implements ManagerService {
 			result[i] = m.getManagerName();
 		}
 		return result;
+	}
+	
+	/**
+	 * 获取部队驻地类型
+	 * @return
+	 */
+	public Object[] getLocationType(Object[] params) {
+		Object[] result = {"","高原","山地","平原","沿海","沙漠"};
+		return result;		
+	}
+	
+	/**
+	 * 获取部队驻地类型
+	 * @return
+	 */
+	public Object[] getHealthType(Object[] params) {
+		Object[] result = {"", "绿","黄","红"};
+		return result;		
+	}
+	/**
+	 * 获取部队驻地类型
+	 * @return
+	 */
+	public Object[] getRadarType(Object[] params) {
+		Object[] result = {"", "I型雷达","II型雷达"};
+		return result;		
 	}
 
 	@Override
@@ -407,26 +428,63 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 	public Object[] selectLocationByManagerName(String choosenManagerName) {
 			List<Manager>list =	managerDao.selectManager(choosenManagerName);
-			Manager m = list.get(0);
-			Object[] o = new Object[1];
-//			String managerLocation =Integer.toString(m.getManagerLocation());
-			String managerLocation ="";
-			if(Integer.toString(m.getManagerLocation()).equals("0")) {
-				managerLocation="高原";
-			}else if(Integer.toString(m.getManagerLocation()).equals("1")) {
-				managerLocation="山地";
-			}else if(Integer.toString(m.getManagerLocation()).equals("2")) {
-				managerLocation="平原";
-			}else if(Integer.toString(m.getManagerLocation()).equals("3")) {
-				managerLocation="沿海";
-			}else if(Integer.toString(m.getManagerLocation()).equals("4")) {
-				managerLocation="沙漠";
+			Object[] o=null;
+			if(list!=null&&list.size()>0) {
+				Manager m = list.get(0);
+				o = new Object[1];
+//				String managerLocation =Integer.toString(m.getManagerLocation());
+				String managerLocation ="";
+				if(Integer.toString(m.getManagerLocation()).equals("0")) {
+					managerLocation="高原";
+				}else if(Integer.toString(m.getManagerLocation()).equals("1")) {
+					managerLocation="山地";
+				}else if(Integer.toString(m.getManagerLocation()).equals("2")) {
+					managerLocation="平原";
+				}else if(Integer.toString(m.getManagerLocation()).equals("3")) {
+					managerLocation="沿海";
+				}else if(Integer.toString(m.getManagerLocation()).equals("4")) {
+					managerLocation="沙漠";
+				}
+				o[0]=managerLocation;
+			}else {
+				o = new Object[5];
+				o[0]="高原";
+
+				o[1]="山地";
+
+				o[2]="平原";
+
+				o[3]="沿海";
+
+				o[4]="沙漠";
+
+
 			}
-			o[0]=managerLocation;
+		
 
 			return o;
 	}
-    
+	public boolean updateManager(String managerNameEditor, String locationType, String managerName) {
+		// TODO Auto-generated method stub
+		int locateType;
+//		Integer locateType=null;
+		if(locationType.equals("高原")) {
+			locateType=0;
+		}else if(locationType.equals("山地")) {
+			locateType=1;
+
+		}else if(locationType.equals("平原")){
+			locateType=2;
+
+		}else if(locationType.equals("沿海")) {
+			locateType=3;
+
+		}else if(locationType.equals("沙漠")) {
+			locateType=4;
+
+		}
+		return managerDao.updateManager(managerNameEditor,locationType,managerName);
+	}
     
 	 
 }

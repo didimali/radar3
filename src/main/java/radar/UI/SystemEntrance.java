@@ -14,7 +14,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
-import radar.ImageFrame;
 
 /**
  * 整个窗体框架类
@@ -27,7 +26,7 @@ public class SystemEntrance extends JFrame{
 		getContentPane().setLayout(new BorderLayout(0, 0));
 	}
 	
-	public void initUI(ImageFrame imageFrame, Thread t) {
+	public void initUI() {
 		//调用Swing皮肤psg
     	try{
     		UIManager.setLookAndFeel(new NimbusLookAndFeel());  
@@ -67,8 +66,6 @@ public class SystemEntrance extends JFrame{
         // 添加面板
         getContentPane().add(home);
         getContentPane().setBackground(Color.RED); //正确显示黑色
-        imageFrame.setVisible(false);
-		t.interrupt();
         // 设置界面可见
         setVisible(true);
 	    }

@@ -65,5 +65,23 @@ public class ManagerDaoImpl implements ManagerDao {
 		em.close();
 		return list;
 	};
+	public boolean updateManager(String managerNameEditor, String locationType, String managerName) {
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		try {
+			String selectSql = " update manager set manager_name=:managerNameEditor,manager_location=:locationType where manager_name=:managerName";
+			Query query = em.createNativeQuery(selectSql);
+			query.setParameter("managerNameEditor", managerNameEditor);
+			query.setParameter("locationType", locationType);
+			query.setParameter("managerName", managerName);
+
+			query.executeUpdate();
+			em.flush();
+			em.getTransaction().commit();
+		} finally {
+			em.close();
+		}
+		return true;
+	};
 
 }

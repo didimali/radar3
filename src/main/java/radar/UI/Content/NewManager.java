@@ -6,7 +6,10 @@ import radar.Entity.Manager;
 import radar.ServiceImpl.ManagerServiceImpl;
 import radar.SwingWorker.SwingWorkerForNewManager;
 import radar.Tools.Init;
-import radar.UI.Components.ManagerCombox;
+import radar.UI.Components.ComboBox;
+import radar.UI.Components.JPanelTransparent;
+import radar.UI.Top.TopPanel;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
@@ -15,25 +18,29 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JSeparator;
+
+import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial","rawtypes","unchecked"})
 public class NewManager extends ContentPanel implements Init{
 	private JLabel ManagerInfo;
 	private JLabel managerName;
-	@SuppressWarnings("rawtypes")
 	private JComboBox managerNameComboBox;
 	private JLabel locationType;
-	@SuppressWarnings("rawtypes")
 	private JComboBox locationTypeComboBox;
 	private JButton add;
 	private JButton update;
 	private JButton delete;
 	private JSeparator managerSeparator;
+	private	String managerName2;
+	private JPanelTransparent title;
+	private JPanelTransparent subtitle;
+
 
 	public NewManager() {
 		initUI();
@@ -44,18 +51,20 @@ public class NewManager extends ContentPanel implements Init{
 	@Override
 	public void initUI() {
 		initContentTop();
-		contentTop.add(ManagerInfo, "cell 0 0");
-		contentTop.add(managerSeparator, "cell 0 1,growx");
+		contentTop.add(title, "cell 0 0");
+		contentTop.add(subtitle, "cell 0 1,growx");
 		
 		initContentBody();
-		ContentBody.add(managerName, "cell 1 1,alignx trailing");
-		ContentBody.add(managerNameComboBox, "cell 2 1,growx");
-		ContentBody.add(locationType, "cell 1 2,alignx trailing");
-		ContentBody.add(locationTypeComboBox, "cell 2 2,growx");
+		
+		
+		contentBody.add(managerName, "cell 1 1,alignx trailing");
+		contentBody.add(managerNameComboBox, "cell 2 1,growx");
+		contentBody.add(locationType, "cell 1 2,alignx trailing");
+		contentBody.add(locationTypeComboBox, "cell 2 2,growx");
 		initContentFoot();
-		contentFoot.add(add, "cell 1 1,alignx center,aligny center");
-		contentFoot.add(update, "cell 3 1,alignx center,aligny center");
-		contentFoot.add(delete, "cell 5 1,alignx center,aligny center");
+		contentFoot.add(add, "cell 1 1,grow");
+		contentFoot.add(update, "cell 3 1,grow");
+		contentFoot.add(delete, "cell 5 1,grow");
 
 
 
@@ -65,70 +74,59 @@ public class NewManager extends ContentPanel implements Init{
 	 * 添加内容面板头部
 	 */
 	public void initContentTop() {
-//		contentTop.setLayout(new MigLayout("", "[grow]", "[grow]"));	
-		//将需要传递的参数按顺序放到Object[]中，然后在ServiceImpl方法中挨个读出来就可以了
-//		Object[] params = {"pigan","皮干",1};
-//		comboBox = new ComboBox("TestServiceImpl", "getRadars",params);
-		contentTop.setLayout(new MigLayout("", "[grow]", "[grow][grow][grow]"));
+		contentTop.setLayout(new MigLayout("", "[100%]", "[100%][]"));
+		
+		title = new JPanelTransparent();	
+		title.setLayout(new MigLayout("", "[]", "[100%]"));
+		
+		subtitle = new JPanelTransparent();
+		subtitle.setLayout(new BorderLayout(0, 0));
+		
 		ManagerInfo = new JLabel("部队信息设置");
-		ManagerInfo.setFont(new Font("宋体", Font.PLAIN, 14));
-		ManagerInfo.setHorizontalAlignment(SwingConstants.CENTER);
+		ManagerInfo.setFont(new Font("仿宋", Font.BOLD, 24));
+		ManagerInfo.setHorizontalAlignment(SwingConstants.CENTER);		
+		title.add(ManagerInfo, "cell 0 0,growx,aligny center");
+		
 		managerSeparator = new JSeparator();
-		managerSeparator.setForeground(Color.GRAY);
+		managerSeparator.setForeground(Color.GRAY);		
+		subtitle.add(managerSeparator,BorderLayout.CENTER);
 	}
 
 	/**
 	 * 添加内容面板躯干
 	 */
-	public void initContentBody() {		
-//		ContentBody.setLayout(new MigLayout("", "[grow][grow]", "[grow][grow]"));
-//		
-//		pie = new PieChart("饼图标题","TestServiceImpl", "getPieData",new Object[] {"qq"});
-//		pie.init();		
-//		line = new LineChart("折线图标题","x轴","y轴","TestServiceImpl", "getLineData",new Object[] {"qq",1});
-//		line.init();		
-//		bar = new BarChart("柱状图标题","x轴","y轴","TestServiceImpl", "getBarData",new Object[] {1,2,3});
-//		bar.init();	
-//		String[] header = { "序号", "部队编号", "所在位置"};
-//		table = new Table("TestServiceImpl", "getManagers",new Object[] {"asd",1},header);
-//		panel_2 = new JScrollPane(table);		
-//		panel_2.setBackground(Color.WHITE);
-//		panel_2.setOpaque(true);
-		ContentBody.setLayout(new MigLayout("", "[25%][10%][40%,grow][25%]", "[grow][grow][][grow][grow]"));
+	public void initContentBody() {	
+		contentBody.setLayout(new MigLayout("", "[25%,grow][10%][40%,grow][25%]", "[grow][grow][][grow][grow]"));
 		managerName = new JLabel("部队编号：");
-		managerName.setFont(new Font("宋体", Font.PLAIN, 14));
-		managerNameComboBox = new ManagerCombox("ManagerServiceImpl", "getDataForManagerComboBox");
+		managerName.setFont(new Font("仿宋", Font.PLAIN, 16));
+		managerNameComboBox = new ComboBox("ManagerServiceImpl", "getDataForManagerComboBox",null);
+		managerNameComboBox.setFont(new Font("仿宋", Font.PLAIN, 16));
 		managerNameComboBox.setEditable(true);
+			
 		
 		locationType = new JLabel("驻地类型：");
-		locationType.setFont(new Font("宋体", Font.PLAIN, 14));
-		String[] locationTypes = {"", "高原","山地","平原","沿海","沙漠"};
-		locationTypeComboBox = new JComboBox();
-		locationTypeComboBox.setModel(new DefaultComboBoxModel(locationTypes));
+		locationType.setFont(new Font("仿宋", Font.PLAIN, 16));
+		locationTypeComboBox = new ComboBox("ManagerServiceImpl", "getLocationType", null);
+		locationTypeComboBox.setFont(new Font("仿宋", Font.PLAIN, 16));
 	}
 	
 	/**
 	 * 添加内容面板底部
 	 */
 	public void initContentFoot() {
-//		contentFoot.setLayout(new MigLayout("", "[10%][grow][10][grow][10][grow][10][grow][10%]", "[10%][80%][10%]"));
-//		firstPage = new Button("首 页");
-//		previousPage = new Button("上 一 页");
-//		nextPage = new Button("下 一 页");
-//		lastPage = new Button("尾 页");
-	contentFoot.setLayout(new MigLayout("", "[10%][grow][10%][grow][10%][grow][10%]", "[10%][grow][10%]"));
+	contentFoot.setLayout(new MigLayout("", "[10%][grow][10%][grow][10%][grow][10%]", "[10%][80%][10%]"));
 	
 	add = new JButton("新建");
-	
-	add.setFont(new Font("宋体", Font.PLAIN, 12));
+	add.setIcon(TopPanel.getIcon("plus.png",this));	
+	add.setFont(new Font("仿宋", Font.PLAIN, 15));
 	
 	update = new JButton("修改");
-
-	update.setFont(new Font("宋体", Font.PLAIN, 12));
+	update.setIcon(TopPanel.getIcon("edit1.png",this));
+	update.setFont(new Font("仿宋", Font.PLAIN, 15));
 	
 	delete = new JButton("删除");
-	
-	delete.setFont(new Font("宋体", Font.PLAIN, 12));
+	delete.setIcon(TopPanel.getIcon("delete.png",this));	
+	delete.setFont(new Font("仿宋", Font.PLAIN, 15));
 
 		
 	}
@@ -136,35 +134,18 @@ public class NewManager extends ContentPanel implements Init{
 	 * 添加页面组件事件
 	 */
 	public void Action() {
-		//部队下拉框事件（更新驻地类型下拉框数据）
-		managerNameComboBox.addActionListener(new ActionListener() {
-			@SuppressWarnings({ "unchecked", "rawtypes", "static-access" })
-			public void actionPerformed(ActionEvent e) {
-				if(managerNameComboBox.getSelectedItem().toString().equals("")) {
-					String[] locationTypes = { "", "高原","山地","平原","沿海","沙漠"};
-					locationTypeComboBox.setModel(new DefaultComboBoxModel(locationTypes));
-				}else if(!managerNameComboBox.getSelectedItem().toString().equals("")) {
-					SpringUtil s = new SpringUtil();
-					ManagerServiceImpl managerServiceImpl = (ManagerServiceImpl) s.getBean("ManagerServiceImpl");
-					String choosenManagerName =managerNameComboBox.getSelectedItem().toString();
-					Object[]  concreteLocation = managerServiceImpl.selectLocationByManagerName(choosenManagerName);
-					Object[] resultdata =new String[1];
-					resultdata=concreteLocation;
-					locationTypeComboBox.setModel(new DefaultComboBoxModel(resultdata));
-				}
-			}
-		});
+
 		add.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				SpringUtil s = new SpringUtil();
-				ManagerServiceImpl managerServiceImpl = (ManagerServiceImpl) s.getBean("ManagerServiceImpl");
-				Object[] obj = managerServiceImpl.getDataForManagerComboBox();
+				ManagerServiceImpl managerServiceImpl = (ManagerServiceImpl) SpringUtil.getBean("ManagerServiceImpl");
+				Object[] obj = managerServiceImpl.getDataForManagerComboBox(null);
 				Boolean flag = true;
 				for(int i = 0; i < obj.length; i++){
-					if(managerNameComboBox.getSelectedItem().toString().equals(obj[i].toString())) {
+					if(managerNameComboBox.getSelectedItem().toString().equals(obj[i].toString())||managerNameComboBox.getSelectedItem().toString().equals("")
+							||locationTypeComboBox.getSelectedItem().toString().equals("")) {
 						flag= false;
-						JOptionPane.showMessageDialog(null,"该部队已经存在","提示",JOptionPane.WARNING_MESSAGE);					
+						JOptionPane.showMessageDialog(null,"请添加一个新的部队","提示",JOptionPane.WARNING_MESSAGE);					
 						break;
 					}
 					}
@@ -200,29 +181,65 @@ public class NewManager extends ContentPanel implements Init{
 				}
 			}
 		});
+		managerNameComboBox.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {	
+				if(managerNameComboBox.getSelectedItem().toString().equals("")) {
+					String[] locationTypes = { "", "高原","山地","平原","沿海","沙漠"};
+					locationTypeComboBox.setModel(new DefaultComboBoxModel(locationTypes));
+				}else if(!managerNameComboBox.getSelectedItem().toString().equals("")) {
+					ManagerServiceImpl managerServiceImpl = (ManagerServiceImpl) SpringUtil.getBean("ManagerServiceImpl");
+					String choosenManagerName =managerNameComboBox.getSelectedItem().toString();
+					Object[]  concreteLocation = managerServiceImpl.selectLocationByManagerName(choosenManagerName);
+					Object[] resultdata =new String[concreteLocation.length];
+					resultdata=concreteLocation;
+					locationTypeComboBox.setModel(new DefaultComboBoxModel(resultdata));
+				}
+				if(e.getStateChange() == 1) {
+					managerName2 = (String) e.getItem();
+				}
+			}
+		});
+		
+		
 		update.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+				ManagerServiceImpl managerServiceImpl = (ManagerServiceImpl) SpringUtil.getBean("ManagerServiceImpl");
+				String locationType=locationTypeComboBox.getSelectedItem().toString();
+				String managerNameEditor=managerNameComboBox.getSelectedItem().toString();
+				Object[] obj = managerServiceImpl.getDataForManagerComboBox(null);
+				Boolean flag=true;
+				for(int i = 0; i < obj.length; i++){
+				if(managerName2.equals(obj[i].toString())||managerName2.equals("")||locationType.equals("")) {
+						JOptionPane.showMessageDialog(null,"请完善修改信息","提示",JOptionPane.WARNING_MESSAGE);
+						flag=false;
+						break;
+					}
+				}
+				if(flag) {
+				boolean result = managerServiceImpl.updateManager(managerNameEditor,locationType,managerName2);
+				if(result) {
+					JOptionPane.showMessageDialog(null, "更新成功", "提示", JOptionPane.INFORMATION_MESSAGE);
+
+				}
+				}
 			}
 		});
 		delete.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				
-			String managerName =managerNameComboBox.getSelectedItem().toString();
-			SpringUtil s = new SpringUtil();
-			ManagerServiceImpl managerServiceImpl = (ManagerServiceImpl) s.getBean("ManagerServiceImpl");
-			boolean  result =	managerServiceImpl.deleteManager(managerName);
-			if(result) {
-				JOptionPane.showMessageDialog(null, "已成功删除", "删除部队", JOptionPane.INFORMATION_MESSAGE);
-				initUI();
-
-			}
-			}
-		});
-		
-		}
-
-	
+			public void mouseClicked(MouseEvent e) {				
+				String managerName =managerNameComboBox.getSelectedItem().toString();
+				if(managerName.equals("")||locationTypeComboBox.getSelectedItem().toString().equals("")) {
+						JOptionPane.showMessageDialog(null,"请选择要删除的部队","提示",JOptionPane.WARNING_MESSAGE);
+						return;
+					}
+					
+				ManagerServiceImpl managerServiceImpl = (ManagerServiceImpl) SpringUtil.getBean("ManagerServiceImpl");
+				boolean  result =	managerServiceImpl.deleteManager(managerName);
+				if(result) {
+					JOptionPane.showMessageDialog(null, "已成功删除", "提示", JOptionPane.INFORMATION_MESSAGE);
+				}
+				}
+			});		
+		}	
 }

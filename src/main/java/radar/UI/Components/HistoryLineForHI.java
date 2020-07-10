@@ -17,9 +17,8 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.util.ShapeUtilities;
 
 import radar.Tools.Init;
-import radar.Tools.SwingWorkerForHistoryLineForHI;
-
-import java.awt.Color;
+import radar.Tools.LoadingData;
+import radar.Tools.LoadingDataClass;
 import java.awt.Font;
 import java.awt.BorderLayout;
 
@@ -28,7 +27,7 @@ import java.awt.BorderLayout;
  * @author madi
  *
  */
-public class HistoryLineForHI extends JPanelTransparent implements Init{
+public class HistoryLineForHI extends JPanelTransparent implements Init, LoadingData{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -66,8 +65,11 @@ public class HistoryLineForHI extends JPanelTransparent implements Init{
 	}
 	
 	private void getData() {
-		SwingWorkerForHistoryLineForHI swHi = new SwingWorkerForHistoryLineForHI(this, className, methodName, params);
-		swHi.execute();
+//		SwingWorkerForHistoryLineForHI swHi = new SwingWorkerForHistoryLineForHI(this, className, methodName, params);
+//		swHi.execute();
+		
+		LoadingDataClass loading = new LoadingDataClass(this, className, methodName,params);
+		loading.execute();
 	}
 
 	@Override
@@ -104,6 +106,10 @@ public class HistoryLineForHI extends JPanelTransparent implements Init{
 		return line;
 	}
 
-	
+	@Override
+	public void loadingData(Object data) {
+		CategoryPlot plot = line.getCategoryPlot();
+		plot.setDataset((DefaultCategoryDataset) data);
+	}
 
 }
