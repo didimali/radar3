@@ -9,7 +9,8 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import radar.Tools.SwingWorkerForTable1;
+import radar.Tools.LoadingData;
+import radar.Tools.LoadingDataClass;
 import radar.Tools.TableStyleUI;
 
 /**
@@ -17,7 +18,7 @@ import radar.Tools.TableStyleUI;
  * @author madi
  *
  */
-public class Table1 extends JTable{
+public class Table1 extends JTable implements LoadingData{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -54,10 +55,10 @@ public class Table1 extends JTable{
  	}
 
 	private void initTable() {
-		SwingWorkerForTable1 swt = new SwingWorkerForTable1(this, className,methodName,params);
-		swt.execute();
+		LoadingDataClass loading = new LoadingDataClass(this, className, methodName,params);
+		loading.execute();  //开始执行任务线程方法
 		// 如果结果集中没有数据，那么就用空来代替数据集中的每一行
-        Object[][] nothing = { {}, {}, {}, {}, {}, {}, {}, {}, {}, {}};
+        Object[][] nothing = { {}, {}, {}, {}, {}, {}, {}, {}, {}, {},{}, {}};
         model = new DefaultTableModel(nothing, header);
         this.setModel(model);
         DefaultTableCellRenderer r = new DefaultTableCellRenderer();
@@ -99,7 +100,7 @@ public class Table1 extends JTable{
         setStyle();
 	}
 	/**
-	 * 根据表格的列数及其相应的值筛选相应的表格
+	 * 根据表格的列数及其相应的值筛选相应的表格——单一条件筛选
 	 * @param columnIndex	筛选列的列数
 	 * @param value		筛选条件值
 	 */
@@ -152,6 +153,71 @@ public class Table1 extends JTable{
         setStyle();
 		
 	}
+	
+	/**
+	 * 根据表格的列数及其相应的值筛选相应的表格——双条件筛选
+	 * @param columnIndex1	筛选列的列数1
+	 * @param value1		筛选条件值1
+	 * @param columnIndex2	筛选列的列数2
+	 * @param value2		筛选条件值2
+	 */
+	public void selectDataByColumnIndexsAndValues(int columnIndex1,String value1,int columnIndex2,String value2) {
+		//恢复至初始表格（或不筛选）
+		if(columnIndex1 == -1 && columnIndex2 == -1) {
+			model = new DefaultTableModel(resultData, header);
+			setModel(model);
+	        DefaultTableCellRenderer r = new DefaultTableCellRenderer();
+	        r.setHorizontalAlignment(JLabel.CENTER);
+	        setDefaultRenderer(Object.class, r);
+	        setStyle();
+	        return;
+		}
+		if(columnIndex1 == -1 && columnIndex2 != -1) {
+			selectDataByColumnIndexAndValue(columnIndex2,value2);
+			return;
+		}			
+		if(columnIndex1 != -1 && columnIndex2 == -1) {
+			selectDataByColumnIndexAndValue(columnIndex1,value1);
+			return;
+		}		
+		List<Object[]> tmp = new ArrayList<Object[]>();
+		for(int i=0;i<resultData.length;i++) {
+			Object[] o = resultData[i];
+			if(o == null) 
+				break;
+			if(o[columnIndex1].equals(value1) && o[columnIndex2].equals(value2))
+				tmp.add(o);
+		}
+		
+		int N = tmp.size();
+		int l = N%10;
+		int k = N/10;
+		if(l>0)
+			N = 10*(k+1);
+		Object[][] rData = new Object[N+2][];
+		for(int j=0;j<tmp.size();j++) {
+			Object[] o = tmp.get(j);
+			if(o == null)
+				break;
+			if(noFirstColumn)
+				o[1] = j+1;
+			else
+				o[0] = j+1;
+			rData[j] = o;
+		}
+		if(tmp.size() == 0) {
+			Object[][] nothing = { {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}};
+            model = new DefaultTableModel(nothing, header);
+		}
+		else
+			model = new DefaultTableModel(rData, header);
+		setModel(model);
+        DefaultTableCellRenderer r = new DefaultTableCellRenderer();
+        r.setHorizontalAlignment(JLabel.CENTER);
+        setDefaultRenderer(Object.class, r);
+        setStyle();
+		
+	}
 
 	private Object[][] getData() {
 		return resultData;
@@ -167,6 +233,11 @@ public class Table1 extends JTable{
 		for(int i=0;i<data.length;i++) {
 			resultData[i] = data[i];
 		}
+	}
+
+	@Override
+	public void loadingData(Object data) {
+		init((Object[][])data);
 	}
 
 }

@@ -1,12 +1,10 @@
 package radar.Service;
 
-import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 
 public interface AnalysisService {
     //统计分析页面表格数据获取
-	Object[][] countRadarType();
+	Object[][] countRadarType(Object[] params);
     //统计分析→适应性分析页面表格数据获取
 	Object[][] getRadar(int typeid, int location);
     //统计分析→适应性分析页面饼图数据获取

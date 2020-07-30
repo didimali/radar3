@@ -25,7 +25,6 @@ public class Background extends JPanel {
 	
 	@Override
 	 protected void paintComponent(Graphics g) {  
-//		super.paintComponent(g);	    
 		getPicture();		
 		g.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), this);  
 	 }

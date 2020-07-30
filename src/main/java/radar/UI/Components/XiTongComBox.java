@@ -11,11 +11,12 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
-import radar.SwingWorker.SwingWorkerForXiTongComboBox;
+import radar.Tools.LoadingData;
+import radar.Tools.LoadingDataClass;
 
 
-@SuppressWarnings({ "serial", "rawtypes" })
-public class XiTongComBox extends JComboBox{
+@SuppressWarnings({ "serial", "rawtypes","unused","unchecked" })
+public class XiTongComBox extends JComboBox implements LoadingData{
 	private String ServiceImplName;
 	private String methodName;
 	/*
@@ -32,10 +33,10 @@ public class XiTongComBox extends JComboBox{
 		//样式设置
 		setMaximumRowCount(20);
 		setBackground(Color.WHITE);
-		setRenderer(new TwoDecimalRenderer3(getRenderer()));
+		setRenderer(new TwoDecimalRenderer(getRenderer()));
 		//加载数据
-		SwingWorkerForXiTongComboBox swb = new SwingWorkerForXiTongComboBox(this,ServiceImplName,methodName);
-		swb.execute();
+		LoadingDataClass loading = new LoadingDataClass(this, ServiceImplName, methodName,null);
+		loading.execute();
 		String[] data = {};
 		init(data);
 	}
@@ -45,35 +46,18 @@ public class XiTongComBox extends JComboBox{
 		DefaultComboBoxModel mode  = new DefaultComboBoxModel(data);
 		setModel(mode);
 	}
-}
-@SuppressWarnings({"rawtypes","unchecked"})
-class TwoDecimalRenderer3 extends DefaultListCellRenderer {
-	private static final long serialVersionUID = -6518120547224228417L;
-	private ListCellRenderer defaultRenderer;
 
-	  public TwoDecimalRenderer3(ListCellRenderer defaultRenderer) {
-	    this.defaultRenderer = defaultRenderer;
-	  }
-
-	  @Override
-	  public Component getListCellRendererComponent(JList list, Object value,
-	      int index, boolean isSelected, boolean cellHasFocus) {
-	    Component c = defaultRenderer.getListCellRendererComponent(list, value,
-	        index, isSelected, cellHasFocus);
-	    c.setFont(new Font("仿宋", Font.PLAIN, 13));
-	    if (c instanceof JLabel) {
-	    	
-	      if (isSelected) {
-	        c.setBackground(new Color(135,206,250));
-	        c.setForeground(new Color(255,0,0));
-	      } else {
-	        c.setBackground(Color.WHITE);
-	      }
-	    } else {
-	      c.setBackground(Color.red);
-	      c = super.getListCellRendererComponent(list, value, index, isSelected,
-	          cellHasFocus);
-	    }
-	    return c;
-	  }
+	@Override
+	public void loadingData(Object d) {
+		Object[] data = (Object[]) d;
+		Object[] resultData = {};
+		if(data!= null|| data.length!=0) {
+			resultData = new String[1+data.length];
+			resultData[0] = "All";
+			for(int i=0;i<data.length;i++) {
+				resultData[i+1] =data[i];				
+			}
+		}
+		init(resultData);
+	}
 }

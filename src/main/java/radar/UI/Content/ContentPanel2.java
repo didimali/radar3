@@ -22,7 +22,7 @@ public class ContentPanel2 extends JPanel {
 
 	public ContentPanel2() {
 		setBackground(new Color(248,248,255));
-		setLayout(new MigLayout("", "[grow]", "[80px][grow]"));
+		setLayout(new MigLayout("", "[100%]", "[80px][grow][60px]"));
 		
 		add(contentTop, "cell 0 0,grow");	
 		contentTop.setLayout(new BorderLayout(0, 0));

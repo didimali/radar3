@@ -17,6 +17,7 @@ import org.jfree.data.general.PieDataset;
 import radar.SpringUtil;
 import radar.ServiceImpl.AnalysisServiceImpl;
 import radar.Tools.TableStyleUI;
+import radar.UI.Components.JPanelTransparent;
 import net.miginfocom.swing.MigLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -24,14 +25,13 @@ import java.awt.Font;
 /**
  * 统计分析-内容三
  */
-public class ABody3 extends JPanel{
+public class ABody3 extends JPanelTransparent{
 	
 	private static final long serialVersionUID = 1L;
 	AnalysisServiceImpl analysisServiceImpl = (AnalysisServiceImpl) SpringUtil.getBean("AnalysisServiceImpl");
 	
 	public ABody3(int typeid, int location,String startDate,String endDate) {
         
-		setBackground(Color.WHITE);
 		setLayout(new MigLayout("", "[60%][grow]", "[grow]"));	
 		
 		setJTable(typeid,location,startDate,endDate);		
@@ -59,7 +59,7 @@ public class ABody3 extends JPanel{
             Object[][] nothing = { {}, {}, {}, {}, {}, {}, {}, {}, {}, {}};
             table.setModel(new DefaultTableModel(nothing,new String[] {"编号", "雷达结构","故障数量"}));
         }		
-		table.setFont(new Font("宋体", Font.PLAIN, 14));
+		table.setFont(new Font("仿宋", Font.PLAIN, 14));
 		table.setEnabled(false);
 		table.setRowSelectionAllowed(false);
 		TableStyleUI ui = new TableStyleUI();
@@ -73,12 +73,12 @@ public class ABody3 extends JPanel{
 		String[] data=analysisServiceImpl.titleName(typeid,location);
 	    JFreeChart jFreeChart = ChartFactory.createPieChart(null, paramPieDataset, true, true, false);
 	    jFreeChart.addSubtitle((Title)new TextTitle(data[0]+"-"+data[1]+"故障数量统计", new Font("宋体", Font.BOLD, 24)));
-	    jFreeChart.getLegend().setItemFont(new Font("宋体",Font.PLAIN,14));
+	    jFreeChart.getLegend().setItemFont(new Font("仿宋",Font.PLAIN,14));
 	    PiePlot piePlot = (PiePlot)jFreeChart.getPlot();
 	    piePlot.setBackgroundAlpha(0.0f);
 	    piePlot.setOutlinePaint(Color.WHITE);
 	    piePlot.setShadowPaint(Color.WHITE);
-	    piePlot.setLabelFont(new Font("宋体",Font.PLAIN,14));
+	    piePlot.setLabelFont(new Font("仿宋",Font.PLAIN,14));
 	    piePlot.setLabelGenerator(new StandardPieSectionLabelGenerator("{0},{1}"));
 	    return jFreeChart;
 	  }

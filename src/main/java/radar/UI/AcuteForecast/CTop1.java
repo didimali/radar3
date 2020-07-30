@@ -3,18 +3,14 @@ package radar.UI.AcuteForecast;
 import javax.swing.JPanel;
 import net.miginfocom.swing.MigLayout;
 import radar.Tools.Init;
-import radar.UI.Components.Background;
 import radar.UI.Components.ComboBox;
 import radar.UI.Components.JPanelTransparent;
 
 import javax.swing.JLabel;
-import javax.swing.JComboBox;
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.BorderLayout;
 import javax.swing.JSeparator;
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
 
 /**
  * 精准预测内容-顶部栏一
@@ -30,12 +26,8 @@ public class CTop1 extends JPanelTransparent implements Init{
 	private ComboBox radarT;
 	private JPanel panel;
 	private JPanel panel1;
-	private JComboBox comboBox;
 	
 	public CTop1() {
-//		setBackground(Color.WHITE);
-//		setBackground(null);
-//		setOpaque(false);
 		setLayout(new MigLayout("", "[100%]", "[grow][]"));
 		
 		initUI();
@@ -49,27 +41,25 @@ public class CTop1 extends JPanelTransparent implements Init{
 //		panel.setBackground(null);
 		add(panel,"cell 0 0,grow");
 					
-		panel.setLayout(new MigLayout("", "[][160px,grow][][120px][260px][][120px][100px]", "[grow][grow]"));
+		panel.setLayout(new MigLayout("", "[][160px,grow][][120px][260px][][120px][100px]", "[100%]"));
 		title = new JLabel("基本状态");
 		title.setFont(new Font("仿宋", Font.BOLD, 24));
 		panel.add(title, "cell 0 0,alignx trailing,aligny center");
 				
 		lType = new JLabel("驻地类型");
-		lType.setFont(new Font("仿宋", Font.PLAIN, 14));
+		lType.setFont(new Font("仿宋", Font.PLAIN, 16));
 		panel.add(lType, "cell 2 0,growx,aligny center");
 		
 		locationT = new ComboBox("AcuteForecastServiceImpl", "getLocationType", null);
-		locationT.setFont(new Font("仿宋", Font.PLAIN, 13));
-		locationT.setMaximumRowCount(4);
+		locationT.setFont(new Font("仿宋", Font.PLAIN, 15));
 		panel.add(locationT, "cell 3 0,growx,aligny center");
 		
 		rType = new JLabel("雷达型号");
-		rType.setFont(new Font("仿宋", Font.PLAIN, 14));
+		rType.setFont(new Font("仿宋", Font.PLAIN, 16));
 		panel.add(rType, "cell 5 0,growx,aligny center");
 		
 		radarT = new ComboBox("AcuteForecastServiceImpl", "getRadarType", null);
-		radarT.setFont(new Font("仿宋", Font.PLAIN, 13));
-		radarT.setMaximumRowCount(4);		
+		radarT.setFont(new Font("仿宋", Font.PLAIN, 15));
 		panel.add(radarT, "cell 6 0,growx,aligny center");
 		
 		panel1 = new JPanelTransparent();

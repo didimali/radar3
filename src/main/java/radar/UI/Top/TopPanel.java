@@ -41,18 +41,11 @@ public class TopPanel extends Background{
 		title = new JLabel("基于大数据的现役雷达装备预测性维修保障平台");
 		title.setBackground(Color.WHITE);
 		title.setForeground(Color.WHITE);
-		title.setIcon(getIcon("radar1.png",this));
-//		title.setBackground(new Color(0, 204, 255));
-//		title.setBackground(new Color(30,144,255));
+		title.setIcon(getIcon("radar2.png",this));
 		title.setFont(new Font("仿宋", Font.BOLD, 26));
 		title.setPreferredSize(new Dimension(164, 60));
-		logo.add(title, BorderLayout.CENTER);
-		
-		
-				
-	}
-
-		
+		logo.add(title, BorderLayout.CENTER);				
+	}		
 	/**
 	 * @author :madi
 	 * @param: image name

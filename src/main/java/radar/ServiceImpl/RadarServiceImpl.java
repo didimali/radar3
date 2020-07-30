@@ -102,9 +102,9 @@ public class RadarServiceImpl implements RadarService{
 		int Rhealth1=RadarDao.countHealth(1,2);
 		int Yhealth1=RadarDao.countHealth(1,1);
 		int Ghealth1=RadarDao.countHealth(1,0);
-	    defaultPieDataset.setValue("健康", Ghealth1);
-	    defaultPieDataset.setValue("不良", Yhealth1);
-	    defaultPieDataset.setValue("较差", Rhealth1);
+		defaultPieDataset.setValue("绿", Ghealth1);
+	    defaultPieDataset.setValue("黄", Yhealth1);
+	    defaultPieDataset.setValue("红", Rhealth1);
 	    return (PieDataset)defaultPieDataset;
 	  }
 	
@@ -113,9 +113,9 @@ public class RadarServiceImpl implements RadarService{
 		int Rhealth1=RadarDao.countHealth(2,2);
 		int Yhealth1=RadarDao.countHealth(2,1);
 		int Ghealth1=RadarDao.countHealth(2,0);
-	    defaultPieDataset.setValue("健康", Ghealth1);
-	    defaultPieDataset.setValue("不良", Yhealth1);
-	    defaultPieDataset.setValue("较差", Rhealth1);
+	    defaultPieDataset.setValue("绿", Ghealth1);
+	    defaultPieDataset.setValue("黄", Yhealth1);
+	    defaultPieDataset.setValue("红", Rhealth1);
 	    return (PieDataset)defaultPieDataset;
 	  }
 	@Autowired
@@ -129,7 +129,7 @@ public class RadarServiceImpl implements RadarService{
 	//获取雷达下拉列表
 		@SuppressWarnings("rawtypes")
 		@Override
-		public Object[] getDataForRadarComboBox() {
+		public Object[] getDataForRadarComboBox(Object[] params) {
 			@SuppressWarnings("unchecked")
 			List<Radar> list = new ArrayList();
 			list = radarDao.getRadars();

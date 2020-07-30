@@ -5,11 +5,12 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import radar.Tools.SwingWorkerForTable;
+import radar.Tools.LoadingData;
+import radar.Tools.LoadingDataClass;
 import radar.Tools.TableStyleUI;
 import java.awt.Color;
 
-public class Table extends JTable {
+public class Table extends JTable implements LoadingData {
 	
 	private static final long serialVersionUID = 1L;
 	// JTable表分页信息相关变量
@@ -64,8 +65,10 @@ public class Table extends JTable {
 	}
 
 	private void initTable() {
-		SwingWorkerForTable swt = new SwingWorkerForTable(this, className,methodName,params);
-		swt.execute();
+		
+		LoadingDataClass loading = new LoadingDataClass(this, className, methodName,params);
+		loading.execute();
+		
 		// 如果结果集中没有数据，那么就用空来代替数据集中的每一行
         Object[][] nothing = { {}, {}, {}, {}, {}, {}, {}, {}, {}, {}};
         model = new DefaultTableModel(nothing, header);
@@ -200,5 +203,10 @@ public class Table extends JTable {
 		this.getColumnModel().getColumn(0).setMaxWidth(0);
 		this.getColumnModel().getColumn(0).setPreferredWidth(0);
     }
-
+    
+	@Override
+	public void loadingData(Object data) {
+		init((Object[][]) data);
+	}
+	
 }

@@ -2,7 +2,6 @@ package radar.UI.Components;
 
 import java.awt.Color;
 import java.awt.Font;
-import javax.swing.JPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -13,10 +12,11 @@ import org.jfree.chart.title.LegendTitle;
 import org.jfree.chart.title.TextTitle;
 import org.jfree.data.category.DefaultCategoryDataset;
 import net.miginfocom.swing.MigLayout;
-import radar.Tools.SwingWorkerForLineChart;
+import radar.Tools.LoadingData;
+import radar.Tools.LoadingDataClass;
 
 
-public class LineChart extends JPanelTransparent{
+public class LineChart extends JPanelTransparent implements LoadingData{
 
 	/**
 	 * 
@@ -67,8 +67,11 @@ public class LineChart extends JPanelTransparent{
 		add(chartPanel, "grow");
 		
 		//查询加载数据		
-		SwingWorkerForLineChart swl = new SwingWorkerForLineChart(this, className, methodName,params);
-		swl.execute();
+//		SwingWorkerForLineChart swl = new SwingWorkerForLineChart(this, className, methodName,params);
+//		swl.execute();
+		
+		LoadingDataClass loading = new LoadingDataClass(this, className, methodName,params);
+		loading.execute();
 		
 	}
 
@@ -132,5 +135,11 @@ public class LineChart extends JPanelTransparent{
 
 	public JFreeChart getJFreeChart() {
 		return lineChart;
+	}
+
+	@Override
+	public void loadingData(Object data) {
+		CategoryPlot plot = lineChart.getCategoryPlot();
+		plot.setDataset((DefaultCategoryDataset) data);
 	}
 }

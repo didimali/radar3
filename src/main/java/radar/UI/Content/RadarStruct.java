@@ -13,7 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import java.awt.Font;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 
@@ -48,22 +47,22 @@ public class RadarStruct extends JPanel {
 
 	private void setHead() {
 		
-		panel2.contentTop.setLayout(new MigLayout("", "[grow]", "[grow][]"));
+		panel2.contentTop.setLayout(new MigLayout("", "[100%]", "[100%][]"));
 		
 		panel = new JPanelTransparent();
 		panel2.contentTop.add(panel, "cell 0 0,grow");
-		panel.setLayout(new MigLayout("", "[][20%][][][grow][]", "[grow]"));
+		panel.setLayout(new MigLayout("", "[][20%][][120px][grow][]", "[100%]"));
 		
 		title = new JLabel("雷达组织结构");
-		title.setFont(new Font("仿宋", Font.PLAIN, 24));
+		title.setFont(new Font("仿宋", Font.BOLD, 24));
 		panel.add(title, "cell 0 0,growx,aligny center");
 		
 		label1 = new JLabel("雷达型号");
-		label1.setFont(new Font("仿宋", Font.PLAIN, 18));
+		label1.setFont(new Font("仿宋", Font.PLAIN, 16));
 		panel.add(label1, "cell 2 0,growx,aligny center");
 		
 		radarType = new ComboBox("AcuteForecastServiceImpl", "getRadarType", null);
-		radarType.setFont(new Font("仿宋", Font.PLAIN, 14));
+		radarType.setFont(new Font("仿宋", Font.PLAIN, 15));
 		radarType.setMaximumRowCount(4);	
 		panel.add(radarType, "cell 3 0,growx,aligny center");
 		

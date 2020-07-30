@@ -17,6 +17,7 @@ import org.jfree.data.general.PieDataset;
 import radar.SpringUtil;
 import radar.ServiceImpl.AnalysisServiceImpl;
 import radar.Tools.TableStyleUI;
+import radar.UI.Components.JPanelTransparent;
 import net.miginfocom.swing.MigLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -24,14 +25,14 @@ import java.awt.Font;
 /**
  * 统计分析-内容二
  */
-public class ABody2 extends JPanel{
+public class ABody2 extends JPanelTransparent{
 	
 	private static final long serialVersionUID = 1L;
 	AnalysisServiceImpl analysisServiceImpl = (AnalysisServiceImpl) SpringUtil.getBean("AnalysisServiceImpl");
+	private JTable table;
 
 	public ABody2(int typeid, int location) {
         
-		setBackground(Color.WHITE);
 		setLayout(new MigLayout("", "[60%][grow]", "[grow]"));	
 		
 		setJTable(typeid,location);		
@@ -49,7 +50,7 @@ public class ABody2 extends JPanel{
 
 	private void setJTable(int typeid,int location) {
 		Object[][] list=analysisServiceImpl.getRadar(typeid,location);	
-		JTable table = new JTable();
+		table = new JTable();
 		if (list != null && list.length != 0 ) {
 			Object[][] newdata=initResultData(list);
 			table.setModel(new DefaultTableModel(newdata,new String[] {"编号", "雷达编号","所属部队","健康状态"}));
@@ -59,7 +60,7 @@ public class ABody2 extends JPanel{
             Object[][] nothing = { {}, {}, {}, {}, {}, {}, {}, {}, {}, {}};
             table.setModel(new DefaultTableModel(nothing,new String[] {"编号", "雷达编号","所属部队","健康状态"}));
         }
-		table.setFont(new Font("宋体", Font.PLAIN, 14));
+		table.setFont(new Font("仿宋", Font.PLAIN, 14));
 		table.setEnabled(false);
 		table.setRowSelectionAllowed(false);
 		TableStyleUI ui = new TableStyleUI();
@@ -84,18 +85,22 @@ public class ABody2 extends JPanel{
 		PieDataset paramPieDataset=analysisServiceImpl.createPieData(typeid,location);
 		String[] data=analysisServiceImpl.titleName(typeid,location);
 	    JFreeChart jFreeChart = ChartFactory.createPieChart(null, paramPieDataset, true, true, false);
-	    jFreeChart.addSubtitle((Title)new TextTitle(data[0]+"-"+data[1]+"健康状态统计", new Font("宋体", Font.BOLD, 24)));
-	    jFreeChart.getLegend().setItemFont(new Font("宋体",Font.PLAIN,14));
+	    jFreeChart.addSubtitle((Title)new TextTitle(data[0]+"-"+data[1]+"健康状态统计", new Font("仿宋", Font.BOLD, 24)));
+	    jFreeChart.getLegend().setItemFont(new Font("仿宋",Font.PLAIN,14));
 	    PiePlot piePlot = (PiePlot)jFreeChart.getPlot();
-	    piePlot.setSectionPaint("健康",Color.GREEN);
-	    piePlot.setSectionPaint("不良",Color.YELLOW);
-	    piePlot.setSectionPaint("较差",Color.RED);
+	    piePlot.setSectionPaint("绿",Color.GREEN);
+	    piePlot.setSectionPaint("黄",Color.YELLOW);
+	    piePlot.setSectionPaint("红",Color.RED);
 	    piePlot.setBackgroundAlpha(0.0f);
 	    piePlot.setOutlinePaint(Color.WHITE);
 	    piePlot.setShadowPaint(Color.WHITE);
-	    piePlot.setLabelFont(new Font("宋体",Font.PLAIN,14));
+	    piePlot.setLabelFont(new Font("仿宋",Font.PLAIN,14));
 	    piePlot.setLabelGenerator(new StandardPieSectionLabelGenerator("{0},{1}"));
 	    return jFreeChart;
 	  }
+
+	public JTable getTable() {
+		return table;
+	}
 	
 }

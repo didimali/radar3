@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import radar.Dao.PartsDao;
-import radar.Dao.TestDao;
 import radar.Entity.PartConsume;
 import radar.Entity.Parts;
 import radar.Service.PartsService;
@@ -20,8 +19,8 @@ public class PartsServiceImpl implements PartsService{
 	PartsDao partsDao;
 	//备件种类表格数据获取
 	@Override
-	public Object[][] getPartsType(Object[] paras) {
-		List<Parts> list = new ArrayList();
+	public Object[][] getPartsType(Object[] params) {
+		List<Parts> list = new ArrayList<Parts>();
 		list = partsDao.getPartsType();
 		Object[][] data  = new Object[list.size()][];
 		for(int i=0;i<list.size();i++) {
@@ -37,8 +36,8 @@ public class PartsServiceImpl implements PartsService{
 	}
 	//备件消耗表格数据获取
 		@Override
-		public Object[][] getPartsConsume(Object[] paras) {
-			List<PartConsume> list = new ArrayList();
+		public Object[][] getPartsConsume(Object[] params) {
+			List<PartConsume> list = new ArrayList<PartConsume>();
 			list = partsDao.getPartsConsume();
 			Object[][] data  = new Object[list.size()][];
 			for(int i=0;i<list.size();i++) {
@@ -48,9 +47,21 @@ public class PartsServiceImpl implements PartsService{
 					partName=p.getPartsId().getPartsName();
 				}
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-				Object[] o = {p.getConsumeId(),partName,p.getpConsumeCount(),sdf.format(p.getConsumeDate())};
+				Object[] o = {i+1,partName,p.getpConsumeCount(),sdf.format(p.getConsumeDate()),p.getManagerId().getManagerName()};
 				data[i] = o;
 			}
 			return data;
+		}
+		//获取备件下拉列表
+		@Override
+		public Object[] getDataForPartsComboBox(Object[] params) {
+			List<Parts> list = new ArrayList<Parts>();
+			list =  partsDao.getPartsType();
+			Object[] result = new Object[list.size()];
+			for(int i=0;i<list.size();i++) {
+				Parts P = list.get(i);
+				result[i] =P.getPartsName();
+			}
+			return result;
 		}
 }

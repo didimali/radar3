@@ -1,20 +1,17 @@
 package radar.UI.Components;
 
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
 
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.ListCellRenderer;
 
-import radar.SwingWorker.SwingWorkerForComboBox;
-import radar.SwingWorker.SwingWorkerForPartsBox;
+import radar.Tools.LoadingData;
+import radar.Tools.LoadingDataClass;
 
-public class BackupPartsBox extends JComboBox{
+@SuppressWarnings({"rawtypes","unchecked"})
+public class BackupPartsBox extends JComboBox implements LoadingData{
+	
+	private static final long serialVersionUID = 1L;
 	private String ServiceImplName;
 	private String methodName;
 	/*
@@ -31,10 +28,13 @@ public class BackupPartsBox extends JComboBox{
 		//样式设置
 		setMaximumRowCount(20);
 		setBackground(Color.WHITE);
-		setRenderer(new TwoDecimalRenderer1(getRenderer()));
+		setRenderer(new TwoDecimalRenderer(getRenderer()));
 		//加载数据
-		SwingWorkerForPartsBox swb = new SwingWorkerForPartsBox(this,ServiceImplName,methodName);
-		swb.execute();
+//		SwingWorkerForPartsBox swb = new SwingWorkerForPartsBox(this,ServiceImplName,methodName);
+//		swb.execute();
+		
+		LoadingDataClass loading = new LoadingDataClass(this, ServiceImplName, methodName,null);
+		loading.execute();
 		String[] data = {};
 		init(data);
 	}
@@ -44,35 +44,18 @@ public class BackupPartsBox extends JComboBox{
 		DefaultComboBoxModel mode  = new DefaultComboBoxModel(data);
 		setModel(mode);
 	}
-}
-@SuppressWarnings({"rawtypes","unchecked"})
-class TwoDecimalRenderer4 extends DefaultListCellRenderer {
-	private static final long serialVersionUID = -6518120547224228417L;
-	private ListCellRenderer defaultRenderer;
 
-	  public TwoDecimalRenderer4(ListCellRenderer defaultRenderer) {
-	    this.defaultRenderer = defaultRenderer;
-	  }
-
-	  @Override
-	  public Component getListCellRendererComponent(JList list, Object value,
-	      int index, boolean isSelected, boolean cellHasFocus) {
-	    Component c = defaultRenderer.getListCellRendererComponent(list, value,
-	        index, isSelected, cellHasFocus);
-	    c.setFont(new Font("仿宋", Font.PLAIN, 13));
-	    if (c instanceof JLabel) {
-	    	
-	      if (isSelected) {
-	        c.setBackground(new Color(135,206,250));
-	        c.setForeground(new Color(255,0,0));
-	      } else {
-	        c.setBackground(Color.WHITE);
-	      }
-	    } else {
-	      c.setBackground(Color.red);
-	      c = super.getListCellRendererComponent(list, value, index, isSelected,
-	          cellHasFocus);
-	    }
-	    return c;
-	  }
+	@Override
+	public void loadingData(Object d) {
+		Object[] data = (Object[]) d;
+		Object[] resultData = {};
+		if(data!= null||data.length!=0) {
+			resultData = new String[1+data.length];
+			resultData[0] = "All";
+			for(int i=0;i<data.length;i++) {
+				resultData[i+1] =data[i];				
+			}
+		}
+		init(resultData);
+	}
 }

@@ -1,5 +1,6 @@
 package radar.UI.Content;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
@@ -11,9 +12,9 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.table.DefaultTableModel;
 
 import jxl.Sheet;
 import jxl.Workbook;
@@ -22,27 +23,31 @@ import radar.SpringUtil;
 import radar.Entity.RadarType;
 import radar.ServiceImpl.RadarServiceImpl;
 import radar.Tools.Init;
-import radar.UI.Components.Button;
-import radar.UI.Components.Table;
+import radar.UI.Components.ComboBox;
+import radar.UI.Components.JPanelTransparent;
+import radar.UI.Components.Table1;
+import radar.UI.Top.TopPanel;
+
 import javax.swing.JComboBox;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.DefaultComboBoxModel;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 @SuppressWarnings("serial")
 public class Parts extends ContentPanel implements Init{
 	private JLabel partsInfo;
-	private Table table;
+	private Table1 table;
 	private JScrollPane panel_2;
 	
-	private JButton firstPage;
-	private JButton previousPage;
-	private JButton nextPage;
-	private JButton lastPage;
+
 	private JButton addParts;
     private static JFileChooser fileChooser;
 	public static File chooseFile;  
-
+	private JComboBox radarComboxTypeBox;
+	private JLabel radarTypeLable;
+	
+	private JSeparator separator;
+	private JPanelTransparent title;
+	private JPanelTransparent subtitle;
 
 	public Parts() {
 		
@@ -52,52 +57,61 @@ public class Parts extends ContentPanel implements Init{
 	@Override
 	public void initUI() {
 		initContentTop();
-		contentTop.add(partsInfo, "flowx,cell 0 2,alignx left,aligny center");
-		contentTop.add(addParts, "cell 2 3,alignx right,aligny center");
+		contentTop.add(title, "cell 0 0,grow");		
+		contentTop.add(subtitle, "cell 0 1,grow");
 		
-		comboBox = new JComboBox();
-		String[] radarTypes = { "", "I型雷达","II型雷达"};
-		comboBox.setModel(new DefaultComboBoxModel(radarTypes));
-		comboBox.setFont(new Font("宋体", Font.PLAIN, 12));
-		contentTop.add(comboBox, "cell 0 3,growx");
-		
-		lookUp = new JButton("搜索");
-		lookUp.setFont(new Font("宋体", Font.PLAIN, 12));
-		contentTop.add(lookUp, "cell 1 3,alignx left");
 		initContentBody();
-		ContentBody.add(panel_2, "cell 0 0,grow");
+		contentBody.add(panel_2, "cell 0 0,grow");
 		//添加底部按钮
 		initContentFoot();
-		contentFoot.add(firstPage, "cell 1 1,grow");			
-		contentFoot.add(previousPage, "cell 3 1,grow");			
-		contentFoot.add(nextPage, "cell 5 1,grow");			
-		contentFoot.add(lastPage, "cell 7 1,grow");	
 		
 	}
 	/**
 	 * 添加内容面板头部
 	 */
 	public void initContentTop() {
-		contentTop.setLayout(new MigLayout("", "[grow][grow][grow]", "[][grow][grow][][grow]"));
-		partsInfo = new JLabel("备件种类信息：");
-		partsInfo.setHorizontalAlignment(SwingConstants.LEFT);
-		partsInfo.setFont(new Font("宋体", Font.PLAIN, 14));
-		addParts = new JButton("导入信息");
 		
-		addParts.setFont(new Font("宋体", Font.PLAIN, 12));
-
-
-
+		contentTop.setLayout(new MigLayout("", "[100%]", "[100%][]"));
+		
+		title = new JPanelTransparent();	
+		title.setLayout(new MigLayout("", "[][20%][][120px][20%][][10%]", "[100%]"));
+		
+		subtitle = new JPanelTransparent();
+		subtitle.setLayout(new BorderLayout(0, 0));
+		
+		partsInfo = new JLabel("备件种类信息");
+		partsInfo.setHorizontalAlignment(SwingConstants.LEFT);
+		partsInfo.setFont(new Font("仿宋", Font.BOLD, 24));
+		title.add(partsInfo, "cell 0 0,growx,aligny center");
+		
+		radarTypeLable = new JLabel("雷达型号  ");
+		radarTypeLable.setFont(new Font("仿宋", Font.PLAIN, 16));
+		title.add(radarTypeLable, "cell 2 0,growx,aligny center");
+		
+		radarComboxTypeBox = new ComboBox("AcuteForecastServiceImpl", "getRadarType", null);
+		radarComboxTypeBox.setMaximumRowCount(8);
+		radarComboxTypeBox.setFont(new Font("仿宋", Font.PLAIN, 15));
+		title.add(radarComboxTypeBox, "cell 3 0,growx,aligny center");
+		
+		addParts = new JButton("导入备件种类信息");	
+		addParts.setIcon(TopPanel.getIcon("new4.png",this));	
+		addParts.setFont(new Font("仿宋", Font.PLAIN, 16));		
+		title.add(addParts, "cell 5 0,growx,aligny center");
+				
+		separator = new JSeparator();
+		separator.setForeground(Color.BLACK);
+		subtitle.add(separator,BorderLayout.CENTER);
+		
 	}
 
 	/**
 	 * 添加内容面板躯干
 	 */
 	public void initContentBody() {		
-		ContentBody.setLayout(new MigLayout("", "[grow]", "[grow]"));
+		contentBody.setLayout(new MigLayout("", "[100%]", "[100%]"));
 		String[] header = { "序号", "备件名称", "雷达型号"};
 		Object[] params= {};
-		table = new Table("PartsServiceImpl", "getPartsType",params,header);
+		table = new Table1("PartsServiceImpl", "getPartsType",params,header,false,0);
 		panel_2 = new JScrollPane(table);		
 		panel_2.setBackground(Color.WHITE);
 		panel_2.setOpaque(true);
@@ -108,24 +122,18 @@ public class Parts extends ContentPanel implements Init{
 		 * 添加内容面板底部
 		 */
 			public void initContentFoot() {
-				contentFoot.setLayout(new MigLayout("", "[10%][grow][10][grow][10][grow][10][grow][10%]", "[10%][80%][10%]"));
-				firstPage = new Button("首 页");
-				previousPage = new Button("上 一 页");
-				nextPage = new Button("下 一 页");
-				lastPage = new Button("尾 页");
-			
+				contentFoot.setLayout(new MigLayout("", "[10%][grow][10][grow][10][grow][10][grow][10][grow][10%]", "[10%][80%][10%]"));
+
+				
 				
 			}
-			private void FillTable() {
-				DefaultTableModel model = new DefaultTableModel(table.getPageData(),
-		                table.header);
-		        table.setModel(model);
-		        table.setStyle();
-			}
+
 			//弹出文件选择框
 			Integer returnValue =null;
-			private JComboBox comboBox;
-			private JButton lookUp;
+			private JLabel l1;
+			private JLabel l2;
+			private JLabel l3;
+			private JLabel l4;
 			private int importExcel() {
 				 fileChooser = new JFileChooser();             
 			     //过滤Excel文件，只寻找以xls结尾的Excel文件，如果想过滤word文档也可以写上doc
@@ -191,45 +199,18 @@ public class Parts extends ContentPanel implements Init{
 			        }
 				}
 			});
-			//底部按钮事件
-			//首页
-			firstPage.addMouseListener(new MouseAdapter() {
-				public void mouseClicked(MouseEvent e) {
-					table.getFirstPage();
-					//返回当前页
-					FillTable();
-					
-				}
-
-				
-			});
-			//底部按钮事件
-				//上一页
-			previousPage.addMouseListener(new MouseAdapter() {
-				public void mouseClicked(MouseEvent e) {
-					//页数-1
-					table.getPreviousPage();
-					//返回当前页
-					FillTable();
-				}
-			});
-			//底部按钮事件
-				//下一页
-			nextPage.addMouseListener(new MouseAdapter() {
-				public void mouseClicked(MouseEvent e) {
-					//页数+1
-					table.getNextPage();
-					//返回当前页
-					FillTable();
-				}
-			});
-			//底部按钮事件
-				//末页
-			lastPage.addMouseListener(new MouseAdapter() {
-				public void mouseClicked(MouseEvent e) {
-					table.getLastPage();
-					//返回当前页
-					FillTable();
+		
+			//下拉框筛选事件
+			
+			radarComboxTypeBox.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent e) {
+					if(e.getStateChange() == 1) {
+						String value = (String) e.getItem();
+						if(value.equals("All"))
+							table.selectDataByColumnIndexAndValue(-1,value);
+						else
+							table.selectDataByColumnIndexAndValue(2,value);
+					}
 				}
 			});
 	  }

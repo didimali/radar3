@@ -24,7 +24,7 @@ public class Button extends JButton implements Init{
 	@Override
 	public void initUI() {
 		setOpaque(false);
-		setBackground(null);
+		setBackground(new Color(192,192,192));
 		setForeground(Color.BLACK);
 		setFont(new Font("仿宋", Font.BOLD, 16));
 		setText(text);
@@ -37,10 +37,15 @@ public class Button extends JButton implements Init{
 			repaint();
 		}
 		else {
-			setBackground(Color.WHITE);
+			setBackground(new Color(192,192,192));
 			repaint();
 		}
 		
+	}
+	
+	public void defaultColor() {
+			setBackground(new Color(0, 204, 255));
+			repaint();		
 	}
 
 	@Override

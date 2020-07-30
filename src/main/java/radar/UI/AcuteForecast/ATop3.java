@@ -16,15 +16,18 @@ import radar.SpringUtil;
 import radar.ServiceImpl.AnalysisServiceImpl;
 import radar.Tools.Init;
 import radar.UI.Components.Chooser;
+import radar.UI.Components.JPanelTransparent;
+import radar.UI.Top.TopPanel;
 
 import javax.swing.JTextField;
 
 import javax.swing.JButton;
+import javax.swing.ImageIcon;
 
 /**
  * 统计分析-顶部栏三
  */
-public class ATop3 extends JPanel implements Init{
+public class ATop3 extends JPanelTransparent implements Init{
 	AnalysisServiceImpl analysisServiceImpl = (AnalysisServiceImpl) SpringUtil.getBean("AnalysisServiceImpl");
 	private static final long serialVersionUID = 1L;
 	private JLabel title;
@@ -39,15 +42,14 @@ public class ATop3 extends JPanel implements Init{
 	private JTextField sDate;
 	private JTextField eDate;
 	private JLabel lblNewLabel_1;
-	private JRadioButton radioButton;
-	private JRadioButton radioButton_1;
-	private JButton timeButton;
+	private JButton radioButton;
+	private JButton radioButton_1;
+	private JLabel timeButton;
 	public ATop3(int typeid, int location) {
         String[] data=analysisServiceImpl.titleName(typeid,location);		
 		this.typeName = data[0];
 		this.locationName = data[1];
 		this.text = typeName+"-"+locationName+"故障分析";
-		setBackground(Color.WHITE);
 		setLayout(new MigLayout("", "[grow]", "[grow][4px]"));	
 		initUI();
 		Action(); 
@@ -55,8 +57,7 @@ public class ATop3 extends JPanel implements Init{
 
 	@Override
 	public void initUI() {
-		panel = new JPanel();
-		panel.setBackground(Color.WHITE);		
+		panel = new JPanelTransparent();	
 		add(panel,"cell 0 0,grow");
 			
 		panel.setLayout(new MigLayout("", "[][][][grow][][40px][][]", "[grow][grow]"));
@@ -77,28 +78,30 @@ public class ATop3 extends JPanel implements Init{
 		
 		Chooser chooser2 = Chooser.getInstance();
 		
-		radioButton = new JRadioButton("适应性分析");
-		radioButton.setBackground(Color.WHITE);
-		radioButton.setFont(new Font("仿宋", Font.PLAIN, 20));
+		radioButton = new JButton("适应性分析");
+		radioButton.setBackground(new Color(192,192,192));
+		radioButton.setFont(new Font("仿宋", Font.PLAIN, 18));
 		panel.add(radioButton, "cell 6 0,growx,aligny center");
 		
-		radioButton_1 = new JRadioButton("故障分析 ",true);
-		radioButton_1.setBackground(Color.WHITE);
-		radioButton_1.setFont(new Font("仿宋", Font.PLAIN, 20));
+		radioButton_1 = new JButton("故障分析 ");
+		radioButton_1.setBackground(new Color(0, 204, 255));
+		radioButton_1.setFont(new Font("仿宋", Font.PLAIN, 18));
 		panel.add(radioButton_1, "cell 8 0,growx,aligny center");
 		
 		label = new JLabel("起始-截止时间");
-		label.setFont(new Font("仿宋", Font.PLAIN, 14));
+		label.setFont(new Font("仿宋", Font.PLAIN, 16));
 		panel.add(label, "cell 5 1,growx,aligny center");
 		sDate = new JTextField(getFirstDayOfThisMonth().toString());
+		sDate.setFont(new Font("仿宋", Font.PLAIN, 15));
 		chooser1.register(sDate);
 		panel.add(sDate, "cell 6 1,growx,aligny center");
 		sDate.setColumns(4);
 		
 		lblNewLabel_1 = new JLabel("--");
-		lblNewLabel_1.setFont(new Font("仿宋", Font.PLAIN, 14));
+		lblNewLabel_1.setFont(new Font("仿宋", Font.PLAIN, 16));
 		panel.add(lblNewLabel_1, "cell 7 1,growx,aligny center");
 		eDate = new JTextField(getMaxDayOfThisMonth().toString());
+		eDate.setFont(new Font("仿宋", Font.PLAIN, 15));
 		chooser2.register(eDate);
 		
 		panel.add(eDate, "cell 8 1,growx,aligny center");
@@ -106,11 +109,13 @@ public class ATop3 extends JPanel implements Init{
 		
 		
 		
-		timeButton = new JButton("查询");
+		timeButton = new JLabel();
+		timeButton.setToolTipText("刷新");
+		timeButton.setIcon(TopPanel.getIcon("refresh1.png",this));
+		timeButton.setFont(new Font("仿宋", Font.PLAIN, 18));
 		panel.add(timeButton, "cell 9 1");
 		
-		panel1 = new JPanel();
-		panel1.setBackground(Color.WHITE);
+		panel1 = new JPanelTransparent();
 		
 		add(panel1,"cell 0 1,grow");
 		panel1.setLayout(new BorderLayout(0, 0));
@@ -160,10 +165,10 @@ public class ATop3 extends JPanel implements Init{
 	public JTextField getEDate() {
 		return eDate;
 	}
-	public JButton getTimeButton() {
+	public JLabel getTimeButton() {
 		return timeButton;
 	}
-	public JRadioButton getRadioButton() {
+	public JButton getRadioButton() {
 		return radioButton;
 	}
 }

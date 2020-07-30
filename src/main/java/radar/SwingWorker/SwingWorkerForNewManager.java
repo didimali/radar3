@@ -9,7 +9,6 @@ import javax.swing.SwingWorker;
 import radar.SpringUtil;
 import radar.Entity.Manager;
 import radar.ServiceImpl.ManagerServiceImpl;
-import radar.UI.Components.ManagerCombox;
 
 
 public class SwingWorkerForNewManager extends SwingWorker<Boolean,Void>{

@@ -53,15 +53,21 @@
 		    <version>1.0.23</version>
 		</dependency>
 		
-		<!-- 本地依赖 -->
+		<!-- jxl包依赖 -->
+		<!-- https://mvnrepository.com/artifact/net.sourceforge.jexcelapi/jxl -->
 		<dependency>
-        	<groupId>something</groupId>
-	        <artifactId>radarPHM</artifactId>
-	        <version>1.1.2</version>
-	        <scope>system</scope>
-	        <systemPath>${project.basedir}/lib/jxl-2.6.12.jar</systemPath>
-    	</dependency>
+		    <groupId>net.sourceforge.jexcelapi</groupId>
+		    <artifactId>jxl</artifactId>
+		    <version>2.6.12</version>
+		</dependency>
 		
+		<!-- Swing 布局依赖 -->
+		<!-- https://mvnrepository.com/artifact/com.miglayout/miglayout-swing -->
+		<dependency>
+		    <groupId>com.miglayout</groupId>
+		    <artifactId>miglayout-swing</artifactId>
+		    <version>5.2</version>
+		</dependency>		
 	</dependencies>
 
 	<build>
@@ -69,6 +75,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+	                <includeSystemScope>true</includeSystemScope>
+	            </configuration>
 			</plugin>
 		</plugins>
 	</build>
