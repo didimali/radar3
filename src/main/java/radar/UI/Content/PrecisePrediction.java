@@ -11,6 +11,9 @@ import java.awt.event.MouseEvent;
 import net.miginfocom.swing.MigLayout;
 import radar.SpringUtil;
 import radar.ServiceImpl.AnalysisServiceImpl;
+import radar.SwingWorker.SwingWorkerForHealthAccess;
+import radar.SwingWorker.SwingWorkerForNewRadar;
+import radar.Tools.LoadingDataClass;
 import radar.UI.AcuteForecast.CBody1;
 import radar.UI.AcuteForecast.CBody2;
 import radar.UI.AcuteForecast.CBody3;
@@ -249,7 +252,12 @@ public class PrecisePrediction extends JPanel {
 		top4.getButton().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				analysisServiceImpl.health(radarId);
+				SwingWorkerForHealthAccess h = new SwingWorkerForHealthAccess();   //南健健康评估
+				h.setRadarid(radarId);
+				h.execute();
+			    body4.refresh();
+			    body4.validate();
+			    body4.repaint();
 			}
 		});
 		System.out.println(c4.contentTop.getComponents());

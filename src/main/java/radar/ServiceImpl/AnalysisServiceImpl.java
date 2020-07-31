@@ -23,6 +23,7 @@ import radar.Entity.PartConsume;
 import radar.Entity.Parts;
 import radar.Entity.Radar;
 import radar.Entity.RadarForecast;
+import radar.Entity.RadarHealth;
 import radar.Entity.RepairContent;
 import radar.Entity.System;
 import radar.Service.AnalysisService;
@@ -194,28 +195,42 @@ public class AnalysisServiceImpl implements AnalysisService{
 	    return (PieDataset)defaultPieDataset;
 	  }
 	
-	public void health(int radar) {	
+	public Boolean health(int radar) {	
 		Random random = new Random();
 		int HI=random.nextInt(100);
-		int faultid=random.nextInt(5);
 		int result;
-		if(HI>50) {
+		int fnum=AnalysisDao.countFaultNum(radar);
+		if(HI>40) {
 			result=0;	
 		}else if(HI>20){
-			result=1;
-			
+			result=1;		
 		}else {
 			result=2;
-			
 		}
 		String radarId=String.valueOf(radar);
 		AnalysisDao.change1(radarId);     //健康评估      去除旧的
 		AnalysisDao.change2(radarId);     //故障预测
-		for(int i=1;i<faultid;i++) {
-			AnalysisDao.faultForecast(radarId,i);
+		for(int i=0;i<fnum;i++) {
+			int n=random.nextInt(10);
+			if(n>7) {
+			AnalysisDao.faultForecast(radarId,i+1); //故障预测
+			}
 		}
 		AnalysisDao.save1(radarId,result);  //健康评估     添加新的
 		AnalysisDao.save2(radarId,result);  //雷达状态
+		List<RadarHealth> health=AnalysisDao.gethealthID();
+		int healthid=health.get(0).getHealthResultId();
+		for(int i=1;i<13;i++) {
+		int sysint=random.nextInt(100);
+		int sysHI=0;
+		if(sysint<10) {
+			sysHI=2;
+		}else if(sysint<35) {
+			sysHI=1;
+		}
+		AnalysisDao.save3(sysHI,healthid,i); //分系统健康评估
+		}
+		return true;
 		}
 	
 	public String[] countNum() {

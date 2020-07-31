@@ -54,6 +54,11 @@ public class Table1 extends JTable implements LoadingData{
  		initTable();
  	}
 
+ 	public void refreshTable(){
+ 		LoadingDataClass loading = new LoadingDataClass(this, className, methodName,params);
+		loading.execute();
+ 	}
+ 	
 	private void initTable() {
 		LoadingDataClass loading = new LoadingDataClass(this, className, methodName,params);
 		loading.execute();  //开始执行任务线程方法

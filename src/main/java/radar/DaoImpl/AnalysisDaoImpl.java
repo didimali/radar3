@@ -21,6 +21,7 @@ import radar.Entity.Manager;
 import radar.Entity.PartConsume;
 import radar.Entity.Parts;
 import radar.Entity.Radar;
+import radar.Entity.RadarHealth;
 import radar.Entity.System;
 
 @Repository("AnalysisDaoImpl")
@@ -261,6 +262,42 @@ public class AnalysisDaoImpl implements AnalysisDao {
 		List<Radar> list = query.getResultList();
 		em.close();
 		return list;
+	}
+	
+	@Override
+	public List<RadarHealth> gethealthID() {
+		EntityManager em = emf.createEntityManager();
+		String sql = "select * from radar_health ORDER BY health_result_id DESC LIMIT 0,1 ";
+		Query query = em.createNativeQuery(sql,RadarHealth.class);
+		List<RadarHealth> list = query.getResultList();
+		em.close();
+		return list;
+	}
+	
+	@Override
+	public void save3(int result,int hid, int sysid) {
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		try {
+			String selectSql = "insert into sys_or_equip_health(ass_result,health_result_id,system_id) values"
+					+ " ('"+result+"','"+hid+"','"+sysid+"')";
+			Query query = em.createNativeQuery(selectSql);
+			query.executeUpdate();
+			em.flush();
+			em.getTransaction().commit();
+		} finally {
+			em.close();
+		}	
+	}	
+	
+	@Override
+	public int countFaultNum(int radarid) {
+		EntityManager em = emf.createEntityManager();
+		String sql = "select count(*) from fault_type left join radar on fault_type.radar_type_id = radar.radar_type_id where radar.radar_id="+radarid;
+		Query query = em.createNativeQuery(sql);
+		List<Object> list = query.getResultList();
+		em.close();
+		return Integer.parseInt(list.get(0).toString());
 	}
 	
 }
