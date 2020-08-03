@@ -12,6 +12,6 @@ public interface ManagerDao {
 	boolean deleteManager(String managerName);
 
 	List<Manager> selectManager(String name2);
-	boolean updateManager(String managerNameEditor, String locationType, String managerName);
+	boolean updateManager(String managerNameEditor, Integer lt, String managerName);
 	
 }

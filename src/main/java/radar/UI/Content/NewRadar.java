@@ -216,7 +216,6 @@ public void initContentBody() {
 					r.setRadarName(radarNameComboBox.getSelectedItem().toString());
 					String name1=radarTypeComboBox.getSelectedItem().toString();
 					String name2 = managerNameComboBox.getSelectedItem().toString();
-
 					if(name1.equals("")||name2.equals("")) {
 						JOptionPane.showMessageDialog(null,"请选择雷达类型、所属部队","提示",JOptionPane.WARNING_MESSAGE);					
 					}
@@ -265,14 +264,26 @@ public void initContentBody() {
 		delete.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
 			String radarName =radarNameComboBox.getSelectedItem().toString();
-			RadarServiceImpl radarServiceImpl = (RadarServiceImpl) SpringUtil.getBean("RadarServiceImpl");
-			boolean  result =	radarServiceImpl.deleteRadar(radarName);
-			if(result) {
-				JOptionPane.showMessageDialog(null, "已成功删除雷达", "删除雷达", JOptionPane.INFORMATION_MESSAGE);
-
-			}
+				int num = JOptionPane.showConfirmDialog(null, "是否删除？", "提示",JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+			    switch(num) {
+			    case JOptionPane.YES_OPTION:
+			    	RadarServiceImpl radarServiceImpl = (RadarServiceImpl) SpringUtil.getBean("RadarServiceImpl");
+					boolean  result =	radarServiceImpl.deleteRadar(radarName);
+					if(result) {
+						contentBody.remove(radarNameComboBox);
+						radarNameComboBox = new ComboBox("RadarServiceImpl", "getDataForRadarComboBox",null);
+						contentBody.add(radarNameComboBox, "cell 2 0,growx,aligny bottom");
+						radarNameComboBox.validate();
+						radarNameComboBox.repaint();
+						JOptionPane.showMessageDialog(null, "已成功删除", "提示", JOptionPane.INFORMATION_MESSAGE);
+					}
+			    case JOptionPane.NO_OPTION:
+			    	break;
+			    case JOptionPane.CANCEL_OPTION:
+			    	break;
+			    }
+			
 			}
 		});	
 }
