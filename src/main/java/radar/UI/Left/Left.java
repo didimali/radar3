@@ -73,6 +73,7 @@ public class Left extends JPanel {
 		b8.setFont(new Font("仿宋", Font.BOLD, 14));
 		add(b8, "cell 0 7,grow");
 		
+// 		b9 = new Button("故 障 记 录");
 		b9 = new Button("数 据 导 入");
 		b9.setIcon(TopPanel.getIcon("item1.png",this));
 		b9.setFont(new Font("仿宋", Font.BOLD, 14));
@@ -187,14 +188,14 @@ public class Left extends JPanel {
 		b7.changeColor(false);
 		b8.changeColor(false);
 		b9.changeColor(false);
-		
+    
 		b4.setVisible(show);
 		b5.setVisible(show);
 		b6.setVisible(show);
 		b7.setVisible(show);
 		b8.setVisible(show);
 		b9.setVisible(show);
-		
+    
 		this.validate();
 		this.repaint();
 	}

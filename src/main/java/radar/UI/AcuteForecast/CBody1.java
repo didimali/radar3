@@ -1,10 +1,6 @@
 package radar.UI.AcuteForecast;
 
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
-
-import radar.UI.Components.Table;
 import radar.UI.Components.Table1;
 
 import java.awt.event.MouseAdapter;

@@ -13,6 +13,9 @@ import radar.UI.Top.TopPanel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+
+import org.springframework.validation.annotation.Validated;
+
 import java.awt.Font;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -21,8 +24,11 @@ import javax.swing.JSeparator;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -37,7 +43,9 @@ public class NewManager extends ContentPanel implements Init{
 	private JButton update;
 	private JButton delete;
 	private JSeparator managerSeparator;
-	private	String managerName2;
+	private String managerName2;
+	private String managerName3;
+
 	private JPanelTransparent title;
 	private JPanelTransparent subtitle;
 
@@ -194,13 +202,13 @@ public class NewManager extends ContentPanel implements Init{
 					resultdata=concreteLocation;
 					locationTypeComboBox.setModel(new DefaultComboBoxModel(resultdata));
 				}
-				if(e.getStateChange() == 1) {
+				
+				if(e.getStateChange() ==ItemEvent.DESELECTED) {
 					managerName2 = (String) e.getItem();
 				}
 			}
 		});
-		
-		
+			
 		update.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -209,19 +217,29 @@ public class NewManager extends ContentPanel implements Init{
 				String managerNameEditor=managerNameComboBox.getSelectedItem().toString();
 				Object[] obj = managerServiceImpl.getDataForManagerComboBox(null);
 				Boolean flag=true;
+				//获取修改前的值
+				String manager3 =managerName2;
 				for(int i = 0; i < obj.length; i++){
-				if(managerName2.equals(obj[i].toString())||managerName2.equals("")||locationType.equals("")) {
+				if(manager3.equals("")||locationType.equals("")) {
 						JOptionPane.showMessageDialog(null,"请完善修改信息","提示",JOptionPane.WARNING_MESSAGE);
 						flag=false;
 						break;
 					}
 				}
 				if(flag) {
-				boolean result = managerServiceImpl.updateManager(managerNameEditor,locationType,managerName2);
-				if(result) {
-					JOptionPane.showMessageDialog(null, "更新成功", "提示", JOptionPane.INFORMATION_MESSAGE);
+					int num = JOptionPane.showConfirmDialog(null, "是否修改"+manager3+"的信息？", "提示",JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+				    switch(num) {
+				    case JOptionPane.YES_OPTION:
+						boolean result = managerServiceImpl.updateManager(managerNameEditor,locationType,manager3);
+						if(result) {
+							JOptionPane.showMessageDialog(null, "更新成功", "提示", JOptionPane.INFORMATION_MESSAGE);
 
-				}
+						}
+				    case JOptionPane.NO_OPTION:
+				    	break;
+				    case JOptionPane.CANCEL_OPTION:
+				    	break;
+				    }
 				}
 			}
 		});
@@ -229,17 +247,35 @@ public class NewManager extends ContentPanel implements Init{
 			@Override
 			public void mouseClicked(MouseEvent e) {				
 				String managerName =managerNameComboBox.getSelectedItem().toString();
+				boolean flag=false;
 				if(managerName.equals("")||locationTypeComboBox.getSelectedItem().toString().equals("")) {
 						JOptionPane.showMessageDialog(null,"请选择要删除的部队","提示",JOptionPane.WARNING_MESSAGE);
 						return;
+					}else {
+						flag=true;
 					}
-					
-				ManagerServiceImpl managerServiceImpl = (ManagerServiceImpl) SpringUtil.getBean("ManagerServiceImpl");
-				boolean  result =	managerServiceImpl.deleteManager(managerName);
-				if(result) {
-					JOptionPane.showMessageDialog(null, "已成功删除", "提示", JOptionPane.INFORMATION_MESSAGE);
+				if(flag) {
+					int num = JOptionPane.showConfirmDialog(null, "是否删除？", "提示",JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+				    switch(num) {
+				    case JOptionPane.YES_OPTION:
+				    	ManagerServiceImpl managerServiceImpl = (ManagerServiceImpl) SpringUtil.getBean("ManagerServiceImpl");
+						boolean  result =	managerServiceImpl.deleteManager(managerName);
+						if(result) {
+							contentBody.remove(managerNameComboBox);
+							managerNameComboBox = new ComboBox("ManagerServiceImpl", "getDataForManagerComboBox",null);
+							contentBody.add(managerNameComboBox, "cell 2 1,growx");
+							managerNameComboBox.validate();
+							managerNameComboBox.repaint();
+							JOptionPane.showMessageDialog(null, "已成功删除", "提示", JOptionPane.INFORMATION_MESSAGE);
+						}
+				    case JOptionPane.NO_OPTION:
+				    	break;
+				    case JOptionPane.CANCEL_OPTION:
+				    	break;
+				    }
+				
 				}
-				}
+			}
 			});		
 		}	
 }

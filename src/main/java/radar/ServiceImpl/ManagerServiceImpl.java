@@ -464,23 +464,30 @@ public class ManagerServiceImpl implements ManagerService {
 			return o;
 	}
 	public boolean updateManager(String managerNameEditor, String locationType, String managerName) {
-		int locateType;
+		Integer lt = null;
+//		Integer locateType=null;
+// 		int locateType;
 		if(locationType.equals("高原")) {
-			locateType=0;
+			lt=0;
 		}else if(locationType.equals("山地")) {
-			locateType=1;
+			lt=1;
 
 		}else if(locationType.equals("平原")){
-			locateType=2;
+			lt=2;
 
 		}else if(locationType.equals("沿海")) {
-			locateType=3;
+			lt=3;
 
 		}else if(locationType.equals("沙漠")) {
-			locateType=4;
+			lt=4;
 
 		}
-		return managerDao.updateManager(managerNameEditor,locationType,managerName);
+		return managerDao.updateManager(managerNameEditor,lt,managerName);
+	}
+
+	public List<Manager> getManagers() {
+		// TODO Auto-generated method stub
+		return  managerDao.getManagers();
 	}
 
 	@Override

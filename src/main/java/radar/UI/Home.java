@@ -4,14 +4,15 @@ import javax.swing.JPanel;
 
 import radar.Tools.Init;
 import radar.UI.Content.ContentPanel3;
+import radar.UI.Content.FaultRecord;
 import radar.UI.Content.ImportData;
 import radar.UI.Content.NewManager;
 import radar.UI.Content.NewRadar;
-import radar.UI.Content.Parts;
-import radar.UI.Content.PartsConsume;
+import radar.UI.Content.PartConsume;
 import radar.UI.Content.PrecisePrediction;
 import radar.UI.Content.RadarStruct;
 import radar.UI.Content.Radartype;
+import radar.UI.Content.PartsManage;
 import radar.UI.Left.Left;
 import radar.UI.Top.TopPanel;
 
@@ -42,13 +43,16 @@ public class Home extends JPanel implements Init {
 	private ContentPanel3 p6 = new ContentPanel3();
 	private ContentPanel3 p7 = new ContentPanel3();
 	private ContentPanel3 p8 = new ContentPanel3();
-	
+  
 	private PrecisePrediction c1;
 	private Radartype c2;	
 	private NewManager c3;
 	private RadarStruct c4;
 	private NewRadar c5;
-	private Parts c6;
+	private PartsManage c6;
+// 	private PartConsume c7;
+// 	private FaultRecord c8;
+// 	private Parts c6;
 	private PartsConsume c7;
 	private ImportData c8;
 
@@ -92,6 +96,15 @@ public class Home extends JPanel implements Init {
 			public void mouseClicked(MouseEvent e) {
 				set3();
 				cardLayout.show(panel,"p3");
+				validate();
+				repaint();
+			}
+		});
+		left.getB9().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				set8();
+				cardLayout.show(panel,"p8");
 				validate();
 				repaint();
 			}
@@ -210,15 +223,21 @@ public class Home extends JPanel implements Init {
 	private void set6() {
 		if(c6 != null)
 			p6.remove(c6);
-		c6 = new Parts();
+		c6 = new PartsManage();
 		p6.add(c6, BorderLayout.CENTER);
 	}
 	private void set7() {
 		if(c7 != null)
 			p7.remove(c7);
-		c7 = new PartsConsume();
+		c7 = new PartConsume();
 		p7.add(c7, BorderLayout.CENTER);
 	}
+// 	private void set8() {
+// 		if(c8 != null)
+// 			p8.remove(c8);
+// 		c8 = new FaultRecord();
+// 		p8.add(c8, BorderLayout.CENTER);
+// 	}
 	
 	private void set8() {
 		if(c8 != null)

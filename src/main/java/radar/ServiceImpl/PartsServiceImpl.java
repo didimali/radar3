@@ -8,8 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import radar.Dao.PartsDao;
+import radar.Entity.FaultRecord;
 import radar.Entity.PartConsume;
 import radar.Entity.Parts;
+import radar.Repository.FaultRepository;
+import radar.Repository.PartConsumeRepository;
+import radar.Repository.PartsRepository;
 import radar.Service.PartsService;
 
 @Service("PartsServiceImpl")
@@ -17,6 +21,11 @@ import radar.Service.PartsService;
 public class PartsServiceImpl implements PartsService{
 	@Autowired
 	PartsDao partsDao;
+	@Autowired
+	PartsRepository partsRepository;
+	@Autowired
+	PartConsumeRepository 	partsConsumeRepository;
+
 	//备件种类表格数据获取
 	@Override
 	public Object[][] getPartsType(Object[] params) {
@@ -29,7 +38,7 @@ public class PartsServiceImpl implements PartsService{
 			if(p.getRadarTypeId()!=null) {
 				radarType=p.getRadarTypeId().getRadarTypeName();
 			}
-			Object[] o = {p.getPartsId(),p.getPartsName(),radarType};
+			Object[] o = {p.getPartsId(),p.getPartsName(),radarType,p.getPartsCount()};
 			data[i] = o;
 		}
 		return data;
@@ -63,5 +72,34 @@ public class PartsServiceImpl implements PartsService{
 				result[i] =P.getPartsName();
 			}
 			return result;
+		}
+		public Boolean add(Parts parts) {
+			try {
+				partsRepository.save(parts);
+				return true;
+
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+		public List<Parts> getPartsType(){
+			return  partsDao.getPartsType();
+		}
+		public Boolean add(PartConsume partConsume) {
+			try {
+				partsConsumeRepository.save(partConsume);
+				return true;
+
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+		public List<PartConsume> getPartsConsume() {
+			// TODO Auto-generated method stub
+			return partsDao.getPartsConsume();
 		}
 }

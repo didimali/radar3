@@ -240,7 +240,10 @@ public class RadarServiceImpl implements RadarService{
 
 			return o;
 		}
-
+		public  List<Radar> getAllRadars() {
+			// TODO Auto-generated method stub
+			return radarDao.getRadars();
+		}
 		@Override
 		public Object[][] getRadars(Object[] params) {
 			Object[][] result = {};
