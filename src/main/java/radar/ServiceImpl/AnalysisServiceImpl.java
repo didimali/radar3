@@ -2,8 +2,10 @@ package radar.ServiceImpl;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
@@ -13,11 +15,16 @@ import org.springframework.stereotype.Service;
 
 import radar.Dao.AnalysisDao;
 import radar.Dao.BigDataDao;
+import radar.Dao.RepairContentDao;
 import radar.Entity.DynamicData;
 import radar.Entity.Equip;
 import radar.Entity.Manager;
+import radar.Entity.PartConsume;
+import radar.Entity.Parts;
 import radar.Entity.Radar;
 import radar.Entity.RadarForecast;
+import radar.Entity.RadarHealth;
+import radar.Entity.RepairContent;
 import radar.Entity.System;
 import radar.Service.AnalysisService;
 
@@ -28,7 +35,11 @@ public class AnalysisServiceImpl implements AnalysisService{
 	
 	@Autowired
 	AnalysisDao AnalysisDao;
-
+	@Autowired
+	RepairContentDao RepairContentDao;
+	
+	
+	
 	@Override
 	public Object[][] countRadarType(Object[] params){
 		Object[][] data  = new Object[10][7];
@@ -183,4 +194,164 @@ public class AnalysisServiceImpl implements AnalysisService{
 		}
 	    return (PieDataset)defaultPieDataset;
 	  }
+	
+	public Boolean health(int radar) {	
+		Random random = new Random();
+		int HI=random.nextInt(100);
+		int result;
+		int fnum=AnalysisDao.countFaultNum(radar);
+		if(HI>40) {
+			result=0;	
+		}else if(HI>20){
+			result=1;		
+		}else {
+			result=2;
+		}
+		String radarId=String.valueOf(radar);
+		AnalysisDao.change1(radarId);     //健康评估      去除旧的
+		AnalysisDao.change2(radarId);     //故障预测
+		for(int i=0;i<fnum;i++) {
+			int n=random.nextInt(10);
+			if(n>7) {
+			AnalysisDao.faultForecast(radarId,i+1); //故障预测
+			}
+		}
+		AnalysisDao.save1(radarId,result);  //健康评估     添加新的
+		AnalysisDao.save2(radarId,result);  //雷达状态
+		List<RadarHealth> health=AnalysisDao.gethealthID();
+		int healthid=health.get(0).getHealthResultId();
+		for(int i=1;i<13;i++) {
+		int sysint=random.nextInt(100);
+		int sysHI=0;
+		if(sysint<10) {
+			sysHI=2;
+		}else if(sysint<35) {
+			sysHI=1;
+		}
+		AnalysisDao.save3(sysHI,healthid,i); //分系统健康评估
+		}
+		return true;
+		}
+	
+	public String[] countNum() {
+		String [] number = new String[6];
+	    number[0]=AnalysisDao.countNum(0,1);
+	    number[1]=AnalysisDao.countNum(1,1);
+	    number[2]=AnalysisDao.countNum(2,1);
+	    number[3]=AnalysisDao.countNum(0,2);
+	    number[4]=AnalysisDao.countNum(1,2);
+	    number[5]=AnalysisDao.countNum(2,2);
+	    return number;
+	}
+	
+	public DefaultPieDataset getPartConsumePie(Object[] params) {
+		String radarType = (String) params[0];
+		String sDate = (String) params[1];
+		String eDate = (String) params[2];
+		List<Parts> parts=AnalysisDao.getParts(radarType);
+		DefaultPieDataset result = new DefaultPieDataset();
+		for(int i=0;i<parts.size();i++) {
+			Parts part=parts.get(i);
+			List<PartConsume> consume=AnalysisDao.getPartsConsume(part.getPartsId(), sDate, eDate);			
+			int num=0;
+			for(int j=0;j<consume.size();j++) {
+				num=num+consume.get(j).getpConsumeCount();
+			}	
+			result.setValue(part.getPartsName(),num);
+		}
+		return result;
+	}
+	
+	
+	public DefaultCategoryDataset getPartConsumeLine(Object[] params) {
+		String radarType = (String) params[0];
+		String sDate = (String) params[1];
+		String eDate = (String) params[2];
+		List<Parts> parts=AnalysisDao.getParts(radarType);
+		DefaultCategoryDataset result = new DefaultCategoryDataset();		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		for(int i=0;i<parts.size();i++) {
+			Parts part=parts.get(i);
+			List<PartConsume> consume=AnalysisDao.getPartsConsume(part.getPartsId(), sDate, eDate);			
+			for(int j=0;j<consume.size();j++) {
+				PartConsume c=consume.get(j);
+				result.addValue(c.getpConsumeCount(),c.getPartsId().getPartsName(),sdf.format(c.getConsumeDate()));
+			}			
+		}	
+		return result;		
+	}
+	
+	public Object[][] getPartsConsumeData(Object[] params){
+		String radarType = (String) params[0];
+		String sDate = (String) params[1];
+		String eDate = (String) params[2];
+		List<Parts> parts=AnalysisDao.getParts(radarType);
+		Object[][] result = new Object[parts.size()][];
+		for(int i=0;i<parts.size();i++) {
+			Parts part=parts.get(i);
+			List<PartConsume> consume=AnalysisDao.getPartsConsume(part.getPartsId(), sDate, eDate);			
+			int num=0;
+			for(int j=0;j<consume.size();j++) {
+				num=num+consume.get(j).getpConsumeCount();
+			}	
+			Object[] o = {i+1,part.getPartsName(),num};
+			result[i] =o;
+		}
+		return result;
+	}
+	
+	public Object[][] getRepairPlanContent(Object[] params){
+		String radarType = (String) params[0];
+		if(radarType=="2") {
+			return new Object[0][0];
+		}
+		List<Radar> radar=AnalysisDao.getRadar(radarType);
+		List<Parts> parts=AnalysisDao.getParts(radarType);
+		
+		Object[][] result = new Object[parts.size()][];
+		int[] partsnum=new int[parts.size()];
+		for(int i=0;i<radar.size();i++) {
+			List<RepairContent> list = RepairContentDao.getRadarRepairContent(radar.get(i).getRadarId());
+			if(list.size()>1) {
+			for(int j=0;j<list.size();j++) {
+				int partid=Integer.parseInt(list.get(j).getPartsId().getPartsId().toString());
+				int num=list.get(j).getPartsCount();
+				switch(partid) {
+		    	case(0):partsnum[0]=partsnum[0]+num;break;
+		    	case(1):partsnum[1]=partsnum[1]+num;break;
+		    	case(2):partsnum[2]=partsnum[2]+num;break;
+		    	case(3):partsnum[3]=partsnum[3]+num;break;
+		    	case(4):partsnum[4]=partsnum[4]+num;break;
+		    	case(5):partsnum[5]=partsnum[5]+num;break;
+		    	case(6):partsnum[6]=partsnum[6]+num;break;
+		    	case(7):partsnum[7]=partsnum[7]+num;break;
+		    	case(8):partsnum[8]=partsnum[8]+num;break;
+		    	case(9):partsnum[9]=partsnum[9]+num;break;
+		    	case(10):partsnum[10]=partsnum[10]+num;break;
+		    	case(11):partsnum[11]=partsnum[11]+num;break;
+		    	case(12):partsnum[12]=partsnum[12]+num;break;
+		    	case(13):partsnum[13]=partsnum[13]+num;break;
+		    	case(14):partsnum[14]=partsnum[14]+num;break;
+		    	case(15):partsnum[15]=partsnum[15]+num;break;
+		    	case(16):partsnum[16]=partsnum[16]+num;break;
+		    	case(17):partsnum[17]=partsnum[17]+num;break;
+		    	case(18):partsnum[18]=partsnum[18]+num;break;
+		    	}; 		
+			}		
+		}
+		}
+		int n=0;
+		for(int i=0;i<parts.size();i++) {
+			if(partsnum[i]>0) {
+				Object[] o = {n+1,parts.get(i).getPartsName(),partsnum[i]};
+				result[n] =o;
+				n++;
+			}	
+		}
+        return result;
+	}
+	
+	
+	
+	
 }

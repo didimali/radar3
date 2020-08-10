@@ -5,6 +5,7 @@ import java.awt.Color;
 import javax.swing.JSplitPane;
 import net.miginfocom.swing.MigLayout;
 import radar.SpringUtil;
+import radar.UI.Components.ComboBox;
 import radar.UI.Components.HistoryLineForHI;
 import radar.UI.Components.JPanelTransparent;
 import radar.UI.Components.Table;
@@ -88,5 +89,12 @@ public class CBody4 extends JPanelTransparent {
 		
 		fault.add(fTable, "cell 0 1,grow");
 	}
+	
+	public void refresh() {
+		((Table1) healthTable).refreshTable();
+		((Table1) faultTable).refreshTable();  
+		hLine.refreshLine();	
+	}
+	
 
 }

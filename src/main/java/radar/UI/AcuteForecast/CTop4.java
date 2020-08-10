@@ -3,6 +3,8 @@ package radar.UI.AcuteForecast;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
@@ -11,8 +13,11 @@ import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
 
 import net.miginfocom.swing.MigLayout;
+import radar.SpringUtil;
+import radar.ServiceImpl.AnalysisServiceImpl;
 import radar.Tools.Init;
 import radar.UI.Components.JPanelTransparent;
+import javax.swing.JButton;
 
 /**
  * 精准预测-雷达维修预测顶部栏
@@ -31,6 +36,7 @@ public class CTop4 extends JPanelTransparent implements Init{
 	private String text1;
 	private JLabel label;
 	private JLabel title3;
+	private JButton start;
 		
 	public CTop4(String managerName, String radarName) {
 		this.text = managerName;
@@ -46,7 +52,7 @@ public class CTop4 extends JPanelTransparent implements Init{
 		panel = new JPanelTransparent();	
 		add(panel,"cell 0 0,grow");
 			
-		panel.setLayout(new MigLayout("", "[][][][][][40px][][]", "[grow]"));
+		panel.setLayout(new MigLayout("", "[][][][][][40px][][][][][]", "[grow]"));
 		title = new JLabel("基本状态");
 		title.setToolTipText("返回上一页");
 		title.setFont(new Font("仿宋", Font.BOLD, 24));
@@ -67,6 +73,10 @@ public class CTop4 extends JPanelTransparent implements Init{
 		title3 = new JLabel(text1+"维修预测结果");
 		title3.setFont(new Font("仿宋", Font.PLAIN, 24));
 		panel.add(title3, "cell 4 0");
+		
+		start = new JButton("重新评估");
+		start.setFont(new Font("仿宋", Font.PLAIN, 24));
+		panel.add(start, "cell 10 0,alignx right");
 				
 		panel1 = new JPanelTransparent();
 		
@@ -76,7 +86,6 @@ public class CTop4 extends JPanelTransparent implements Init{
 		JSeparator separator = new JSeparator();
 		separator.setForeground(Color.BLACK);
 		panel1.add(separator);
-		
 	}
 
 	@Override
@@ -88,5 +97,8 @@ public class CTop4 extends JPanelTransparent implements Init{
 	}
 	public JLabel getSubTitle() {
 		return subTitle;
+	}
+	public JButton getButton() {
+		return start;
 	}
 }

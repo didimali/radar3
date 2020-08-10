@@ -64,6 +64,13 @@ public class HistoryLineForHI extends JPanelTransparent implements Init, Loading
 		add(chart, BorderLayout.CENTER);
 	}
 	
+	public void refreshLine() {
+		LoadingDataClass loading = new LoadingDataClass(this, className, methodName,params);
+		loading.execute();
+	}
+	
+	
+	
 	private void getData() {
 //		SwingWorkerForHistoryLineForHI swHi = new SwingWorkerForHistoryLineForHI(this, className, methodName, params);
 //		swHi.execute();

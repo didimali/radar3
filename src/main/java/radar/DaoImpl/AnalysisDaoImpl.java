@@ -1,6 +1,10 @@
 package radar.DaoImpl;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -14,7 +18,10 @@ import radar.Dao.AnalysisDao;
 import radar.Entity.DynamicData;
 import radar.Entity.Equip;
 import radar.Entity.Manager;
+import radar.Entity.PartConsume;
+import radar.Entity.Parts;
 import radar.Entity.Radar;
+import radar.Entity.RadarHealth;
 import radar.Entity.System;
 
 @Repository("AnalysisDaoImpl")
@@ -130,6 +137,168 @@ public class AnalysisDaoImpl implements AnalysisDao {
 	}
 	
 	
+	@Override
+	public void save1(String id, int result) {
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String currentTime = sdf.format(new Date());
+		try {
+			String selectSql = "insert into radar_health(ass_result_effective,assess_date,assess_result,radar_id) values"
+					+ " ('0','"+currentTime+"','"+result+"','"+id+"')";
+			Query query = em.createNativeQuery(selectSql);
+			query.executeUpdate();
+			em.flush();
+			em.getTransaction().commit();
+		} finally {
+			em.close();
+		}	
+	}
+	
+	@Override
+	public void save2(String id, int result) {
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		try {
+			String selectSql = "update radar set radar_health="+result+" where radar_id="+id;
+			Query query = em.createNativeQuery(selectSql);
+			query.executeUpdate();
+			em.flush();
+			em.getTransaction().commit();
+		} finally {
+			em.close();
+		}	
+	}
+	
+	@Override
+	public void change1(String id) {
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		try {
+			String selectSql = "update radar_health set ass_result_effective = 1 where radar_id="+id+" ";
+			Query query = em.createNativeQuery(selectSql);
+			query.executeUpdate();
+			em.flush();
+			em.getTransaction().commit();
+		} finally {
+			em.close();
+		}		
+	}
+	
+	@Override
+	public void change2(String id) {
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		try {
+			String selectSql = "update radar_forecast set fore_result_effective = 1 where radar_id="+id+" ";
+			Query query = em.createNativeQuery(selectSql);
+			query.executeUpdate();
+			em.flush();
+			em.getTransaction().commit();
+		} finally {
+			em.close();
+		}		
+	}
+	
+	@Override
+	public void faultForecast(String id, int i) {
+			EntityManager em = emf.createEntityManager();
+			em.getTransaction().begin();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String currentTime = sdf.format(new Date());
+			Calendar ca = Calendar.getInstance();
+			ca.setTime(new Date());
+			Random random = new Random();			
+			ca.add(Calendar.DATE, random.nextInt(60));
+			Date d = ca.getTime();
+	        String nextTime = sdf.format(d);
+			try {
+				String selectSql = "insert into radar_forecast(fore_result_effective,forecast_date,forecast_result_date,fault_type_id,radar_id) values"
+						+ " ('0','"+nextTime+"','"+currentTime+"','"+i+"','"+id+"')";
+				Query query = em.createNativeQuery(selectSql);
+				query.executeUpdate();
+				em.flush();
+				em.getTransaction().commit();
+			} finally {
+				em.close();
+			}		
+	}
+	
+	@Override
+	public String countNum(int health,int typeid) {
+		EntityManager em = emf.createEntityManager();
+		String sql = "select count(*) from radar where radar_health="+health+" and radar_type_id="+typeid+" and radar_status=0";
+		Query query = em.createNativeQuery(sql);
+		List<Object> list = query.getResultList();
+		em.close();
+		return list.get(0).toString();
+	}
+
+	@Override
+	public List<Parts> getParts(String id) {
+		EntityManager em = emf.createEntityManager();
+		String sql = "select * from parts where radar_type_id="+id;
+		Query query = em.createNativeQuery(sql,Parts.class);
+		List<Parts> list = query.getResultList();
+		em.close();
+		return list;
+	}
+	
+	@Override
+	public List<PartConsume> getPartsConsume(int id,String startDate,String endDate) {
+		EntityManager em = emf.createEntityManager();
+		String sql = "select * from part_consume where parts_id="+id+" and consume_date between "+"'"+startDate+"'"+" and "+"'"+endDate+"'";
+		Query query = em.createNativeQuery(sql,PartConsume.class);
+		List<PartConsume> list = query.getResultList();
+		em.close();
+		return list;
+	}
+	
+	@Override
+	public List<Radar> getRadar(String typeid) {
+		EntityManager em = emf.createEntityManager();
+		String sql = "select * from radar where radar_type_id="+typeid+" and radar_status=0";
+		Query query = em.createNativeQuery(sql,Radar.class);
+		List<Radar> list = query.getResultList();
+		em.close();
+		return list;
+	}
+	
+	@Override
+	public List<RadarHealth> gethealthID() {
+		EntityManager em = emf.createEntityManager();
+		String sql = "select * from radar_health ORDER BY health_result_id DESC LIMIT 0,1 ";
+		Query query = em.createNativeQuery(sql,RadarHealth.class);
+		List<RadarHealth> list = query.getResultList();
+		em.close();
+		return list;
+	}
+	
+	@Override
+	public void save3(int result,int hid, int sysid) {
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		try {
+			String selectSql = "insert into sys_or_equip_health(ass_result,health_result_id,system_id) values"
+					+ " ('"+result+"','"+hid+"','"+sysid+"')";
+			Query query = em.createNativeQuery(selectSql);
+			query.executeUpdate();
+			em.flush();
+			em.getTransaction().commit();
+		} finally {
+			em.close();
+		}	
+	}	
+	
+	@Override
+	public int countFaultNum(int radarid) {
+		EntityManager em = emf.createEntityManager();
+		String sql = "select count(*) from fault_type left join radar on fault_type.radar_type_id = radar.radar_type_id where radar.radar_id="+radarid;
+		Query query = em.createNativeQuery(sql);
+		List<Object> list = query.getResultList();
+		em.close();
+		return Integer.parseInt(list.get(0).toString());
+	}
 	
 }
 

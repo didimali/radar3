@@ -9,6 +9,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import net.miginfocom.swing.MigLayout;
+import radar.SpringUtil;
+import radar.ServiceImpl.AnalysisServiceImpl;
+import radar.SwingWorker.SwingWorkerForHealthAccess;
+import radar.SwingWorker.SwingWorkerForNewRadar;
+import radar.Tools.LoadingDataClass;
 import radar.UI.AcuteForecast.CBody1;
 import radar.UI.AcuteForecast.CBody2;
 import radar.UI.AcuteForecast.CBody3;
@@ -52,7 +57,7 @@ public class PrecisePrediction extends JPanel {
 	boolean m3 = true;
 	boolean m4 = true;
 	boolean m5 = true;
-	
+	AnalysisServiceImpl analysisServiceImpl = (AnalysisServiceImpl) SpringUtil.getBean("AnalysisServiceImpl");
 	private CardLayout cardLayout = new CardLayout(0,0);
 
 	public PrecisePrediction() {
@@ -242,6 +247,17 @@ public class PrecisePrediction extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				cardLayout.show(panel,"c2");
+			}
+		});	
+		top4.getButton().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				SwingWorkerForHealthAccess h = new SwingWorkerForHealthAccess();   //南健健康评估
+				h.setRadarid(radarId);
+				h.execute();
+			    body4.refresh();
+			    body4.validate();
+			    body4.repaint();
 			}
 		});
 		System.out.println(c4.contentTop.getComponents());

@@ -33,6 +33,4 @@ public interface BigDataDao {
 
 	List<Object> getPartsID(String id);
 
-
-
 }

@@ -54,9 +54,14 @@ public class Table1 extends JTable implements LoadingData{
  		initTable();
  	}
 
+ 	public void refreshTable(){
+ 		LoadingDataClass loading = new LoadingDataClass(this, className, methodName,params);
+		loading.execute();
+ 	}
+ 	
 	private void initTable() {
 		LoadingDataClass loading = new LoadingDataClass(this, className, methodName,params);
-		loading.execute();
+		loading.execute();  //开始执行任务线程方法
 		// 如果结果集中没有数据，那么就用空来代替数据集中的每一行
         Object[][] nothing = { {}, {}, {}, {}, {}, {}, {}, {}, {}, {},{}, {}};
         model = new DefaultTableModel(nothing, header);

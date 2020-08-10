@@ -6,15 +6,23 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import net.miginfocom.swing.MigLayout;
 import radar.SpringUtil;
 import radar.ServiceImpl.AnalysisServiceImpl;
 import radar.Tools.Init;
 import radar.UI.AcuteForecast.ABody1;
 import radar.UI.AcuteForecast.ABody2;
 import radar.UI.AcuteForecast.ABody3;
+import radar.UI.AcuteForecast.AFoot;
 import radar.UI.AcuteForecast.ATop1;
 import radar.UI.AcuteForecast.ATop2;
 import radar.UI.AcuteForecast.ATop3;
+import radar.UI.AcuteForecast.BBody1;
+import radar.UI.AcuteForecast.BBody2;
+import radar.UI.AcuteForecast.BTop1;
+import radar.UI.AcuteForecast.BTop2;
+
+import javax.swing.JLabel;
 
 public class Radartype extends ContentPanel implements Init{
 
@@ -26,8 +34,12 @@ public class Radartype extends ContentPanel implements Init{
 	private ABody1 body1;
 	private ABody2 body2;
 	private ABody3 body3;
+	private BTop1 t1;
+	private BTop2 t2;
+	private BBody1 b1;
+	private BBody2 b2;
+	private AFoot foot;
 	public Radartype() {		
-		remove(contentFoot);
 		initUI();
 		Action();	
 
@@ -37,6 +49,7 @@ public class Radartype extends ContentPanel implements Init{
 	public void initUI() {
 		contentTop.setLayout(new BorderLayout(0, 0));
 		contentBody.setLayout(new BorderLayout(0, 0));
+		contentFoot.setLayout(new BorderLayout(0, 0));	
 		set1();
 	}
 
@@ -75,8 +88,10 @@ public class Radartype extends ContentPanel implements Init{
 		});
 		
 		body1 = new ABody1();
+		foot = new AFoot();
 		contentTop.add(top1);
 		contentBody.add(body1);
+		contentFoot.add(foot);
 		body1.getTable().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -85,6 +100,7 @@ public class Radartype extends ContentPanel implements Init{
 					int[] TL=analysisServiceImpl.getTL(row);
 					contentTop.remove(top1);
 					contentBody.remove(body1);
+					contentFoot.remove(foot);
 					set2(TL[0],TL[1]);
 					validate();
 					repaint();	
@@ -92,6 +108,52 @@ public class Radartype extends ContentPanel implements Init{
 							
 			}
 		});
+		
+		foot.getButton1().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				contentTop.remove(top1);
+				contentBody.remove(body1);
+				contentFoot.remove(foot);
+				setA("1");
+				validate();
+				repaint();
+			}
+		});
+		foot.getButton2().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				contentTop.remove(top1);
+				contentBody.remove(body1);
+				contentFoot.remove(foot);
+				setB("1");
+				validate();
+				repaint();
+			}
+		});
+		foot.getButton3().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				contentTop.remove(top1);
+				contentBody.remove(body1);
+				contentFoot.remove(foot);
+				setA("2");
+				validate();
+				repaint();
+			}
+		});
+		foot.getButton4().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				contentTop.remove(top1);
+				contentBody.remove(body1);
+				contentFoot.remove(foot);
+				setB("2");
+				validate();
+				repaint();
+			}
+		});		
+		
 	}
 
 	private void set2(int typeid, int location) {
@@ -104,6 +166,7 @@ public class Radartype extends ContentPanel implements Init{
 				contentBody.remove(body2);
 				contentTop.add(top1);
 				contentBody.add(body1);
+				contentFoot.add(foot);
 				validate();
 				repaint();
 			}
@@ -134,6 +197,7 @@ public class Radartype extends ContentPanel implements Init{
 				contentBody.remove(body3);
 				contentTop.add(top1);
 				contentBody.add(body1);
+				contentFoot.add(foot);
 				validate();
 				repaint();
 			}
@@ -165,6 +229,57 @@ public class Radartype extends ContentPanel implements Init{
 		contentTop.add(top3);
 		contentBody.add(body3);
 		
+	}
+	
+	private void setA(String typeid) {
+		t1 = new BTop1(typeid);
+		t1.getTimeButton().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(b1 != null) {
+					contentBody.remove(b1);
+					b1 = new BBody1(typeid,t1.getSDate().getText(),t1.getEDate().getText());
+					contentBody.add(b1);
+					validate();
+					repaint();
+				}
+			}
+		});
+		t1.getTitle().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				contentTop.remove(t1);
+				contentBody.remove(b1);
+				contentTop.add(top1);
+				contentBody.add(body1);
+				contentFoot.add(foot);
+				validate();
+				repaint();
+			}
+		});	
+		b1 = new BBody1(typeid,t1.getSDate().getText(),t1.getEDate().getText());
+		contentTop.add(t1);
+		contentBody.add(b1);
+	}
+
+	
+	private void setB(String typeid) {
+		t2 = new BTop2(typeid);
+		b2 = new BBody2(typeid);
+		contentTop.add(t2);
+		contentBody.add(b2);
+		t2.getTitle().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				contentTop.remove(t2);
+				contentBody.remove(b2);
+				contentTop.add(top1);
+				contentBody.add(body1);
+				contentFoot.add(foot);
+				validate();
+				repaint();
+			}
+		});
 	}
 	
 	@Override

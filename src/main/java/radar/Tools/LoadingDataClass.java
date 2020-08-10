@@ -37,7 +37,7 @@ public class LoadingDataClass extends SwingWorker<Object,Void>{
 	@Override 
 	protected void done() {
 		try {
-			jComponent.loadingData(get());
+			jComponent.loadingData(get());  //获取doInBackground返回值
 		} catch (InterruptedException | ExecutionException e) {
 			e.printStackTrace();
 		}

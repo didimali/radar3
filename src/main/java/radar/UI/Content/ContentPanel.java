@@ -50,7 +50,6 @@ public class ContentPanel extends JPanel{
 		flowLayout.setHgap(1);
 		contentTop.setBackground(null);
 		contentTop.setOpaque(false);
-		
 		panel.add(contentTop, "cell 0 0,grow");				
 		FlowLayout fl_contentBody = (FlowLayout) contentBody.getLayout();
 		fl_contentBody.setVgap(1);
