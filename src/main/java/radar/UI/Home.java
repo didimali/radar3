@@ -43,6 +43,7 @@ public class Home extends JPanel implements Init {
 	private ContentPanel3 p6 = new ContentPanel3();
 	private ContentPanel3 p7 = new ContentPanel3();
 	private ContentPanel3 p8 = new ContentPanel3();
+	private ContentPanel3 p9 = new ContentPanel3();
   
 	private PrecisePrediction c1;
 	private Radartype c2;	
@@ -53,8 +54,9 @@ public class Home extends JPanel implements Init {
 // 	private PartConsume c7;
 // 	private FaultRecord c8;
 // 	private Parts c6;
-	private PartsConsume c7;
-	private ImportData c8;
+	private PartConsume c7;
+	private FaultRecord c8;
+	private ImportData c9;
 
 	
 	
@@ -78,6 +80,7 @@ public class Home extends JPanel implements Init {
 		panel.add(p6,"p6");
 		panel.add(p7,"p7");
 		panel.add(p8,"p8");
+		panel.add(p9,"p9");
 		
 		setTop();
 		setLeft();		
@@ -91,71 +94,6 @@ public class Home extends JPanel implements Init {
 
 	private void setLeft() {
 		left = new Left();
-		left.getB3().addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				set3();
-				cardLayout.show(panel,"p3");
-				validate();
-				repaint();
-			}
-		});
-		left.getB9().addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				set8();
-				cardLayout.show(panel,"p8");
-				validate();
-				repaint();
-			}
-		});
-		
-		left.getB9().addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				set8();
-				cardLayout.show(panel,"p8");
-				validate();
-				repaint();
-			}			
-		});
-		
-		left.getB8().addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				set7();
-				cardLayout.show(panel,"p7");
-				validate();
-				repaint();
-			}
-		});
-		left.getB7().addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				set4();
-				cardLayout.show(panel,"p4");
-				validate();
-				repaint();
-			}
-		});
-		left.getB6().addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				set6();
-				cardLayout.show(panel,"p6");
-				validate();
-				repaint();
-			}
-		});
-		left.getB4().addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				set3();
-				cardLayout.show(panel,"p3");
-				validate();
-				repaint();
-			}
-		});
 		left.getB1().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -174,6 +112,25 @@ public class Home extends JPanel implements Init {
 				repaint();
 			}
 		});
+		left.getB3().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				set3();
+				cardLayout.show(panel,"p3");
+				validate();
+				repaint();
+			}
+		});
+		left.getB4().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				set3();
+				cardLayout.show(panel,"p3");
+				validate();
+				repaint();
+			}
+		});
+		
 		left.getB5().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -183,6 +140,51 @@ public class Home extends JPanel implements Init {
 				repaint();
 			}
 		});
+		left.getB6().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				set6();
+				cardLayout.show(panel,"p6");
+				validate();
+				repaint();
+			}
+		});
+		left.getB7().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				set4();
+				cardLayout.show(panel,"p4");
+				validate();
+				repaint();
+			}
+		});
+		left.getB8().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				set7();
+				cardLayout.show(panel,"p7");
+				validate();
+				repaint();
+			}
+		});
+		left.getB9().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				set8();
+				cardLayout.show(panel,"p8");
+				validate();
+				repaint();
+			}			
+		});
+		left.getB10().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				set9();
+				cardLayout.show(panel,"p9");
+				validate();
+				repaint();
+			}
+		});		
 		add(left, BorderLayout.WEST);		
 	}
 
@@ -232,18 +234,18 @@ public class Home extends JPanel implements Init {
 		c7 = new PartConsume();
 		p7.add(c7, BorderLayout.CENTER);
 	}
-// 	private void set8() {
-// 		if(c8 != null)
-// 			p8.remove(c8);
-// 		c8 = new FaultRecord();
-// 		p8.add(c8, BorderLayout.CENTER);
-// 	}
+ 	private void set8() {
+ 		if(c8 != null)
+ 			p8.remove(c8);
+ 		c8 = new FaultRecord();
+ 		p8.add(c8, BorderLayout.CENTER);
+ 	}
 	
-	private void set8() {
-		if(c8 != null)
-			p8.remove(c8);
-		c8 = new ImportData();
-		p8.add(c8, BorderLayout.CENTER);
+	private void set9() {
+		if(c9 != null)
+			p9.remove(c9);
+		c9 = new ImportData();
+		p9.add(c9, BorderLayout.CENTER);
 	}
 
 	@Override
