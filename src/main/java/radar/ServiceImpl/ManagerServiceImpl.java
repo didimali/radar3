@@ -417,7 +417,6 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 
 	public boolean deleteManager(String managerName) {
-		// TODO Auto-generated method stub
 		return managerDao.deleteManager(managerName);
 	}
 
@@ -465,9 +464,9 @@ public class ManagerServiceImpl implements ManagerService {
 			return o;
 	}
 	public boolean updateManager(String managerNameEditor, String locationType, String managerName) {
-		// TODO Auto-generated method stub
 		Integer lt = null;
 //		Integer locateType=null;
+// 		int locateType;
 		if(locationType.equals("高原")) {
 			lt=0;
 		}else if(locationType.equals("山地")) {
@@ -489,6 +488,21 @@ public class ManagerServiceImpl implements ManagerService {
 	public List<Manager> getManagers() {
 		// TODO Auto-generated method stub
 		return  managerDao.getManagers();
+	}
+
+	@Override
+	public Object[][] getAllManger(Object[] params) {
+		List<Manager> list = managerDao.getManager();
+		int N = list.size();
+		Object[][] result = new Object[N+1][2];
+		if(list.size() == 0)
+			return result;		
+		for(int i=0;i<N;i++) {
+			result[i+1][1] = list.get(i).getManagerName();
+			result[i+1][0] = list.get(i).getManagerId();
+		}
+		return result;
+		
 	}
     
 	 

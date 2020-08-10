@@ -240,11 +240,29 @@ public class RadarServiceImpl implements RadarService{
 
 			return o;
 		}
-
 		public  List<Radar> getAllRadars() {
 			// TODO Auto-generated method stub
 			return radarDao.getRadars();
 		}
+		@Override
+		public Object[][] getRadars(Object[] params) {
+			Object[][] result = {};
+			return result;
+		}
 
-		
+		@Override
+		public Object[][] getRadarsByManagerId(Object[] params) {
+			int managerId = (int) params[0];
+			List<Radar> list = radarDao.getRadarsByManagerId(managerId);
+			int N = list.size();
+			Object[][] result = new Object[N+1][2];
+			if(N == 0)
+				return result;
+			
+			for(int i=0;i<N;i++) {
+				result[i+1][1] = list.get(i).getRadarName();
+				result[i+1][0] = list.get(i).getRadarId();
+			}
+			return result;	
+		}
 }

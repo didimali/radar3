@@ -203,6 +203,16 @@ public class RadarDaoImpl implements RadarDao {
 		List<Radar> list = query.getResultList();
 		em.close();
 		return list;
+	}
+
+	@Override
+	public List<Radar> getRadarsByManagerId(int managerId) {
+		EntityManager em = emf.createEntityManager();
+		String sql = "select * from radar where radar_status = '0' and manager_id = '"+managerId+"'";
+		Query query = em.createNativeQuery(sql, Radar.class);
+		List<Radar> result = query.getResultList();
+		em.close();
+		return result;
 	};
 
 

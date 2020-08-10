@@ -29,7 +29,6 @@ public class Left extends JPanel {
 	private Button b7;
 	private Button b8;
 	private Button b9;
-
 		
 	public Left() {
 		
@@ -74,7 +73,8 @@ public class Left extends JPanel {
 		b8.setFont(new Font("仿宋", Font.BOLD, 14));
 		add(b8, "cell 0 7,grow");
 		
-		b9 = new Button("故 障 记 录");
+// 		b9 = new Button("故 障 记 录");
+		b9 = new Button("数 据 导 入");
 		b9.setIcon(TopPanel.getIcon("item1.png",this));
 		b9.setFont(new Font("仿宋", Font.BOLD, 14));
 		add(b9, "cell 0 8,grow");
@@ -132,7 +132,6 @@ public class Left extends JPanel {
 				b7.changeColor(false);
 				b8.changeColor(false);
 				b9.changeColor(false);
-
 				}
 		});
 		b6.addMouseListener(new MouseAdapter() {
@@ -144,7 +143,6 @@ public class Left extends JPanel {
 				b7.changeColor(false);
 				b8.changeColor(false);
 				b9.changeColor(false);
-
 				}
 		});
 		b7.addMouseListener(new MouseAdapter() {
@@ -156,7 +154,6 @@ public class Left extends JPanel {
 				b7.changeColor(true);
 				b8.changeColor(false);
 				b9.changeColor(false);
-
 				}
 		});
 		b8.addMouseListener(new MouseAdapter() {
@@ -168,7 +165,6 @@ public class Left extends JPanel {
 				b7.changeColor(false);
 				b8.changeColor(true);
 				b9.changeColor(false);
-
 				}
 		});
 		b9.addMouseListener(new MouseAdapter() {
@@ -180,7 +176,6 @@ public class Left extends JPanel {
 				b7.changeColor(false);
 				b8.changeColor(false);
 				b9.changeColor(true);
-
 				}
 		});
 		
@@ -193,14 +188,14 @@ public class Left extends JPanel {
 		b7.changeColor(false);
 		b8.changeColor(false);
 		b9.changeColor(false);
-
+    
 		b4.setVisible(show);
 		b5.setVisible(show);
 		b6.setVisible(show);
 		b7.setVisible(show);
 		b8.setVisible(show);
 		b9.setVisible(show);
-
+    
 		this.validate();
 		this.repaint();
 	}
