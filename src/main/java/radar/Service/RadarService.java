@@ -9,6 +9,10 @@ public interface RadarService {
 	Object[][] countRadarList();
 
 	Object[] getDataForRadarComboBox(Object[] params);
+	
+	Object[][] getRadars(Object[] params);
+	
+	Object[][] getRadarsByManagerId(Object[] params);
 
 
 

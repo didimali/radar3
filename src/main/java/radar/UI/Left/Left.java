@@ -28,11 +28,12 @@ public class Left extends JPanel {
 	private Button b6;
 	private Button b7;
 	private Button b8;
+	private Button b9;
 		
 	public Left() {
 		
 		setBackground(new Color(248,248,255));
-		setLayout(new MigLayout("", "[150px]", "[40px][40px][40px][30px][30px][30px][30px][30px]"));
+		setLayout(new MigLayout("", "[150px]", "[40px][40px][40px][30px][30px][30px][30px][30px][30px]"));
 		
 		b1 = new Button("精 准 预 测");
 		b1.setIcon(TopPanel.getIcon("forecast.png",this));
@@ -71,6 +72,11 @@ public class Left extends JPanel {
 		b8.setIcon(TopPanel.getIcon("item1.png",this));
 		b8.setFont(new Font("仿宋", Font.BOLD, 14));
 		add(b8, "cell 0 7,grow");
+		
+		b9 = new Button("数 据 导 入");
+		b9.setIcon(TopPanel.getIcon("item1.png",this));
+		b9.setFont(new Font("仿宋", Font.BOLD, 14));
+		add(b9, "cell 0 8,grow");
 		
 		showSubTitles(false);
 				
@@ -113,6 +119,7 @@ public class Left extends JPanel {
 				b6.changeColor(false);
 				b7.changeColor(false);
 				b8.changeColor(false);
+				b9.changeColor(false);
 				}
 		});
 		b5.addMouseListener(new MouseAdapter() {
@@ -123,6 +130,7 @@ public class Left extends JPanel {
 				b6.changeColor(false);
 				b7.changeColor(false);
 				b8.changeColor(false);
+				b9.changeColor(false);
 				}
 		});
 		b6.addMouseListener(new MouseAdapter() {
@@ -133,6 +141,7 @@ public class Left extends JPanel {
 				b6.changeColor(true);
 				b7.changeColor(false);
 				b8.changeColor(false);
+				b9.changeColor(false);
 				}
 		});
 		b7.addMouseListener(new MouseAdapter() {
@@ -143,6 +152,7 @@ public class Left extends JPanel {
 				b6.changeColor(false);
 				b7.changeColor(true);
 				b8.changeColor(false);
+				b9.changeColor(false);
 				}
 		});
 		b8.addMouseListener(new MouseAdapter() {
@@ -153,6 +163,18 @@ public class Left extends JPanel {
 				b6.changeColor(false);
 				b7.changeColor(false);
 				b8.changeColor(true);
+				b9.changeColor(false);
+				}
+		});
+		b9.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				b4.changeColor(false);
+				b5.changeColor(false);
+				b6.changeColor(false);
+				b7.changeColor(false);
+				b8.changeColor(false);
+				b9.changeColor(true);
 				}
 		});
 		
@@ -164,12 +186,14 @@ public class Left extends JPanel {
 		b6.changeColor(false);
 		b7.changeColor(false);
 		b8.changeColor(false);
+		b9.changeColor(false);
 		
 		b4.setVisible(show);
 		b5.setVisible(show);
 		b6.setVisible(show);
 		b7.setVisible(show);
 		b8.setVisible(show);
+		b9.setVisible(show);
 		
 		this.validate();
 		this.repaint();
@@ -195,6 +219,9 @@ public class Left extends JPanel {
 	}
 	public Button getB8() {
 		return b8;
+	}
+	public Button getB9() {
+		return b9;
 	}
 	
 	public Button getB3() {

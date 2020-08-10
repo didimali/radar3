@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 
 import radar.Tools.Init;
 import radar.UI.Content.ContentPanel3;
+import radar.UI.Content.ImportData;
 import radar.UI.Content.NewManager;
 import radar.UI.Content.NewRadar;
 import radar.UI.Content.Parts;
@@ -40,6 +41,7 @@ public class Home extends JPanel implements Init {
 	private ContentPanel3 p5 = new ContentPanel3();
 	private ContentPanel3 p6 = new ContentPanel3();
 	private ContentPanel3 p7 = new ContentPanel3();
+	private ContentPanel3 p8 = new ContentPanel3();
 	
 	private PrecisePrediction c1;
 	private Radartype c2;	
@@ -48,6 +50,7 @@ public class Home extends JPanel implements Init {
 	private NewRadar c5;
 	private Parts c6;
 	private PartsConsume c7;
+	private ImportData c8;
 
 	
 	
@@ -70,6 +73,7 @@ public class Home extends JPanel implements Init {
 		panel.add(p5,"p5");
 		panel.add(p6,"p6");
 		panel.add(p7,"p7");
+		panel.add(p8,"p8");
 		
 		setTop();
 		setLeft();		
@@ -91,6 +95,16 @@ public class Home extends JPanel implements Init {
 				validate();
 				repaint();
 			}
+		});
+		
+		left.getB9().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				set8();
+				cardLayout.show(panel,"p8");
+				validate();
+				repaint();
+			}			
 		});
 		
 		left.getB8().addMouseListener(new MouseAdapter() {
@@ -204,6 +218,13 @@ public class Home extends JPanel implements Init {
 			p7.remove(c7);
 		c7 = new PartsConsume();
 		p7.add(c7, BorderLayout.CENTER);
+	}
+	
+	private void set8() {
+		if(c8 != null)
+			p8.remove(c8);
+		c8 = new ImportData();
+		p8.add(c8, BorderLayout.CENTER);
 	}
 
 	@Override

@@ -16,6 +16,11 @@ public interface ManagerService {
 	Object[] getDataForManagerComboBox(Object[] params) ;
 	
 	/**
+	 * 获取部队下拉框数据1
+	 */
+	Object[][] getAllManger(Object[] params);
+	
+	/**
 	 * 获取部队位置下拉框
 	 */
 	Object[] getDataForManagerLocationComboBox() ;

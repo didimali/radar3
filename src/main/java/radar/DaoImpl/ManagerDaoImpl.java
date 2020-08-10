@@ -82,6 +82,6 @@ public class ManagerDaoImpl implements ManagerDao {
 			em.close();
 		}
 		return true;
-	};
+	}
 
 }

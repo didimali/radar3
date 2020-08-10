@@ -46,5 +46,7 @@ public interface RadarDao {
 
 	List<Radar> selectRadar(String choosenRadarName);
 
+	List<Radar> getRadarsByManagerId(int managerId);
+
 
 }
