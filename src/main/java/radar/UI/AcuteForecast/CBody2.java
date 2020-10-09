@@ -2,12 +2,10 @@ package radar.UI.AcuteForecast;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 
 import radar.UI.Components.JPanelTransparent;
 import radar.UI.Components.PieChart;
-import radar.UI.Components.Table;
-import radar.UI.Components.Table1;
+import radar.UI.Components.TableWithScrollBar;
 import net.miginfocom.swing.MigLayout;
 import java.awt.Color;
 
@@ -21,7 +19,7 @@ public class CBody2 extends JPanelTransparent{
 	private JScrollPane jTable;
 	private JPanel jChart;
 	
-	private Table1 table;
+	private TableWithScrollBar table;
 	private PieChart pie1;
 	private PieChart pie2;
 	private Object[] params = {null,null,null};
@@ -57,13 +55,13 @@ public class CBody2 extends JPanelTransparent{
 
 	private void setJTable() {
 		String[] header = {"radarId","序号","雷达","健康评估结果","故障预测","维修计划"};
-		table = new Table1("AcuteForecastServiceImpl", "getAcuteForecastTable2Data", params, header,true,0);
+		table = new TableWithScrollBar("AcuteForecastServiceImpl", "getAcuteForecastTable2Data", params, header,true,0);
 		table.setToolTipText("查看详情");
 		
 		jTable = new JScrollPane(table);
 		add(jTable, "cell 0 0,grow");
 	}
-	public Table1 getTable() {
+	public TableWithScrollBar getTable() {
 		return table;
 	}
 }

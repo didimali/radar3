@@ -1,38 +1,28 @@
 package radar.UI.Settings;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
-
-import ch.qos.logback.core.joran.action.Action;
 import net.miginfocom.swing.MigLayout;
 import radar.SpringUtil;
-import radar.Entity.FaultRecord;
-import radar.Entity.FaultType;
 import radar.Entity.Parts;
-import radar.Entity.Radar;
 import radar.Entity.RadarType;
-import radar.ServiceImpl.BasicInfoSettingServiceImpl;
 import radar.ServiceImpl.RadarServiceImpl;
-import radar.SwingWorker.SwingWorkerForFaultRecord;
 import radar.SwingWorker.SwingWorkerForParts;
 import radar.UI.Components.ComboBox;
 import radar.UI.Components.JPanelTransparent;
 
 public class AddPartsBody extends JPanelTransparent{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel JPanel;
 	private JPanel jPanel1;
 	private JLabel partsName;

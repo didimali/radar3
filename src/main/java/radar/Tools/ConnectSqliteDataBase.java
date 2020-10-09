@@ -8,6 +8,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.codec.binary.Hex;
+
 import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 
@@ -123,19 +126,34 @@ public class ConnectSqliteDataBase {
         ResultSet rs = statement.executeQuery("SELECT * FROM Records");
         while (rs.next()) {
         	Records r = new Records();
-        	SimpleDateFormat sdf =   new SimpleDateFormat( " yyyy-MM-dd HH:mm:ss " ); 
+        	SimpleDateFormat sdf =   new SimpleDateFormat( "yyyyMMddHHmmss" ); 
             int col1 = rs.getInt("id");
             String col2 = rs.getString("time");
-            String col3 = new String(rs.getString("timeb").getBytes("UTF-8"),"GBK");
+            String col3 = str2HexStr(rs.getString("timeb"), false,"UTF-8");
+            String timeb = new String(col3.getBytes("GBK"),"UTF-8");  
             int col4 = rs.getInt("dev");
             String col5 = rs.getString("info");
             r.setId(col1);
             r.setTime(sdf.parse(col2));
-            r.setTimeb(col3);
+            r.setTimeb(timeb);
             r.setDev(col4);
             r.setInfo(col5);
             result.add(r);           
         }
         return result;
+    }
+    
+    
+    /**
+          * 将普通字符串转换为16进制字符串
+     * @param str 普通字符串
+     * @param lowerCase 转换后的字母为是否为小写  可不传默认为true
+     * @param charset 编码格式  可不传默认为Charset.defaultCharset()
+     * @return
+     * @throws UnsupportedEncodingException
+     */
+    public String str2HexStr(String str,boolean lowerCase,String charset) 
+		throws UnsupportedEncodingException {
+        return Hex.encodeHexString(str.getBytes(charset),lowerCase);
     }
 }

@@ -3,19 +3,14 @@ package radar.UI.Settings;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
-
 import net.miginfocom.swing.MigLayout;
 import radar.Tools.Init;
 import radar.UI.Components.ComboBox;
 import radar.UI.Components.JPanelTransparent;
-import radar.UI.Components.Table1;
 
 /**
  * 备件列表-顶部栏一

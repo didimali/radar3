@@ -10,6 +10,10 @@ import radar.UI.Components.LineChart;
 import radar.UI.Components.PieChart;
 import radar.UI.Components.Table;
 import radar.UI.Components.Table1;
+import radar.UI.Components.TableWithScrollBar;
+import java.awt.BorderLayout;
+import javax.swing.JTabbedPane;
+import java.awt.Font;
 /**
  * 精准预测-内容三
  */
@@ -20,18 +24,27 @@ public class BBody1 extends JPanelTransparent {
 	private JScrollPane jTable;
 	private JPanel jChart;
 	
-	private Table1 table;
+	private TableWithScrollBar table;
 	private PieChart pie;
 	private LineChart line;
 	private Object[] params = {null,null,null,null,null};
 	
+	private JTabbedPane tabbedPane;
 	
 	public BBody1(String radarType, String sDate, String eDate) {
 		params[0] = radarType;
 		params[1] = sDate;
 		params[2] = eDate;
-		setBackground(Color.WHITE);
-		setLayout(new MigLayout("", "[60%][grow]", "[grow]"));	
+		setBackground(null);
+		setLayout(new BorderLayout(0, 0));
+		
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setFont(new Font("宋体", Font.PLAIN, 14));
+		tabbedPane.setBackground(null);
+		tabbedPane.setBorder(null);
+		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+		add(tabbedPane, BorderLayout.CENTER);
+				
 		setJTable();		
 		setJChart(params[0]);
 	}
@@ -51,22 +64,26 @@ public class BBody1 extends JPanelTransparent {
 		line.init();
 
 		jChart = new JPanelTransparent();
-		add(jChart, "cell 1 0,grow");
-		jChart.setLayout(new MigLayout("", "[grow]", "[grow][grow]"));
+		jChart.setLayout(new MigLayout("", "[50%][50%]", "[100%,grow]"));
 		
 		jChart.add(pie, "cell 0 0,grow");
-		jChart.add(this.line, "cell 0 1,grow");
+		jChart.add(line, "cell 1 0,grow");
+		
+		
+		tabbedPane.addTab("统计图表", null, jChart, null);
 	}
 
 	private void setJTable() {
+				
 		String[] header = {"序号","备件","消耗数量"};
-		table = new Table1("AnalysisServiceImpl", "getPartsConsumeData", params, header,false,0);
-		
+		table = new TableWithScrollBar("AnalysisServiceImpl", "getPartsConsumeData", params, header,false,0);		
+//		jTable = new JScrollPane(table);
+//		add(jTable, "cell 0 0,grow");		
 		jTable = new JScrollPane(table);
-		add(jTable, "cell 0 0,grow");
+		tabbedPane.addTab("统计表格", null, jTable, null);
 	}
 		
-	public Table1 getTable() {
+	public TableWithScrollBar getTable() {
 		return table;
 	}
 }

@@ -14,7 +14,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import net.miginfocom.swing.MigLayout;
 import radar.Tools.Init;
-import radar.UI.Components.Table1;
+import radar.UI.Components.TableWithScrollBar;
 
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -22,7 +22,7 @@ import javax.swing.DefaultComboBoxModel;
 @SuppressWarnings("serial")
 public class XiTong extends ContentPanel implements Init{
 	private JLabel xiTongInfo;
-	private Table1 table;
+	private TableWithScrollBar table;
 	private JScrollPane panel_2;
 
 	private JComboBox comboBox;
@@ -72,7 +72,7 @@ public class XiTong extends ContentPanel implements Init{
 		contentBody.setLayout(new MigLayout("", "[grow]", "[grow]"));
 		String[] header = { "序号", "系统名称", "雷达型号"};
 		Object[] params= {};
-		table = new Table1("XiTongServiceImpl", "getXiTongInfo",params,header,false,0);
+		table = new TableWithScrollBar("XiTongServiceImpl", "getXiTongInfo",params,header,false,0);
 		panel_2 = new JScrollPane(table);		
 		panel_2.setBackground(Color.WHITE);
 		panel_2.setOpaque(true);

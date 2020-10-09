@@ -8,8 +8,11 @@ import net.miginfocom.swing.MigLayout;
 import radar.UI.Components.JPanelTransparent;
 import radar.UI.Components.LineChart;
 import radar.UI.Components.PieChart;
-import radar.UI.Components.Table;
-import radar.UI.Components.Table1;
+import radar.UI.Components.TableWithScrollBar;
+
+import java.awt.BorderLayout;
+import javax.swing.JTabbedPane;
+import java.awt.Font;
 /**
  * 精准预测-内容三
  */
@@ -17,14 +20,14 @@ public class CBody3 extends JPanelTransparent {
 
 	private static final long serialVersionUID = 1L;
 	
-	private JScrollPane jTable;
-	private JPanel jChart;
-	
-	private Table1 table;
+	private TableWithScrollBar table;
 	private PieChart pie;
 	private LineChart line;
 	private Object[] params = {null,null,null,null,null};
 	
+	JScrollPane scrollPane;
+	JTabbedPane tabbedPane;
+	JPanel panel;
 	
 	public CBody3(int managerId, String managerName, String radarType, String sDate, String eDate) {
 		params[0] = managerName;
@@ -32,8 +35,15 @@ public class CBody3 extends JPanelTransparent {
 		params[2] = sDate;
 		params[3] = eDate;
 		params[4] = managerId;
-		setBackground(Color.WHITE);
-		setLayout(new MigLayout("", "[60%][grow]", "[grow]"));	
+		setBackground(null);
+		setLayout(new BorderLayout(0, 0));
+		
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setBackground(null);
+		tabbedPane.setBorder(null);
+		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+		tabbedPane.setFont(new Font("宋体", Font.PLAIN, 14));
+		add(tabbedPane, BorderLayout.CENTER);
 		
 		setJTable();		
 		setJChart();
@@ -47,24 +57,23 @@ public class CBody3 extends JPanelTransparent {
 		line = new LineChart(params[1]+"备件消耗",null,null, "AcuteForecastServiceImpl", "getDataForPartConsumeLine", params);
 		line.setBackground(Color.WHITE);
 		line.init();
-
-		jChart = new JPanelTransparent();
-		add(jChart, "cell 1 0,grow");
-		jChart.setLayout(new MigLayout("", "[grow]", "[grow][grow]"));
 		
-		jChart.add(pie, "cell 0 0,grow");
-		jChart.add(this.line, "cell 0 1,grow");
+		panel = new JPanelTransparent();
+		panel.setLayout(new MigLayout("", "[grow][grow]", "[grow]"));
+		
+		panel.add(pie, "cell 0 0,grow");
+		panel.add(line, "cell 1 0,grow");		
+		tabbedPane.addTab("统计图表", null, panel, null);
 	}
 
 	private void setJTable() {
 		String[] header = {"序号","备件","消耗数量"};
-		table = new Table1("AcuteForecastServiceImpl", "getAcuteForecastTable3Data", params, header,false,0);
-		
-		jTable = new JScrollPane(table);
-		add(jTable, "cell 0 0,grow");
+		table = new TableWithScrollBar("AcuteForecastServiceImpl", "getAcuteForecastTable3Data", params, header,false,0);
+		scrollPane = new JScrollPane(table);		
+		tabbedPane.addTab("详细数据", null, scrollPane, null);		
 	}
 		
-	public Table1 getTable() {
+	public TableWithScrollBar getTable() {
 		return table;
 	}
 }

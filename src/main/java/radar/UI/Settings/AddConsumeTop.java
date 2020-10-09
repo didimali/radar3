@@ -12,17 +12,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
-
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
 import jxl.Cell;
 import jxl.CellType;
 import jxl.DateCell;
@@ -36,11 +33,14 @@ import radar.Entity.Parts;
 import radar.ServiceImpl.ManagerServiceImpl;
 import radar.ServiceImpl.PartsServiceImpl;
 import radar.ServiceImpl.RadarServiceImpl;
-import radar.UI.Components.ComboBox;
 import radar.UI.Components.JPanelTransparent;
 import radar.UI.Top.TopPanel;
 
 public class AddConsumeTop extends JPanelTransparent{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel panel;
 	private JPanel panel1;
 	private JLabel goBackConsumeList;

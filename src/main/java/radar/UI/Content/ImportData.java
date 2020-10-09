@@ -25,7 +25,6 @@ import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import net.miginfocom.swing.MigLayout;
-import radar.Tools.ConnectSqliteDataBase;
 import radar.Tools.ExtractDataFromSqlite;
 import radar.Tools.Init;
 import radar.Tools.LoadingDataClass;

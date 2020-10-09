@@ -3,9 +3,7 @@ package radar.UI.Settings;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
@@ -13,7 +11,6 @@ import javax.swing.JSeparator;
 import net.miginfocom.swing.MigLayout;
 import radar.Tools.Init;
 import radar.UI.Components.BackupPartsBox;
-import radar.UI.Components.ComboBox;
 import radar.UI.Components.JPanelTransparent;
 import radar.UI.Components.ManagerCombox;
 /**
@@ -42,7 +39,7 @@ public class ConsumeListTop extends JPanelTransparent implements Init{
 		panel = new JPanelTransparent();
 		add(panel,"cell 0 0,grow");
 					
-		panel.setLayout(new MigLayout("", "[][30%][][120px][100PX][][120px][30%][120px]", "[100%]"));
+		panel.setLayout(new MigLayout("", "[][30%][][120px][120px,grow][][120px][30%][120px]", "[100%]"));
 		consumeInfo = new JLabel("备件消耗信息");
 		consumeInfo.setFont(new Font("仿宋", Font.BOLD, 24));
 		panel.add(consumeInfo, "cell 0 0,alignx trailing,aligny center");

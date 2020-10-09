@@ -63,7 +63,7 @@ public class Table1 extends JTable implements LoadingData{
 		LoadingDataClass loading = new LoadingDataClass(this, className, methodName,params);
 		loading.execute();  //开始执行任务线程方法
 		// 如果结果集中没有数据，那么就用空来代替数据集中的每一行
-        Object[][] nothing = { {}, {}, {}, {}, {}, {}, {}, {}, {}, {},{}, {}};
+        Object[][] nothing = { {}, {}, {}, {}, {}, {}, {}, {}, {}, {}};
         model = new DefaultTableModel(nothing, header);
         this.setModel(model);
         DefaultTableCellRenderer r = new DefaultTableCellRenderer();
@@ -128,13 +128,9 @@ public class Table1 extends JTable implements LoadingData{
 			if(o[columnIndex].equals(value))
 				tmp.add(o);
 		}
-		
 		int N = tmp.size();
-		int l = N%10;
-		int k = N/10;
-		if(l>0)
-			N = 10*(k+1);
-		Object[][] rData = new Object[N+2][];
+		N = N%10 >0 ? 10*(N/10+1):N;
+		Object[][] rData = new Object[N][];
 		for(int j=0;j<tmp.size();j++) {
 			Object[] o = tmp.get(j);
 			if(o == null)
@@ -146,7 +142,7 @@ public class Table1 extends JTable implements LoadingData{
 			rData[j] = o;
 		}
 		if(tmp.size() == 0) {
-			Object[][] nothing = { {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}};
+			Object[][] nothing = { {}, {}, {}, {}, {}, {}, {}, {}, {}, {}};
             model = new DefaultTableModel(nothing, header);
 		}
 		else
@@ -195,11 +191,9 @@ public class Table1 extends JTable implements LoadingData{
 		}
 		
 		int N = tmp.size();
-		int l = N%10;
-		int k = N/10;
-		if(l>0)
-			N = 10*(k+1);
-		Object[][] rData = new Object[N+2][];
+		N = N%10 >0 ? 10*(N/10+1):N;
+		resultData = new Object[N][];
+		Object[][] rData = new Object[N][];
 		for(int j=0;j<tmp.size();j++) {
 			Object[] o = tmp.get(j);
 			if(o == null)
@@ -211,7 +205,7 @@ public class Table1 extends JTable implements LoadingData{
 			rData[j] = o;
 		}
 		if(tmp.size() == 0) {
-			Object[][] nothing = { {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}};
+			Object[][] nothing = { {}, {}, {}, {}, {}, {}, {}, {}, {}, {}};
             model = new DefaultTableModel(nothing, header);
 		}
 		else
@@ -230,11 +224,8 @@ public class Table1 extends JTable implements LoadingData{
 
 	private void initResultData(Object[][] data) {
 		int N = data.length;
-		int l = N%10;
-		int k = N/10;
-		if(l>0)
-			N = 10*(k+1);
-		resultData = new Object[N+2][];
+		N = N%10 >0 ? 10*(N/10+1):N;
+		resultData = new Object[N][];
 		for(int i=0;i<data.length;i++) {
 			resultData[i] = data[i];
 		}

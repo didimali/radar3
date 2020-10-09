@@ -124,22 +124,22 @@ public class AFoot extends JPanelTransparent implements Init{
 		panel2.setLayout(new MigLayout("", "[50%][50%]", "[50%][50%]"));
 		panel.add(panel2,"cell 16 0,grow");
 		
-		button1 = new JButton(" I型雷达备件消耗统计");
-		button1.setFont(new Font("仿宋", Font.PLAIN, 15));
-	
-		panel2.add(button1, "cell 0 0");
-		
-		button2 = new JButton(" I型雷达器材筹措");
-		button2.setFont(new Font("仿宋", Font.PLAIN, 15));
-		panel2.add(button2, "cell 2 0");
-		
-		button3 = new JButton("II型雷达备件消耗统计");
-		button3.setFont(new Font("仿宋", Font.PLAIN, 15));
-		panel2.add(button3, "cell 0 1");
-		
-		button4 = new JButton("II型雷达器材筹措");
-		button4.setFont(new Font("仿宋", Font.PLAIN, 15));
-		panel2.add(button4, "cell 2 1");
+//		button1 = new JButton(" I型雷达备件消耗统计");
+//		button1.setFont(new Font("仿宋", Font.PLAIN, 15));
+//	
+//		panel2.add(button1, "cell 0 0");
+//		
+//		button2 = new JButton(" I型雷达器材筹措");
+//		button2.setFont(new Font("仿宋", Font.PLAIN, 15));
+//		panel2.add(button2, "cell 2 0");
+//		
+//		button3 = new JButton("II型雷达备件消耗统计");
+//		button3.setFont(new Font("仿宋", Font.PLAIN, 15));
+//		panel2.add(button3, "cell 0 1");
+//		
+//		button4 = new JButton("II型雷达器材筹措");
+//		button4.setFont(new Font("仿宋", Font.PLAIN, 15));
+//		panel2.add(button4, "cell 2 1");
 	}
 
 	@Override

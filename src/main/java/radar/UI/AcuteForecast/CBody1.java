@@ -1,7 +1,7 @@
 package radar.UI.AcuteForecast;
 
 import javax.swing.JScrollPane;
-import radar.UI.Components.Table1;
+import radar.UI.Components.TableWithScrollBar;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -15,18 +15,20 @@ public class CBody1 extends JScrollPane {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Table1 table;
+//	private Table1 table;
+	
+	private TableWithScrollBar table;
 
 	public CBody1() {
 		
 		String[] header = {"managerId","序号","部队","驻地类型","雷达型号","列装数量（台）","红（台）","黄（台）","绿（台）","备件消耗（件）"};
-		table = new Table1("AcuteForecastServiceImpl", "getAcuteForecastTable1Data", null, header,true,0);
+//		table = new Table1("AcuteForecastServiceImpl", "getAcuteForecastTable1Data", null, header,true,0);
+		table = new TableWithScrollBar("AcuteForecastServiceImpl", "getAcuteForecastTable1Data", null, header,true,0);
 		table.setToolTipText("查看详情");
 		setViewportView(table);
-
 	}
 
-	public Table1 getTable() {
+	public TableWithScrollBar getTable() {
 		return table;
 	}
 	

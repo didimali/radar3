@@ -5,10 +5,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 import javax.swing.JPanel;
-
-import ch.qos.logback.core.joran.conditional.IfAction;
 import net.miginfocom.swing.MigLayout;
 import radar.UI.Settings.AddFaultBody;
 import radar.UI.Settings.AddFaultTop;
@@ -44,8 +41,6 @@ public class FaultRecord extends JPanel{
 		add(panel, "cell 1 1,grow");
 		panel.add(faultListPanel,"faultListPanel");
 		panel.add(addFaultRecordPanel,"addFaultRecordPanel");
-	
-		
 		lookFirstCard();
 	}
 
@@ -101,9 +96,5 @@ public class FaultRecord extends JPanel{
 			}
 		});
 	}
-					
-
-
- 
-	
+				
 }

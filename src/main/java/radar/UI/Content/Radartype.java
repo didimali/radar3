@@ -6,7 +6,6 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import net.miginfocom.swing.MigLayout;
 import radar.SpringUtil;
 import radar.ServiceImpl.AnalysisServiceImpl;
 import radar.Tools.Init;
@@ -22,7 +21,6 @@ import radar.UI.AcuteForecast.BBody2;
 import radar.UI.AcuteForecast.BTop1;
 import radar.UI.AcuteForecast.BTop2;
 
-import javax.swing.JLabel;
 
 public class Radartype extends ContentPanel implements Init{
 
@@ -87,6 +85,51 @@ public class Radartype extends ContentPanel implements Init{
 			}
 		});
 		
+		top1.getButton1().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				contentTop.remove(top1);
+				contentBody.remove(body1);
+				contentFoot.remove(foot);
+				setA("1");
+				validate();
+				repaint();
+			}
+		});
+		top1.getButton2().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				contentTop.remove(top1);
+				contentBody.remove(body1);
+				contentFoot.remove(foot);
+				setB("1");
+				validate();
+				repaint();
+			}
+		});
+		top1.getButton3().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				contentTop.remove(top1);
+				contentBody.remove(body1);
+				contentFoot.remove(foot);
+				setA("2");
+				validate();
+				repaint();
+			}
+		});
+		top1.getButton4().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				contentTop.remove(top1);
+				contentBody.remove(body1);
+				contentFoot.remove(foot);
+				setB("2");
+				validate();
+				repaint();
+			}
+		});
+		
 		body1 = new ABody1();
 		foot = new AFoot();
 		contentTop.add(top1);
@@ -108,52 +151,7 @@ public class Radartype extends ContentPanel implements Init{
 							
 			}
 		});
-		
-		foot.getButton1().addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				contentTop.remove(top1);
-				contentBody.remove(body1);
-				contentFoot.remove(foot);
-				setA("1");
-				validate();
-				repaint();
-			}
-		});
-		foot.getButton2().addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				contentTop.remove(top1);
-				contentBody.remove(body1);
-				contentFoot.remove(foot);
-				setB("1");
-				validate();
-				repaint();
-			}
-		});
-		foot.getButton3().addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				contentTop.remove(top1);
-				contentBody.remove(body1);
-				contentFoot.remove(foot);
-				setA("2");
-				validate();
-				repaint();
-			}
-		});
-		foot.getButton4().addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				contentTop.remove(top1);
-				contentBody.remove(body1);
-				contentFoot.remove(foot);
-				setB("2");
-				validate();
-				repaint();
-			}
-		});		
-		
+
 	}
 
 	private void set2(int typeid, int location) {
@@ -284,7 +282,6 @@ public class Radartype extends ContentPanel implements Init{
 	
 	@Override
 	public void Action() {
-		// TODO Auto-generated method stub
 		
 	}
 

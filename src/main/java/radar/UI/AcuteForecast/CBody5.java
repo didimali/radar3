@@ -4,17 +4,12 @@ import javax.swing.JPanel;
 
 import radar.Tools.Init;
 import radar.UI.Components.JPanelTransparent;
-import radar.UI.Components.PieChart;
-import radar.UI.Components.Table;
-import radar.UI.Components.Table1;
+import radar.UI.Components.TableWithScrollBar;
 import radar.UI.Components.Title;
 
 import java.awt.Color;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JLabel;
-import java.awt.Font;
 
 /**
  * 精准预测-器材筹措结果内容页面
@@ -24,7 +19,7 @@ import java.awt.Font;
 public class CBody5 extends JPanelTransparent implements Init{
 	
 	private static final long serialVersionUID = 1L;
-	private JTable planTable;
+	private TableWithScrollBar planTable;
 	private JScrollPane planPanel;
 	
 	private Object[] params = {null};
@@ -48,7 +43,7 @@ public class CBody5 extends JPanelTransparent implements Init{
 		
 		title = new Title("AcuteForecastServiceImpl", "getDataForRadarRepairPlanDate", params);
 		add(title, "cell 0 0,grow");
-		planTable = new Table1("AcuteForecastServiceImpl", "getDataForRadarRepairPlanContent", params, header, false, 0);
+		planTable = new TableWithScrollBar("AcuteForecastServiceImpl", "getDataForRadarRepairPlanContent", params, header, false, 0);
 		
 		planPanel = new JScrollPane(planTable);
 		add(planPanel, "cell 0 1,grow");
@@ -56,9 +51,7 @@ public class CBody5 extends JPanelTransparent implements Init{
 	}
 
 	private void setHistory() {
-	}
-
-	
+	}	
 
 	@Override
 	public void initUI() {
@@ -69,5 +62,4 @@ public class CBody5 extends JPanelTransparent implements Init{
 	public void Action() {
 		
 	}
-
 }

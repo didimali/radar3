@@ -3,20 +3,15 @@ package radar.UI.Settings;
 import radar.SpringUtil;
 import radar.Entity.FaultRecord;
 import radar.Entity.FaultType;
-import radar.Entity.Manager;
 import radar.Entity.Radar;
 import radar.ServiceImpl.BasicInfoSettingServiceImpl;
-import radar.ServiceImpl.ManagerServiceImpl;
 import radar.ServiceImpl.RadarServiceImpl;
 import radar.SwingWorker.SwingWorkerForFaultRecord;
-import radar.SwingWorker.SwingWorkerForNewManager;
 import radar.UI.Components.Chooser;
 import radar.UI.Components.ComboBox;
 import radar.UI.Components.JPanelTransparent;
-
 import java.awt.Color;
 import java.awt.Font;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -26,8 +21,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-
-import ch.qos.logback.core.joran.action.Action;
 import net.miginfocom.swing.MigLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

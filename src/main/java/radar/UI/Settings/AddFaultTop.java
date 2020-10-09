@@ -21,9 +21,6 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
-
-
 import jxl.Cell;
 import jxl.CellType;
 import jxl.DateCell;
@@ -31,17 +28,11 @@ import jxl.Sheet;
 import jxl.Workbook;
 import net.miginfocom.swing.MigLayout;
 import radar.SpringUtil;
-import radar.Entity.Activity;
 import radar.Entity.FaultRecord;
 import radar.Entity.FaultType;
-import radar.Entity.Manager;
-import radar.Entity.PartConsume;
-import radar.Entity.Parts;
 import radar.Entity.Radar;
-import radar.ServiceImpl.ActivityServiceImpl;
 import radar.ServiceImpl.BasicInfoSettingServiceImpl;
 import radar.ServiceImpl.FaultRecordServiceImpl;
-import radar.ServiceImpl.ManagerServiceImpl;
 import radar.ServiceImpl.RadarServiceImpl;
 import radar.Tools.Init;
 import radar.UI.Components.JPanelTransparent;

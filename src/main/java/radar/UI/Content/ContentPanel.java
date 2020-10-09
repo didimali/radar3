@@ -1,18 +1,11 @@
 package radar.UI.Content;
 
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import net.miginfocom.swing.MigLayout;
-import radar.UI.Components.Background;
 import radar.UI.Components.JPanelTransparent;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * 内容面板父组件

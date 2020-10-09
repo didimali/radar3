@@ -9,13 +9,8 @@ import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
-import radar.UI.Components.Table1;
-import radar.UI.Settings.AddFaultBody;
-import radar.UI.Settings.AddFaultTop;
 import radar.UI.Settings.AddPartsBody;
 import radar.UI.Settings.AddPartsTop;
-import radar.UI.Settings.FaultList;
-import radar.UI.Settings.FaultListTop;
 import radar.UI.Settings.PartsList;
 import radar.UI.Settings.PartsListTop;
 
@@ -38,7 +33,6 @@ public class PartsManage extends JPanel{
 	
 	private AddPartsTop addPartsTop;
 	private AddPartsBody addPartsBody;
-	private Table1 table;
 
 	private CardLayout cardLayout = new CardLayout(0,0);
 

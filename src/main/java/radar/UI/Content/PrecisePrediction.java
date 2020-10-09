@@ -12,8 +12,6 @@ import net.miginfocom.swing.MigLayout;
 import radar.SpringUtil;
 import radar.ServiceImpl.AnalysisServiceImpl;
 import radar.SwingWorker.SwingWorkerForHealthAccess;
-import radar.SwingWorker.SwingWorkerForNewRadar;
-import radar.Tools.LoadingDataClass;
 import radar.UI.AcuteForecast.CBody1;
 import radar.UI.AcuteForecast.CBody2;
 import radar.UI.AcuteForecast.CBody3;
@@ -24,8 +22,6 @@ import radar.UI.AcuteForecast.CTop2;
 import radar.UI.AcuteForecast.CTop3;
 import radar.UI.AcuteForecast.CTop4;
 import radar.UI.AcuteForecast.CTop5;
-import javax.swing.JLabel;
-import java.awt.Color;
 
 /**
  * 精准预测跳转简单版本

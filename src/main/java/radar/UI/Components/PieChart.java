@@ -99,7 +99,7 @@ public class PieChart extends JPanelTransparent implements LoadingData{
 		p.setBackgroundAlpha(0.0f);
 		
 		// 设置标题颜色
-		pieChart.getTitle().setPaint(ChartColor.blue);
+		pieChart.getTitle().setPaint(ChartColor.black);
 	}
 	
 	private void setChartPanel() {

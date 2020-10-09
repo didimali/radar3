@@ -11,7 +11,6 @@ import javax.swing.JSeparator;
 
 import net.miginfocom.swing.MigLayout;
 import radar.Tools.Init;
-import radar.UI.Components.ComboBox;
 import javax.swing.JRadioButton;
 
 /**

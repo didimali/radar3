@@ -4,7 +4,7 @@ import javax.swing.JPanel;
 import net.miginfocom.swing.MigLayout;
 import radar.UI.Components.ComboBox;
 import radar.UI.Components.JPanelTransparent;
-import radar.UI.Components.Table1;
+import radar.UI.Components.TableWithScrollBar;
 
 import java.awt.BorderLayout;
 import javax.swing.JSeparator;
@@ -32,7 +32,7 @@ public class RadarStruct extends JPanel {
 	private JPanel panel_1;
 	private JSeparator separator;
 	private JScrollPane scrollPane;
-	private Table1 table;
+	private TableWithScrollBar table;
 	
 	private ContentPanel2 panel2;
 	
@@ -95,7 +95,7 @@ public class RadarStruct extends JPanel {
 		
 		String[] header = {"序号","雷达型号","雷达子系统","子系统下属部件"};
 		Object[] params = null;
-		table = new Table1("AcuteForecastServiceImpl", "getDataForRadarStructTable", params, header, false, 0);
+		table = new TableWithScrollBar("AcuteForecastServiceImpl", "getDataForRadarStructTable", params, header, false, 0);
 		
 		scrollPane = new JScrollPane(table);
 		

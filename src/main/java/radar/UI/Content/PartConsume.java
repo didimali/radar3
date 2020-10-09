@@ -9,15 +9,10 @@ import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
-import radar.UI.Components.Table1;
 import radar.UI.Settings.AddConsumeBody;
 import radar.UI.Settings.AddConsumeTop;
-import radar.UI.Settings.AddPartsBody;
-import radar.UI.Settings.AddPartsTop;
 import radar.UI.Settings.ConsumeList;
 import radar.UI.Settings.ConsumeListTop;
-import radar.UI.Settings.PartsList;
-import radar.UI.Settings.PartsListTop;
 
 /**
  * 备件消耗-内容一

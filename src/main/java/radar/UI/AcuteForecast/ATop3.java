@@ -60,7 +60,7 @@ public class ATop3 extends JPanelTransparent implements Init{
 		panel = new JPanelTransparent();	
 		add(panel,"cell 0 0,grow");
 			
-		panel.setLayout(new MigLayout("", "[][][][grow][][40px][][]", "[grow][grow]"));
+		panel.setLayout(new MigLayout("", "[][][][100px][][][][][][100px][][100px][]", "[grow]"));
 		title = new JLabel("统计分析");
 		title.setToolTipText("返回上一页");
 		title.setFont(new Font("仿宋", Font.BOLD, 24));
@@ -81,30 +81,30 @@ public class ATop3 extends JPanelTransparent implements Init{
 		radioButton = new JButton("适应性分析");
 		radioButton.setBackground(new Color(192,192,192));
 		radioButton.setFont(new Font("仿宋", Font.PLAIN, 18));
-		panel.add(radioButton, "cell 6 0,growx,aligny center");
+		panel.add(radioButton, "cell 4 0,growx,aligny center");
 		
 		radioButton_1 = new JButton("故障分析 ");
 		radioButton_1.setBackground(new Color(0, 204, 255));
 		radioButton_1.setFont(new Font("仿宋", Font.PLAIN, 18));
-		panel.add(radioButton_1, "cell 8 0,growx,aligny center");
+		panel.add(radioButton_1, "cell 6 0,growx,aligny center");
 		
 		label = new JLabel("起始-截止时间");
 		label.setFont(new Font("仿宋", Font.PLAIN, 16));
-		panel.add(label, "cell 5 1,growx,aligny center");
+		panel.add(label, "cell 8 0,growx,aligny center");
 		sDate = new JTextField(getFirstDayOfThisMonth().toString());
 		sDate.setFont(new Font("仿宋", Font.PLAIN, 15));
 		chooser1.register(sDate);
-		panel.add(sDate, "cell 6 1,growx,aligny center");
+		panel.add(sDate, "cell 9 0,growx,aligny center");
 		sDate.setColumns(4);
 		
 		lblNewLabel_1 = new JLabel("--");
 		lblNewLabel_1.setFont(new Font("仿宋", Font.PLAIN, 16));
-		panel.add(lblNewLabel_1, "cell 7 1,growx,aligny center");
+		panel.add(lblNewLabel_1, "cell 10 0,growx,aligny center");
 		eDate = new JTextField(getMaxDayOfThisMonth().toString());
 		eDate.setFont(new Font("仿宋", Font.PLAIN, 15));
 		chooser2.register(eDate);
 		
-		panel.add(eDate, "cell 8 1,growx,aligny center");
+		panel.add(eDate, "cell 11 0,growx,aligny center");
 		eDate.setColumns(4);
 		
 		
@@ -113,7 +113,7 @@ public class ATop3 extends JPanelTransparent implements Init{
 		timeButton.setToolTipText("刷新");
 		timeButton.setIcon(TopPanel.getIcon("refresh1.png",this));
 		timeButton.setFont(new Font("仿宋", Font.PLAIN, 18));
-		panel.add(timeButton, "cell 9 1");
+		panel.add(timeButton, "cell 12 0");
 		
 		panel1 = new JPanelTransparent();
 		

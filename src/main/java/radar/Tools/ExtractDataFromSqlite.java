@@ -1,5 +1,6 @@
 package radar.Tools;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.swing.SwingWorker;
@@ -22,6 +23,8 @@ public class ExtractDataFromSqlite extends SwingWorker<Boolean,Void>{
 		ConnectSqliteDataBase csd = new ConnectSqliteDataBase(url);
 		List<Records> list1 = csd.selectAllRecords();
 		List<Faults> list2 = csd.selectAllFaults();
+		SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
+		System.out.println(sdf.format(list1.get(0).getTime()) +" "+list1.get(0).getTimeb());
 		return null;
 	}
 	

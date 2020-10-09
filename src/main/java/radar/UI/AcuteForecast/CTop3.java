@@ -18,11 +18,6 @@ import radar.UI.Top.TopPanel;
 
 import javax.swing.JTextField;
 
-import javax.swing.JButton;
-import javax.swing.ImageIcon;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
 /**
  * 精准预测-顶部栏三
  */

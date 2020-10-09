@@ -3,18 +3,11 @@ package radar.UI.AcuteForecast;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
 
 import net.miginfocom.swing.MigLayout;
-import radar.SpringUtil;
-import radar.ServiceImpl.AnalysisServiceImpl;
 import radar.Tools.Init;
 import radar.UI.Components.JPanelTransparent;
 import javax.swing.JButton;

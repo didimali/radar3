@@ -14,8 +14,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 
-import org.springframework.validation.annotation.Validated;
-
 import java.awt.Font;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -24,16 +22,14 @@ import javax.swing.JSeparator;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 @SuppressWarnings({"serial","rawtypes","unchecked"})
 public class NewManager extends ContentPanel implements Init{
+	
 	private JLabel ManagerInfo;
 	private JLabel managerName;
 	private JComboBox managerNameComboBox;
@@ -64,7 +60,6 @@ public class NewManager extends ContentPanel implements Init{
 		
 		initContentBody();
 		
-		
 		contentBody.add(managerName, "cell 1 1,alignx trailing");
 		contentBody.add(managerNameComboBox, "cell 2 1,growx");
 		contentBody.add(locationType, "cell 1 2,alignx trailing");
@@ -73,10 +68,6 @@ public class NewManager extends ContentPanel implements Init{
 		contentFoot.add(add, "cell 1 1,grow");
 		contentFoot.add(update, "cell 3 1,grow");
 		contentFoot.add(delete, "cell 5 1,grow");
-
-
-
-
 	}	
 	/**
 	 * 添加内容面板头部

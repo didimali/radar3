@@ -4,51 +4,32 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.File;
-import java.util.List;
-
-import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.table.DefaultTableModel;
-
-import jxl.Sheet;
-import jxl.Workbook;
 import net.miginfocom.swing.MigLayout;
-import radar.SpringUtil;
-import radar.Entity.Equip;
-import radar.Entity.System;
-import radar.ServiceImpl.ManagerServiceImpl;
-import radar.ServiceImpl.XiTongServiceImpl;
 import radar.Tools.Init;
-import radar.UI.Components.Button;
-import radar.UI.Components.ManagerCombox;
-import radar.UI.Components.Table;
-import radar.UI.Components.Table1;
+import radar.UI.Components.TableWithScrollBar;
 import radar.UI.Components.XiTongComBox;
-
 import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
 
 @SuppressWarnings("serial")
 public class Equipment extends ContentPanel implements Init{
+	
+	
 	private JLabel equipInfo;
-	private Table1 table;
-	private JScrollPane panel_2;
-	
-
-	
-//	private JButton addEquipInfo;
+	private TableWithScrollBar table;
+	private JScrollPane panel_2;	
 	private JComboBox XcomboBox;
-
-	  private static JFileChooser fileChooser;
-		public static File chooseFile;  
+	private static JFileChooser fileChooser;
+	public static File chooseFile;  
+	//弹出文件选择框
+	Integer returnValue =null;
+	private JLabel systemLable;
+	
 	public Equipment() {
 		initUI();
 		Action();
@@ -71,10 +52,6 @@ public class Equipment extends ContentPanel implements Init{
 		contentBody.add(panel_2, "cell 0 0,grow");
 		//添加底部按钮
 		initContentFoot();
-
-//		contentFoot.add(addEquipInfo, "cell 9 1,alignx right,aligny center");
-
-		
 	}
 	/**
 	 * 添加内容面板头部
@@ -84,11 +61,6 @@ public class Equipment extends ContentPanel implements Init{
 		equipInfo = new JLabel("部件信息：");
 		equipInfo.setHorizontalAlignment(SwingConstants.LEFT);
 		equipInfo.setFont(new Font("仿宋", Font.BOLD, 24));
-		
-		
-
-
-
 	}
 
 	/**
@@ -98,38 +70,31 @@ public class Equipment extends ContentPanel implements Init{
 		contentBody.setLayout(new MigLayout("", "[grow]", "[grow]"));
 		String[] header = { "序号", "部件名称", "对应子系统"};
 		Object[] params= {};
-		table = new Table1("XiTongServiceImpl", "getEquipmentInfo",params,header,false,0);
+		table = new TableWithScrollBar("XiTongServiceImpl", "getEquipmentInfo",params,header,false,0);
 		panel_2 = new JScrollPane(table);		
 		panel_2.setBackground(Color.WHITE);
 		panel_2.setOpaque(true);
 
 	}
 
-		/**
-		 * 添加内容面板底部
-		 */
-			public void initContentFoot() {
-				contentFoot.setLayout(new MigLayout("", "[10%][grow][10][grow][10][grow][10][grow][10][grow][10%]", "[10%][80%][10%]"));
+	/**
+	 * 添加内容面板底部
+	 */
+	public void initContentFoot() {
+		contentFoot.setLayout(new MigLayout("", "[10%][grow][10][grow][10][grow][10][grow][10][grow][10%]", "[10%][80%][10%]"));
 
-//				addEquipInfo = new JButton("导入信息");
-//				addEquipInfo.setFont(new Font("宋体", Font.PLAIN, 12));
-			
-				
-			}
+	}
 
-			//弹出文件选择框
-			Integer returnValue =null;
-			private JLabel systemLable;
-			private int importExcel() {
-				 fileChooser = new JFileChooser();             
-			     //过滤Excel文件，只寻找以xls结尾的Excel文件，如果想过滤word文档也可以写上doc
-			     FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files", "xls");
-			     fileChooser.setFileFilter(filter);      
-			     returnValue = fileChooser.showOpenDialog(null);    
-			     return returnValue;
-			}
-			public void Action() {
-				//录入系统信息
+	private int importExcel() {
+		 fileChooser = new JFileChooser();             
+	     //过滤Excel文件，只寻找以xls结尾的Excel文件，如果想过滤word文档也可以写上doc
+	     FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files", "xls");
+	     fileChooser.setFileFilter(filter);      
+	     returnValue = fileChooser.showOpenDialog(null);    
+	     return returnValue;
+	}
+	public void Action() {
+		//录入系统信息
 //				addEquipInfo.addMouseListener(new MouseAdapter() {
 //					@Override
 //					public void mouseClicked(MouseEvent e) {
@@ -184,19 +149,19 @@ public class Equipment extends ContentPanel implements Init{
 //				        }
 //					}
 //				});
-				//下拉框筛选事件
-				XcomboBox.addItemListener(new ItemListener() {
-					public void itemStateChanged(ItemEvent e) {
-						if(e.getStateChange() == 1) {
-							String value = (String) e.getItem();
-							if(value.equals("全部"))
-								table.selectDataByColumnIndexAndValue(-1,value);
-							else
-								table.selectDataByColumnIndexAndValue(2,value);
-						}
-					}
-				});
+		//下拉框筛选事件
+		XcomboBox.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if(e.getStateChange() == 1) {
+					String value = (String) e.getItem();
+					if(value.equals("全部"))
+						table.selectDataByColumnIndexAndValue(-1,value);
+					else
+						table.selectDataByColumnIndexAndValue(2,value);
+				}
 			}
+		});
+	}
 			
 			
 }
