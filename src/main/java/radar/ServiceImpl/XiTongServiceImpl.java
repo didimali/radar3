@@ -6,12 +6,18 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import radar.Entity.DynamicData;
 import radar.Entity.Equip;
+import radar.Entity.FaultRecord;
+import radar.Entity.Radar;
 import radar.Entity.System;
+import radar.Repository.DynamicDataRepository;
+import radar.Repository.FaultRepository;
 import radar.Repository.XiTongRepository;
 import radar.Dao.XiTongDao;
 import radar.Service.XiTongService;
+import radar.Tools.Faults;
+import radar.Tools.Records;
 
 @Service("XiTongServiceImpl")
 public class XiTongServiceImpl implements XiTongService{
@@ -19,6 +25,13 @@ public class XiTongServiceImpl implements XiTongService{
 	XiTongDao xiTongDao;
 	@Autowired
 	XiTongRepository xiTongRepository;
+	
+	@Autowired
+	DynamicDataRepository dynamicDataRepository;
+	
+	@Autowired
+	FaultRepository faultRepository;
+	
 	//系统表格数据获取
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -81,6 +94,44 @@ public class XiTongServiceImpl implements XiTongService{
 		catch(Exception e) {
 			e.printStackTrace();
 			return false;
+		}
+	}
+	/**
+	 * 添加雷达运行状态数据
+	 * @param radarId
+	 * @param list1
+	 */
+	public void AddDynamicData(int radarId, List<Records> list1) {
+		if(list1 != null && list1.size()>0) {
+			for(int i=0;i<list1.size();i++) {
+				DynamicData d = new DynamicData();
+				Radar r = new Radar();
+				r.setRadarId(radarId);
+				d.setRadarId(r);
+				d.setDataVaule(list1.get(i).getInfo());
+				d.setCollectDate(list1.get(i).getTime());
+				d.setDev(list1.get(i).getDev());
+				dynamicDataRepository.save(d);
+			}
+		}
+	}
+	/**
+	 * 添加雷达运行时的故障记录数据
+	 * @param radarId
+	 * @param list2
+	 */
+	public void AddFaultRecord(int radarId, List<Faults> list2) {
+		if(list2 != null && list2.size() >0) {
+			for(int i=0;i<list2.size();i++) {
+				FaultRecord fr = new FaultRecord();
+				Radar r = new Radar();
+				r.setRadarId(radarId);
+				fr.setRadarId(r);
+				fr.setFaultReason(list2.get(i).getInfo());
+				fr.setFaultDate(list2.get(i).getTime());
+				fr.setDev(list2.get(i).getDev());
+				faultRepository.save(fr);
+			}
 		}
 	}
 

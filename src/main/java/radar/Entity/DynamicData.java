@@ -20,6 +20,7 @@ public class DynamicData {
 	private Radar radarId;//	所属雷达id,外键	
 	private String dataVaule;//	参数值	
 	private Date collectDate;//	采集时间
+	private Integer dev; //雷达运行数据对应部位的编号（10进制）
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "dataId",unique=true,nullable=false, length = 11)
@@ -51,5 +52,12 @@ public class DynamicData {
 	}
 	public void setCollectDate(Date collectDate) {
 		this.collectDate = collectDate;
+	}
+	@Column(name="dev",length=11)
+	public Integer getDev() {
+		return dev;
+	}
+	public void setDev(Integer dev) {
+		this.dev = dev;
 	}
 }

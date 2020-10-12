@@ -24,6 +24,10 @@ public class FaultRecord {
 	private String faultReason;//故障原因（描述）
 
 	private Date faultDate;//	故障时刻
+	
+	private Integer dev; //雷达运行故障对应部位的编号（10进制）
+	
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "faultId",unique=true,nullable=false, length = 11)
@@ -35,7 +39,7 @@ public class FaultRecord {
 		this.faultId = faultId;
 	}
 	@ManyToOne
-	@JoinColumn(name="faultTypeId",nullable=false)
+	@JoinColumn(name="faultTypeId")
 	public FaultType getFaultTypeId() {
 		return faultTypeId;
 	}
@@ -69,5 +73,14 @@ public class FaultRecord {
 
 	public void setFaultDate(Date faultDate) {
 		this.faultDate = faultDate;
+	}
+	
+	@Column(name="dev",length=11)
+	public Integer getDev() {
+		return dev;
+	}
+
+	public void setDev(Integer dev) {
+		this.dev = dev;
 	}
 }
