@@ -39,4 +39,9 @@ public class CBody1 extends JScrollPane {
 			}
 		});
 	}
+	
+	public void refresh() {
+		table.refreshTable();
+	}
+	
 }

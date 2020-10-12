@@ -145,7 +145,26 @@ public class PrecisePrediction extends JPanel {
 		top2.getTitle().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				body1.refresh();
 				cardLayout.show(panel,"c1");
+			}
+		});
+		top2.getButton().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				SwingWorkerForHealthAccess h = new SwingWorkerForHealthAccess();   //南健健康评估
+				//h.setRadarid(radarId);
+				h.execute();
+				try {
+					Thread.currentThread().sleep(1000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				System.out.println(1234);
+				 body2.refresh();
+				 body2.validate();
+				 body2.repaint();
 			}
 		});
 		body2.getTable().addMouseListener(new MouseAdapter() {
@@ -205,6 +224,7 @@ public class PrecisePrediction extends JPanel {
 		top3.getTitle().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				body1.refresh();
 				cardLayout.show(panel,"c1");
 			}
 		});
@@ -236,27 +256,29 @@ public class PrecisePrediction extends JPanel {
 		top4.getTitle().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				body1.refresh();
 				cardLayout.show(panel,"c1");
 			}
 		});
 		top4.getSubTitle().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				body2.refresh();
 				cardLayout.show(panel,"c2");
 			}
 		});	
-		top4.getButton().addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				SwingWorkerForHealthAccess h = new SwingWorkerForHealthAccess();   //南健健康评估
-				h.setRadarid(radarId);
-				h.execute();
-			    body4.refresh();
-			    body4.validate();
-			    body4.repaint();
-			}
-		});
-		System.out.println(c4.contentTop.getComponents());
+//		top4.getButton().addMouseListener(new MouseAdapter() {
+//			@Override
+//			public void mouseClicked(MouseEvent e) {
+//				SwingWorkerForHealthAccess h = new SwingWorkerForHealthAccess();   //南健健康评估
+//				h.setRadarid(radarId);
+//				h.execute();
+//			    body4.refresh();
+//			    body4.validate();
+//			    body4.repaint();
+//			}
+//		});
+
 		if(m4) {
 			c4.contentTop.add(top4);
 			c4.contentBody.add(body4);
@@ -283,12 +305,14 @@ public class PrecisePrediction extends JPanel {
 		top5.getTitle().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				body1.refresh();
 				cardLayout.show(panel,"c1");
 			}
 		});
 		top5.getSubTitle().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				body2.refresh();
 				cardLayout.show(panel,"c2");
 			}
 		});

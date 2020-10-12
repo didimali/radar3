@@ -64,4 +64,10 @@ public class CBody2 extends JPanelTransparent{
 	public TableWithScrollBar getTable() {
 		return table;
 	}
+	
+	public void refresh() {
+		table.refreshTable();
+		pie1.refreshPieChart();  
+		pie2.refreshPieChart();	
+	}
 }

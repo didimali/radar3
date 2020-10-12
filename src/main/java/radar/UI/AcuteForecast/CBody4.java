@@ -80,11 +80,11 @@ public class CBody4 extends JPanelTransparent {
 		fault.add(fTable, "cell 0 1,grow");
 	}
 	
-	public void refresh() {
-		healthTable.refreshTable();
-		faultTable.refreshTable();  
-		hLine.refreshLine();	
-	}
+//	public void refresh() {
+//		healthTable.refreshTable();
+//		faultTable.refreshTable();  
+//		hLine.refreshLine();	
+//	}
 	
 
 }

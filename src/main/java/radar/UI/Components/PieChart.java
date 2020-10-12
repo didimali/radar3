@@ -70,6 +70,10 @@ public class PieChart extends JPanelTransparent implements LoadingData{
 		loading.execute();
 	}
 	
+	public void refreshPieChart() {
+		LoadingDataClass loading = new LoadingDataClass(this, className, methodName,params);
+		loading.execute();
+	}
 	private void setPieChart() {
 		//创建数据集对象
 		data = new DefaultPieDataset();

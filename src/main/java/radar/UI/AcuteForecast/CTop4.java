@@ -29,7 +29,6 @@ public class CTop4 extends JPanelTransparent implements Init{
 	private String text1;
 	private JLabel label;
 	private JLabel title3;
-	private JButton start;
 		
 	public CTop4(String managerName, String radarName) {
 		this.text = managerName;
@@ -66,11 +65,7 @@ public class CTop4 extends JPanelTransparent implements Init{
 		title3 = new JLabel(text1+"维修预测结果");
 		title3.setFont(new Font("仿宋", Font.PLAIN, 24));
 		panel.add(title3, "cell 4 0");
-		
-		start = new JButton("重新评估");
-		start.setFont(new Font("仿宋", Font.PLAIN, 24));
-		panel.add(start, "cell 10 0,alignx right");
-				
+
 		panel1 = new JPanelTransparent();
 		
 		add(panel1,"cell 0 1,grow");
@@ -91,7 +86,5 @@ public class CTop4 extends JPanelTransparent implements Init{
 	public JLabel getSubTitle() {
 		return subTitle;
 	}
-	public JButton getButton() {
-		return start;
-	}
+
 }
