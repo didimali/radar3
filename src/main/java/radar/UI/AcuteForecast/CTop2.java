@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
@@ -31,6 +32,7 @@ public class CTop2 extends JPanelTransparent implements Init{
 	private String managerName;
 	private String radarType;
 	private String text;
+	private JButton start;
 	
 	private ButtonGroup group;
 	private JRadioButton radioButton;
@@ -52,7 +54,7 @@ public class CTop2 extends JPanelTransparent implements Init{
 		panel = new JPanelTransparent();
 		add(panel,"cell 0 0,grow");
 			
-		panel.setLayout(new MigLayout("", "[][][][grow][][40px][][]", "[grow]"));
+		panel.setLayout(new MigLayout("", "[][][][40px][grow][][40px][][]", "[grow]"));
 		title = new JLabel("基本状态");
 		title.setToolTipText("返回上一页");
 		title.setFont(new Font("仿宋", Font.BOLD, 24));
@@ -66,15 +68,19 @@ public class CTop2 extends JPanelTransparent implements Init{
 		subTitle.setFont(new Font("仿宋", Font.PLAIN, 24));
 		panel.add(subTitle, "cell 2 0,grow");
 		
+		start = new JButton("重新评估");
+		start.setFont(new Font("仿宋", Font.PLAIN, 24));
+		panel.add(start, "cell 4 0,alignx left");
+		
 		radioButton = new JRadioButton("维修预测",true);
 		radioButton.setBackground(Color.WHITE);
 		radioButton.setFont(new Font("仿宋", Font.PLAIN, 18));
-		panel.add(radioButton, "cell 4 0,growx,aligny center");
+		panel.add(radioButton, "cell 5 0,growx,aligny center");
 		
 		radioButton_1 = new JRadioButton("器材筹措");
 		radioButton_1.setBackground(Color.WHITE);
 		radioButton_1.setFont(new Font("仿宋", Font.PLAIN, 18));
-		panel.add(radioButton_1, "cell 6 0,growx,aligny center");
+		panel.add(radioButton_1, "cell 7 0,growx,aligny center");
 		
 		group = new ButtonGroup();
 		group.add(radioButton);
@@ -113,5 +119,7 @@ public class CTop2 extends JPanelTransparent implements Init{
 	public String getManagerName() {
 		return managerName;
 	}
-
+	public JButton getButton() {
+		return start;
+	}
 }

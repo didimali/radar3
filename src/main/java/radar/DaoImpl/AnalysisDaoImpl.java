@@ -22,6 +22,7 @@ import radar.Entity.PartConsume;
 import radar.Entity.Parts;
 import radar.Entity.Radar;
 import radar.Entity.RadarHealth;
+import radar.Entity.RepairPlan;
 import radar.Entity.System;
 
 @Repository("AnalysisDaoImpl")
@@ -201,6 +202,20 @@ public class AnalysisDaoImpl implements AnalysisDao {
 	}
 	
 	@Override
+	public void change3(String id) {
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		try {
+			String selectSql = "update repair_plan set plan_effective = 1 where radar_id="+id+" ";
+			Query query = em.createNativeQuery(selectSql);
+			query.executeUpdate();
+			em.flush();
+			em.getTransaction().commit();
+		} finally {
+			em.close();
+		}		
+	}
+	@Override
 	public void faultForecast(String id, int i) {
 			EntityManager em = emf.createEntityManager();
 			em.getTransaction().begin();
@@ -265,9 +280,9 @@ public class AnalysisDaoImpl implements AnalysisDao {
 	}
 	
 	@Override
-	public List<RadarHealth> gethealthID() {
+	public List<RadarHealth> gethealthID(String radarid) {
 		EntityManager em = emf.createEntityManager();
-		String sql = "select * from radar_health ORDER BY health_result_id DESC LIMIT 0,1 ";
+		String sql = "select * from radar_health where radar_id="+radarid+" ORDER BY health_result_id DESC LIMIT 0,1 ";
 		Query query = em.createNativeQuery(sql,RadarHealth.class);
 		List<RadarHealth> list = query.getResultList();
 		em.close();
@@ -289,6 +304,67 @@ public class AnalysisDaoImpl implements AnalysisDao {
 			em.close();
 		}	
 	}	
+	@Override
+	public void save4(String radarid) {
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String currentTime = sdf.format(new Date());
+		Calendar ca = Calendar.getInstance();
+		ca.setTime(new Date());
+		Random random = new Random();			
+		ca.add(Calendar.DATE, random.nextInt(60));
+		Date d = ca.getTime();
+        String nextTime = sdf.format(d);
+		try {
+			String selectSql = "insert into repair_plan(repair_plan_date,radar_id,plan_effective) values"
+					+ " ('"+nextTime+"','"+radarid+"','0')";
+			Query query = em.createNativeQuery(selectSql);
+			query.executeUpdate();
+			em.flush();
+			em.getTransaction().commit();
+		} finally {
+			em.close();
+		}	
+	}	
+	@Override
+	public List<RepairPlan> getRepairID(String radarid) {
+		EntityManager em = emf.createEntityManager();
+		String sql = "select * from repair_plan where radar_id="+radarid+" ORDER BY repair_plan_id DESC LIMIT 0,1 ";
+		Query query = em.createNativeQuery(sql,RepairPlan.class);
+		List<RepairPlan> list = query.getResultList();
+		em.close();
+		return list;
+	}
+	@Override
+	public List<Object> getPartsForecast(String radarid) {
+		EntityManager em = emf.createEntityManager();
+		String sql = "select fault_parts.number,parts.parts_id from "
+				+ "radar_forecast right join fault_parts on "
+				+ "radar_forecast.fault_type_id=fault_parts.fault_type_id "
+				+ "left join parts on fault_parts.parts_id=parts.parts_id "
+				+ "where radar_id="+radarid+" and fore_result_effective=0";			
+		Query query = em.createNativeQuery(sql);
+		List<Object> list = query.getResultList();
+		em.close();
+		return list;
+	}
+	@Override
+	public void saveRepairContent(int num,int partid, int planid) {
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		try {
+			String selectSql = "insert into repair_content(parts_count,parts_id,repair_plan_id) values"
+					+ " ('"+num+"','"+partid+"','"+planid+"')";
+			Query query = em.createNativeQuery(selectSql);
+			query.executeUpdate();
+			em.flush();
+			em.getTransaction().commit();
+		} finally {
+			em.close();
+		}	
+	}
+	
 	
 	@Override
 	public int countFaultNum(int radarid) {
@@ -300,6 +376,25 @@ public class AnalysisDaoImpl implements AnalysisDao {
 		return Integer.parseInt(list.get(0).toString());
 	}
 	
+	@Override
+	public List<Radar> getRadarID() {
+		EntityManager em = emf.createEntityManager();
+		String sql = "select * from radar where radar_status=0";
+		Query query = em.createNativeQuery(sql,Radar.class);
+		List<Radar> list = query.getResultList();
+		em.close();
+		return list;
+	}
+	
+	@Override
+	public int countDynamicData(int id) {
+		EntityManager em = emf.createEntityManager();
+		String sql = "select count(*) from dynamic_data where radar_id="+id;
+		Query query = em.createNativeQuery(sql);
+		List<Object> list = query.getResultList();
+		em.close();
+		return Integer.parseInt(list.get(0).toString());
+	}
 }
 
 

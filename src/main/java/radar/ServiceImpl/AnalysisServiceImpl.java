@@ -25,6 +25,7 @@ import radar.Entity.Radar;
 import radar.Entity.RadarForecast;
 import radar.Entity.RadarHealth;
 import radar.Entity.RepairContent;
+import radar.Entity.RepairPlan;
 import radar.Entity.System;
 import radar.Service.AnalysisService;
 
@@ -210,6 +211,7 @@ public class AnalysisServiceImpl implements AnalysisService{
 		String radarId=String.valueOf(radar);
 		AnalysisDao.change1(radarId);     //健康评估      去除旧的
 		AnalysisDao.change2(radarId);     //故障预测
+		AnalysisDao.change3(radarId);     //器材筹措
 		for(int i=0;i<fnum;i++) {
 			int n=random.nextInt(10);
 			if(n>7) {
@@ -218,7 +220,7 @@ public class AnalysisServiceImpl implements AnalysisService{
 		}
 		AnalysisDao.save1(radarId,result);  //健康评估     添加新的
 		AnalysisDao.save2(radarId,result);  //雷达状态
-		List<RadarHealth> health=AnalysisDao.gethealthID();
+		List<RadarHealth> health=AnalysisDao.gethealthID(radarId);
 		int healthid=health.get(0).getHealthResultId();
 		for(int i=1;i<13;i++) {
 		int sysint=random.nextInt(100);
@@ -229,6 +231,20 @@ public class AnalysisServiceImpl implements AnalysisService{
 			sysHI=1;
 		}
 		AnalysisDao.save3(sysHI,healthid,i); //分系统健康评估
+		}
+		AnalysisDao.save4(radarId);         //器材筹措
+		List<RepairPlan> repair=AnalysisDao.getRepairID(radarId);
+		int repairid=repair.get(0).getRepairPlanId();
+		List<Object> list = AnalysisDao.getPartsForecast(radarId);  
+		Iterator it  = list.iterator(); 
+		ArrayList token = new ArrayList();
+		while(it.hasNext()) {
+			Object[] o = (Object[]) it.next();
+            token.add(o[0]);
+            token.add(o[1]);
+		}
+		for(int i=0;i<list.size()*2;i=i+2) {
+			AnalysisDao.saveRepairContent(Integer.parseInt(token.get(i).toString()),Integer.parseInt(token.get(i+1).toString()),repairid);
 		}
 		return true;
 		}
@@ -351,7 +367,16 @@ public class AnalysisServiceImpl implements AnalysisService{
         return result;
 	}
 	
-	
+	public Boolean doBigDataAnalysis() {		
+		List<Radar> radar=AnalysisDao.getRadarID();
+		for(int i=0;i<radar.size();i++) {
+			int radarid=radar.get(i).getRadarId();
+			if(AnalysisDao.countDynamicData(radarid)>0){
+				health(radarid);
+			}
+		}
+		return true;
+	}
 	
 	
 }

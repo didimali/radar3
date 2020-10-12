@@ -7,6 +7,7 @@ import radar.Entity.PartConsume;
 import radar.Entity.Parts;
 import radar.Entity.Radar;
 import radar.Entity.RadarHealth;
+import radar.Entity.RepairPlan;
 import radar.Entity.System;
 
 public interface AnalysisDao {
@@ -41,9 +42,23 @@ public interface AnalysisDao {
 
 	List<Radar> getRadar(String typeid);
 
-	List<RadarHealth> gethealthID();
+	List<RadarHealth> gethealthID(String radarid);
 
 	void save3(int result, int hid, int sysid);
 
 	int countFaultNum(int radarid);
+
+	List<Object> getPartsForecast(String radarid);
+
+	void change3(String id);
+
+	void save4(String radarid);
+
+	List<RepairPlan> getRepairID(String radarid);
+
+	void saveRepairContent(int num, int partid, int planid);
+
+	List<Radar> getRadarID();
+
+	int countDynamicData(int id);
 }

@@ -10,19 +10,21 @@ import radar.SpringUtil;
 import radar.Entity.Manager;
 import radar.Entity.Radar;
 import radar.ServiceImpl.AnalysisServiceImpl;
+import radar.UI.AcuteForecast.CBody2;
 
 
 public class SwingWorkerForHealthAccess extends SwingWorker<Boolean,Void>{
 	private int radar;		
 	@SuppressWarnings({ "unused", "rawtypes" })
 	private JComboBox managerNameComboBox;
-
+	private CBody2 body2;
 	@SuppressWarnings("static-access")
 	protected Boolean doInBackground() throws Exception {
 		Boolean result = false;
 		SpringUtil s = new SpringUtil();
 		AnalysisServiceImpl analysisServiceImpl = (AnalysisServiceImpl) s.getBean("AnalysisServiceImpl");
-		result = analysisServiceImpl.health(getRadarid());
+		//result = analysisServiceImpl.health(getRadarid());
+		result = analysisServiceImpl.doBigDataAnalysis();
 		return result;
 	}
 	
