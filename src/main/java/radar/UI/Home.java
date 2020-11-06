@@ -10,8 +10,8 @@ import radar.UI.Content.NewManager;
 import radar.UI.Content.NewRadar;
 import radar.UI.Content.PartConsume;
 import radar.UI.Content.PrecisePrediction;
-import radar.UI.Content.RadarStruct;
 import radar.UI.Content.Radartype;
+import radar.UI.Content.StructsManage;
 import radar.UI.Content.PartsManage;
 import radar.UI.Left.Left;
 import radar.UI.Top.TopPanel;
@@ -48,7 +48,7 @@ public class Home extends JPanel implements Init {
 	private PrecisePrediction c1;
 	private Radartype c2;	
 	private NewManager c3;
-	private RadarStruct c4;
+	private StructsManage c4;
 	private NewRadar c5;
 	private PartsManage c6;
 // 	private PartConsume c7;
@@ -212,7 +212,7 @@ public class Home extends JPanel implements Init {
 	private void set4() {
 		if(c4 != null)
 			p4.remove(c4);
-		c4 = new RadarStruct();
+		c4 = new StructsManage();
 		p4.add(c4, BorderLayout.CENTER);
 	}
 	

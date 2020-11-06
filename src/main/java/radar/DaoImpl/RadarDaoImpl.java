@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import radar.Dao.RadarDao;
 import radar.Entity.Equip;
+import radar.Entity.Manager;
 import radar.Entity.Parts;
 import radar.Entity.Radar;
 import radar.Entity.RadarForecast;
@@ -215,5 +216,172 @@ public class RadarDaoImpl implements RadarDao {
 		return result;
 	};
 
+	@Override
+	public List<Manager> selectManagerIDByName(String choosenManagerName) {
+		EntityManager em = emf.createEntityManager();
+		String sql = "select * from manager where manager_status = '0' and manager_name =:name";
+		Query query = em.createNativeQuery(sql,Manager.class);
+		query.setParameter("name", choosenManagerName);
+		List<Manager> result = query.getResultList();
+		em.close();
+		return result;
+	};
+	
+	public boolean updateRadar(String choosenRadarName, Integer typeid, Integer managerid, String radarname) {
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		try {
+			String selectSql = " update radar set radar_name=:choosenRadarName,radar_type_id=:typeid,manager_id=:managerid where radar_name=:radarname";
+			Query query = em.createNativeQuery(selectSql);
+			query.setParameter("choosenRadarName", choosenRadarName);
+			query.setParameter("typeid", typeid);
+			query.setParameter("managerid", managerid);
+			query.setParameter("radarname", radarname);
+			query.executeUpdate();
+			em.flush();
+			em.getTransaction().commit();
+		} finally {
+			em.close();
+		}
+		return true;
+	}
+	@Override
+	public List<System> getSystems() {
+		EntityManager em = emf.createEntityManager();
+		String sql = "select * from system where system_status = '0'";
+		Query query = em.createNativeQuery(sql,System.class);
+		List<System> list = query.getResultList();
+		em.close();
+		return list;
+	}
+	@Override
+	public List<Equip> getEquips() {
+		EntityManager em = emf.createEntityManager();
+		String sql = "select * from equip where equip_status = '0'";
+		Query query = em.createNativeQuery(sql,Equip.class);
+		List<Equip> list = query.getResultList();
+		em.close();
+		return list;
+	}
+	@Override
+	public List<RadarType> getTypes() {
+		EntityManager em = emf.createEntityManager();
+		String sql = "select * from radar_type";
+		Query query = em.createNativeQuery(sql,RadarType.class);
+		List<RadarType> list = query.getResultList();
+		em.close();
+		return list;
+	}
+	@Override
+	public List<System> getSystemByTypeID(int typeflag) {
+		EntityManager em = emf.createEntityManager();
+		String sql = "select * from system where radar_type_id="+typeflag+" and system_status = 0";
+		Query query = em.createNativeQuery(sql,System.class);
+		List<System> list = query.getResultList();
+		return list;
+	}
+	
+	@Override
+	public List<Equip> getEquipBySystemID(int equipflag) {
+		EntityManager em = emf.createEntityManager();
+		String sql = "select * from equip where system_id="+equipflag+" and equip_status = 0";
+		Query query = em.createNativeQuery(sql,Equip.class);
+		List<Equip> list = query.getResultList();
+		return list;
+	}
 
+	@Override
+	public void saveEquip(String equip, int systemflag) {
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		try {
+			String selectSql = "insert into equip(equip_name,equip_status,system_id) values('"+equip+"',0,"+systemflag+")";
+			Query query = em.createNativeQuery(selectSql);
+			query.executeUpdate();
+			em.flush();
+			em.getTransaction().commit();
+		} finally {
+			em.close();
+		}
+	}
+	
+	@Override
+	public void saveSystem(String system, int typeflag) {
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		try {
+			String selectSql = "insert into system(system_name,system_status,radar_type_id) values('"+system+"',0,"+typeflag+")";
+			Query query = em.createNativeQuery(selectSql);
+			query.executeUpdate();
+			em.flush();
+			em.getTransaction().commit();
+		} finally {
+			em.close();
+		}
+	}
+	
+	@Override
+	public void saveType(String type) {
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		try {
+			String selectSql = "insert into radar_type(radar_type_name) values('"+type+"')";
+			Query query = em.createNativeQuery(selectSql);
+			query.executeUpdate();
+			em.flush();
+			em.getTransaction().commit();
+		} finally {
+			em.close();
+		}
+	}
+	
+	//查询最新一条type记录
+	public List<RadarType> getLastType() {
+		EntityManager em = emf.createEntityManager();
+		String sql = "select * from radar_type order by radar_type_id desc limit 1";
+		Query query = em.createNativeQuery(sql,RadarType.class);
+		List<RadarType> list = query.getResultList();
+		em.close();
+		return list;
+	}
+	
+	//查询最新一条system记录
+	public List<System> getLastSystem() {
+		EntityManager em = emf.createEntityManager();
+		String sql = "select * from system order by system_id desc limit 1";
+		Query query = em.createNativeQuery(sql,System.class);
+		List<System> list = query.getResultList();
+		em.close();
+		return list;
+	}
+	
+	public void deleteSystem(String system) {
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		try {
+			String selectSql = " update system set system_status =1 where system_name=:systemName";	
+			Query query = em.createNativeQuery(selectSql);
+			query.setParameter("systemName", system);
+			query.executeUpdate();
+			em.flush();
+			em.getTransaction().commit();
+		} finally {
+			em.close();
+		}
+	}
+	
+	public void deleteEquip(String equip) {
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		try {
+			String selectSql = " update equip set equip_status =1 where equip_name=:equipName";	
+			Query query = em.createNativeQuery(selectSql);
+			query.setParameter("equipName", equip);
+			query.executeUpdate();
+			em.flush();
+			em.getTransaction().commit();
+		} finally {
+			em.close();
+		}
+	}
 }

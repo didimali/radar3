@@ -187,11 +187,11 @@ public class NewManager extends ContentPanel implements Init{
 					locationTypeComboBox.setModel(new DefaultComboBoxModel(locationTypes));
 				}else if(!managerNameComboBox.getSelectedItem().toString().equals("")) {
 					ManagerServiceImpl managerServiceImpl = (ManagerServiceImpl) SpringUtil.getBean("ManagerServiceImpl");
-					String choosenManagerName =managerNameComboBox.getSelectedItem().toString();
-					Object[]  concreteLocation = managerServiceImpl.selectLocationByManagerName(choosenManagerName);
-					Object[] resultdata =new String[concreteLocation.length];
-					resultdata=concreteLocation;
-					locationTypeComboBox.setModel(new DefaultComboBoxModel(resultdata));
+//					String choosenManagerName =managerNameComboBox.getSelectedItem().toString();
+//					Object[]  concreteLocation = managerServiceImpl.selectLocationByManagerName(choosenManagerName);
+//					Object[] resultdata =new String[concreteLocation.length];
+//					resultdata=concreteLocation;
+//					locationTypeComboBox.setModel(new DefaultComboBoxModel(resultdata));
 				}
 				
 				if(e.getStateChange() ==ItemEvent.DESELECTED) {

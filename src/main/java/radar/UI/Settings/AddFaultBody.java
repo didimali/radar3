@@ -18,8 +18,10 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import net.miginfocom.swing.MigLayout;
 import java.awt.event.MouseAdapter;
@@ -40,6 +42,7 @@ public class AddFaultBody extends JPanelTransparent{
 	private JTextField textTime;
 	private JTextArea textArea;
 	private JButton submit;
+	private JScrollPane scrollPane;
 	/**
 	 * 
 	 */
@@ -96,13 +99,15 @@ public class AddFaultBody extends JPanelTransparent{
 			faultReason.setFont(new Font("仿宋", Font.PLAIN, 16));
 			JPanel.add(faultReason, "cell 1 4,alignx center");
 
+			scrollPane = new JScrollPane();
+			JPanel.add(scrollPane, "cell 3 4,grow");
 			textArea = new JTextArea();
-			textArea.setBorder( BorderFactory.createEmptyBorder(10, 10, 10, 10));
+			scrollPane.setViewportView(textArea);
 			textArea.setToolTipText("填写故障原因");
 			textArea.setFont(new Font("仿宋", Font.PLAIN, 16));
 			textArea.setBackground(Color.WHITE);
-			JPanel.add(textArea, "cell 3 4,grow");
-
+			
+			
 			jPanel1=new JPanelTransparent();
 			jPanel1.setLayout(new MigLayout("", "[8px][grow][8px]", "[8px][][grow][8px]"));
 			add(jPanel1, "cell 0 1,grow");
