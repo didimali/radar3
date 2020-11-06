@@ -9,10 +9,15 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
+
+import radar.UI.Content.NewUser;
+
 
 
 /**
@@ -63,6 +68,7 @@ public class SystemEntrance extends JFrame{
               	
        	Home home = new Home();
        	home.initUI();
+    
         // 添加面板
         getContentPane().add(home);
         getContentPane().setBackground(Color.RED); //正确显示黑色
