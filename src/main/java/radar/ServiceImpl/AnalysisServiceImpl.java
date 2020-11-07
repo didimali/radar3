@@ -81,7 +81,9 @@ public class AnalysisServiceImpl implements AnalysisService{
 	}
 	
 	@Override
-	public Object[][] getRadar(int typeid,int location){
+	public Object[][] getRadar(Object[] params){
+		int typeid = (int)params[0];
+		int location = (int)params[1];
 		List<Object> list=AnalysisDao.getRadarListByTL(typeid, location);		
 		Object[][] data = new Object[list.size()][];
 		Iterator it  = list.iterator(); 
@@ -272,8 +274,9 @@ public class AnalysisServiceImpl implements AnalysisService{
 			int num=0;
 			for(int j=0;j<consume.size();j++) {
 				num=num+consume.get(j).getpConsumeCount();
-			}	
-			result.setValue(part.getPartsName(),num);
+			}
+			if(num >0)
+				result.setValue(part.getPartsName(),num);
 		}
 		return result;
 	}

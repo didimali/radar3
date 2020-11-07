@@ -19,6 +19,7 @@ public class Background extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private Image image;
+	private ImageIcon im;
 	public Background() {
 
 	}
@@ -30,6 +31,8 @@ public class Background extends JPanel {
 	 }
 	
 	private void getPicture() {
+		
+		im = new ImageIcon(this.getClass().getResource("/images/background4.jpg"));
 
 		InputStream inputStream=this.getClass().getResourceAsStream("/images/background4.jpg") ;
 		try {

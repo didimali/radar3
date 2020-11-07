@@ -5,6 +5,7 @@ import javax.swing.SwingUtilities;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import radar.UI.Login;
 import radar.UI.SystemEntrance;
 
 @SpringBootApplication
@@ -17,8 +18,9 @@ public class Radar3Application {
 	   	SwingUtilities.invokeLater(new Runnable() {
 	           public void run() {
 	           	try {
-	           		SystemEntrance systemEntrance = new SystemEntrance();
-		     	    systemEntrance.initUI();
+	           		Login login = new Login();
+//	           		SystemEntrance systemEntrance = new SystemEntrance();
+//		     	    systemEntrance.initUI();
 	           	}
 	           	catch(Exception e) {
 	           		e.printStackTrace();

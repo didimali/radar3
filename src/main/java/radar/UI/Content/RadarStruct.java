@@ -53,7 +53,7 @@ public class RadarStruct extends JPanel {
 		panel2.contentTop.add(panel, "cell 0 0,grow");
 		panel.setLayout(new MigLayout("", "[][20%][][120px][grow][]", "[100%]"));
 		
-		title = new JLabel("雷达组织结构");
+		title = new JLabel("产品结构");
 		title.setFont(new Font("仿宋", Font.BOLD, 24));
 		panel.add(title, "cell 0 0,growx,aligny center");
 		

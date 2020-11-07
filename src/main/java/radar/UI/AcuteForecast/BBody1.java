@@ -76,9 +76,7 @@ public class BBody1 extends JPanelTransparent {
 	private void setJTable() {
 				
 		String[] header = {"序号","备件","消耗数量"};
-		table = new TableWithScrollBar("AnalysisServiceImpl", "getPartsConsumeData", params, header,false,0);		
-//		jTable = new JScrollPane(table);
-//		add(jTable, "cell 0 0,grow");		
+		table = new TableWithScrollBar("AnalysisServiceImpl", "getPartsConsumeData", params, header,false,0);	
 		jTable = new JScrollPane(table);
 		tabbedPane.addTab("统计表格", null, jTable, null);
 	}

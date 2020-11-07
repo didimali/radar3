@@ -104,7 +104,7 @@ public class HistoryLineForHI extends JPanelTransparent implements Init, Loading
 	    categoryAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
 	    LineAndShapeRenderer xylinerenderer = (LineAndShapeRenderer)categoryPlot.getRenderer(); 
    		xylinerenderer.setBaseShapesVisible(true); //显示点
-   		xylinerenderer.setSeriesLinesVisible(0,false);//不显示线
+   		xylinerenderer.setSeriesLinesVisible(0,true);//不显示线
    		xylinerenderer.setSeriesShape(0, ShapeUtilities.createDiamond(8.0F));   		
    		
 	}

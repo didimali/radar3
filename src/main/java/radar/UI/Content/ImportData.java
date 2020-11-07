@@ -186,7 +186,8 @@ public class ImportData extends ContentPanel implements Init{
 				}
 				else {
 					int radarId = (int) radars.resultData[radars.getSelectedIndex()][0];
-					ExtractDataFromSqlite edfs = new ExtractDataFromSqlite(radarId,selectedFile.getPath());
+					String radarName = (String) radars.getSelectedItem();
+					ExtractDataFromSqlite edfs = new ExtractDataFromSqlite(radarName,radarId,selectedFile.getPath());
 					edfs.execute();
 				}
 			}
@@ -215,5 +216,4 @@ public class ImportData extends ContentPanel implements Init{
 		 }
 		 return f;
 	}
-
 }

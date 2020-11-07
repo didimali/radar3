@@ -11,7 +11,11 @@ import radar.UI.Top.TopPanel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Font;
-import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.ImageIcon;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import javax.swing.SwingConstants;
 
 /**
  * 左侧栏
@@ -19,6 +23,9 @@ import javax.swing.JButton;
 public class Left extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+	
+	private JPanel panelForButtons;
+	private JPanel panelForPicture;
 
 	private Button b1;
 	private Button b2;
@@ -30,60 +37,74 @@ public class Left extends JPanel {
 	private Button b8;
 	private Button b9;
 	private Button b10;
+	private JLabel picture;
+	
 		
 	public Left() {
 		
 		setBackground(new Color(248,248,255));
-		setLayout(new MigLayout("", "[150px]", "[40px][40px][40px][30px][30px][30px][30px][30px][30px][30px]"));
+		setLayout(new BorderLayout(0, 0));
+		
+		initPanelForButtons();
+		initPanelForPicture();	
+	}
+	
+	private void initPanelForButtons() {
+		
+		panelForButtons = new JPanel();
+		panelForButtons.setBackground(null);
+		add(panelForButtons, BorderLayout.CENTER);
+		
+		panelForButtons.setLayout(new MigLayout("", "[150px]", "[40px][40px][40px][30px][30px][30px][30px][30px][30px][30px][60]"));
 		
 		b1 = new Button("精 准 预 测");
 		b1.setIcon(TopPanel.getIcon("forecast.png",this));
 		b1.changeColor(true);
-		add(b1, "cell 0 0,grow");
+		panelForButtons.add(b1, "cell 0 0,grow");
 		
 		b2 = new Button("统 计 分 析");
 		b2.setIcon(TopPanel.getIcon("organize.png",this));
-		add(b2, "cell 0 1,grow");
+		panelForButtons.add(b2, "cell 0 1,grow");
 		
 		b3 = new Button("系 统 设 置");
 		b3.setIcon(TopPanel.getIcon("settings.png",this));
-		add(b3, "cell 0 2,grow");
+		panelForButtons.add(b3, "cell 0 2,grow");
 		
 		b4 = new Button("部 队 设 置");		
 		b4.setIcon(TopPanel.getIcon("item1.png",this));
 		b4.setFont(new Font("仿宋", Font.BOLD, 14));
-		add(b4, "cell 0 3,grow");
+		panelForButtons.add(b4, "cell 0 3,grow");
 		
 		b5 = new Button("雷 达 设 置");
 		b5.setIcon(TopPanel.getIcon("item1.png",this));
 		b5.setFont(new Font("仿宋", Font.BOLD, 14));
-		add(b5, "cell 0 4,grow");
+		panelForButtons.add(b5, "cell 0 4,grow");
 		
 		b6 = new Button("备 件 管 理");
 		b6.setIcon(TopPanel.getIcon("item1.png",this));
 		b6.setFont(new Font("仿宋", Font.BOLD, 14));
-		add(b6, "cell 0 5,grow");
+		panelForButtons.add(b6, "cell 0 5,grow");
 		
 		b7 = new Button("结 构 信 息");
 		b7.setIcon(TopPanel.getIcon("item1.png",this));
 		b7.setFont(new Font("仿宋", Font.BOLD, 14));
-		add(b7, "cell 0 6,grow");
+		panelForButtons.add(b7, "cell 0 6,grow");
 		
 		b8 = new Button("备 件 消 耗");
 		b8.setIcon(TopPanel.getIcon("item1.png",this));
 		b8.setFont(new Font("仿宋", Font.BOLD, 14));
-		add(b8, "cell 0 7,grow");
+		panelForButtons.add(b8, "cell 0 7,grow");
 		
  		b9 = new Button("故 障 记 录");		
 		b9.setIcon(TopPanel.getIcon("item1.png",this));
 		b9.setFont(new Font("仿宋", Font.BOLD, 14));
-		add(b9, "cell 0 8,grow");
+		panelForButtons.add(b9, "cell 0 8,grow");
 		
 		b10 = new Button("数 据 导 入");
 		b10.setIcon(TopPanel.getIcon("item1.png",this));
 		b10.setFont(new Font("仿宋", Font.BOLD, 14));
-		add(b10, "cell 0 9,grow");
-		
+		panelForButtons.add(b10, "flowy,cell 0 9,grow");
+				
 		showSubTitles(false);
 				
 		b1.addMouseListener(new MouseAdapter() {
@@ -200,7 +221,23 @@ public class Left extends JPanel {
 				b9.changeColor(false);
 				b10.changeColor(true);
 				}
-		});
+		});		
+	}
+	
+	private void initPanelForPicture() {
+		
+		panelForPicture = new JPanel();
+		panelForPicture.setBackground(null);
+		add(panelForPicture, BorderLayout.SOUTH);
+		panelForPicture.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+		
+		picture = new JLabel("");
+		picture.setHorizontalAlignment(SwingConstants.LEFT);
+		//getIcon("test2.gif",this)
+//		ImageIcon icon = new ImageIcon("src/main/resources/images/test2.gif");
+		ImageIcon icon = new ImageIcon(this.getClass().getResource("/images/test2.gif"));
+		picture.setIcon(icon);
+		panelForPicture.add(picture);
 		
 	}
 	
