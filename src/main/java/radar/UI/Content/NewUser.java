@@ -11,16 +11,13 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import net.miginfocom.swing.MigLayout;
 import radar.SpringUtil;
-import radar.Entity.Manager;
 import radar.Entity.User;
-import radar.ServiceImpl.ManagerServiceImpl;
+import radar.Service.UserService;
 import radar.ServiceImpl.UserServiceImpl;
-import radar.SwingWorker.SwingWorkerForNewManager;
 import radar.SwingWorker.SwingWorkerForUser;
 import radar.Tools.Init;
 import radar.UI.Components.ComboBox;
@@ -32,13 +29,19 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class NewUser extends ContentPanel implements Init{
+	
 	private JLabel UserInfo;
 	private JLabel userName;
 	private JComboBox inputName;
 	private JLabel passWord;
-	private JComboBox inputPassword;
+	private JPasswordField inputPassword;
+	
+	private String dUserAccount;
+	private String sUserAccount;
 	private String userName2;
 
 
@@ -48,11 +51,17 @@ public class NewUser extends ContentPanel implements Init{
 	private JSeparator userSeparator;
 	private JPanelTransparent title;
 	private JPanelTransparent subtitle;
-   public NewUser() {
-	   initUI();
-	   Action();
-  }
-   public void initUI() {
+	private JLabel lblNewLabel;
+	private JPasswordField newPassword;
+	
+	UserServiceImpl userServiceImpl;
+	
+	public NewUser() {
+		initUI();
+		Action();
+	}
+	
+	public void initUI() {
 	   initContentTop();
 		contentTop.add(title, "cell 0 0");
 		contentTop.add(subtitle, "cell 0 1,growx");
@@ -63,6 +72,12 @@ public class NewUser extends ContentPanel implements Init{
 		contentBody.add(inputName, "cell 2 1,growx");
 		contentBody.add(passWord, "cell 1 2,alignx trailing");
 		contentBody.add(inputPassword, "cell 2 2,growx");
+		contentBody.add(lblNewLabel, "cell 1 3,alignx trailing");
+		
+		newPassword = new JPasswordField();
+		newPassword.setFont(new Font("仿宋", Font.PLAIN, 16));
+		newPassword.setHorizontalAlignment(SwingConstants.CENTER);
+		contentBody.add(newPassword, "cell 2 3,growx");
 		initContentFoot();
 		contentFoot.add(add, "cell 1 1,grow");
 		contentFoot.add(update, "cell 3 1,grow");
@@ -81,7 +96,7 @@ public class NewUser extends ContentPanel implements Init{
 		subtitle = new JPanelTransparent();
 		subtitle.setLayout(new BorderLayout(0, 0));
 		
-		UserInfo = new JLabel("用户管理");
+		UserInfo = new JLabel("账户管理");
 		UserInfo.setFont(new Font("仿宋", Font.BOLD, 24));
 		UserInfo.setHorizontalAlignment(SwingConstants.CENTER);		
 		title.add(UserInfo, "cell 0 0,growx,aligny center");
@@ -95,8 +110,9 @@ public class NewUser extends ContentPanel implements Init{
 	 * 添加内容面板躯干
 	 */
 	public void initContentBody() {	
-		contentBody.setLayout(new MigLayout("", "[25%,grow][10%][40%,grow][25%]", "[grow][grow][][grow][grow]"));
-		userName = new JLabel("用户名：");
+		contentBody.setLayout(new MigLayout("", "[25%,grow][10%][40%,grow][25%]", "[grow][grow][][][grow][grow]"));
+		userName = new JLabel("账号：");
+		userName.setHorizontalAlignment(SwingConstants.CENTER);
 		userName.setFont(new Font("仿宋", Font.PLAIN, 16));
 		inputName = new ComboBox("UserServiceImpl", "getUsersCombox",null);
 		inputName.setFont(new Font("仿宋", Font.PLAIN, 16));
@@ -104,10 +120,15 @@ public class NewUser extends ContentPanel implements Init{
 			
 		
 		passWord = new JLabel("密码：");
+		passWord.setHorizontalAlignment(SwingConstants.CENTER);
 		passWord.setFont(new Font("仿宋", Font.PLAIN, 16));
-		inputPassword = new ComboBox("UserServiceImpl", "getUsersPassWordCombox", null);
+		inputPassword = new JPasswordField();		
+		inputPassword.setHorizontalAlignment(SwingConstants.CENTER);
 		inputPassword.setFont(new Font("仿宋", Font.PLAIN, 16));
-		inputPassword.setEditable(true);
+		
+		lblNewLabel = new JLabel("新密码：");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setFont(new Font("仿宋", Font.PLAIN, 16));
 
 	}
 	
@@ -135,121 +156,174 @@ public class NewUser extends ContentPanel implements Init{
 	}
 	@Override
 	public void Action() {
+		
+		//用户添加事件
 		add.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-			String name =	inputName.getSelectedItem().toString();
-		    UserServiceImpl userServiceImpl = (UserServiceImpl) SpringUtil.getBean("UserServiceImpl");
-		    List<User>  list =userServiceImpl.slectUsers(name);
-				if(list!=null&&list.size()>0) {
-					JOptionPane.showMessageDialog(null,"该用户已存在","提示",JOptionPane.WARNING_MESSAGE);
-					return;
-				}else {
-					try {
-						if(inputPassword.getSelectedItem().toString().equals("")) {
-							JOptionPane.showMessageDialog(null,"请重置密码","提示",JOptionPane.WARNING_MESSAGE);
-							return;	
-						}else {
-							User u = new User();
-							u.setUserStatus(0);
-							u.setUserName(inputName.getSelectedItem().toString());
-							u.setPassWord(inputPassword.getSelectedItem().toString());
-							SwingWorkerForUser s1 = new SwingWorkerForUser();
-							s1.setUser(u);
-							s1.execute();
-						}
-					}
-					catch(Exception e1) {
-						e1.printStackTrace();
-					}
-				}
+				addUser();
+			}
+		});
+		
+		inputName.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(e);
 			}
 		});
 
+		//用户下拉框点击事件
 		inputName.addItemListener(new ItemListener() {
-			@SuppressWarnings({ "unchecked", "rawtypes" })
 			public void itemStateChanged(ItemEvent e) {	
-				if(inputName.getSelectedItem().toString().equals("")) {
-					String[] pw = {""};
-					inputPassword.setModel(new DefaultComboBoxModel(pw));
-				}else if(!inputName.getSelectedItem().toString().equals("")) {
-				    UserServiceImpl userServiceImpl = (UserServiceImpl) SpringUtil.getBean("UserServiceImpl");
-					String choosenUserName =inputName.getSelectedItem().toString();
-					Object[]  concreteUserPassWord = userServiceImpl.selectPassWordByUserName(choosenUserName);
-					Object[] resultdata =new String[concreteUserPassWord.length];
-					resultdata=concreteUserPassWord;
-					inputPassword.setModel(new DefaultComboBoxModel(resultdata));
+				if(e.getStateChange() ==ItemEvent.SELECTED) {
+					sUserAccount = (String) e.getItem();
 				}
-					if(e.getStateChange() ==ItemEvent.DESELECTED) {
-						userName2 = (String) e.getItem();
-					}
 			}
 			
 		});
 
-			update.addMouseListener(new MouseAdapter() {
+		//用户修改事件
+		update.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-			    UserServiceImpl userServiceImpl = (UserServiceImpl) SpringUtil.getBean("UserServiceImpl");
-				String inputNameModify=inputName.getSelectedItem().toString();
-				String inputPasswordModify=inputPassword.getSelectedItem().toString();
-				Object[] obj = userServiceImpl.getUsersCombox(null);
-				Boolean flag=true;
-				//获取修改前的值
-				String userName3 =userName2;
-				if(userName3==null) {
-					JOptionPane.showMessageDialog(null, "请更新用户名", "提示", JOptionPane.INFORMATION_MESSAGE);
-					return;
-				}else {
-					int num = JOptionPane.showConfirmDialog(null, "是否修改"+userName3+"的信息？", "提示",JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-				    switch(num) {
-				    case JOptionPane.YES_OPTION:
-						boolean result = userServiceImpl.updateUser(inputNameModify,inputPasswordModify,userName3);
-						if(result) {
-							JOptionPane.showMessageDialog(null, "更新成功", "提示", JOptionPane.INFORMATION_MESSAGE);
-
-						}
-				    case JOptionPane.NO_OPTION:
-				    	break;
-				    case JOptionPane.CANCEL_OPTION:
-				    	break;
-				    }
-				}
-			}
+				updateUser();			    
+			}			
 		});
+		
+		//用户删除事件
 		delete.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String receiveName =inputName.getSelectedItem().toString();
-				boolean flag=false;
-				if(receiveName.equals("")||inputPassword.getSelectedItem().toString().equals("")) {
-						JOptionPane.showMessageDialog(null,"请选择要删除的用户","提示",JOptionPane.WARNING_MESSAGE);
-						return;
-					}else {
-						flag=true;
-					}
-				if(flag) {
-					int num = JOptionPane.showConfirmDialog(null, "是否删除？", "提示",JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-				    switch(num) {
-				    case JOptionPane.YES_OPTION:
-				    	UserServiceImpl userServiceImpl = (UserServiceImpl) SpringUtil.getBean("UserServiceImpl");
-						boolean  result =	userServiceImpl.deleteUser(receiveName);
-						if(result) {
-							contentBody.remove(inputName);
-							inputName = new ComboBox("UserServiceImpl", "getUsersCombox",null);
-							contentBody.add(inputName, "cell 2 1,growx");
-							inputName.validate();
-							inputName.repaint();
-							JOptionPane.showMessageDialog(null, "已成功删除", "提示", JOptionPane.INFORMATION_MESSAGE);
-						}
-				    case JOptionPane.NO_OPTION:
-				    	break;
-				    case JOptionPane.CANCEL_OPTION:
-				    	break;
-				    }
-				
+				deleteUser();				
+			}			
+		});
+	}
+	
+	/**
+	 * 新建用户账号
+	 */
+	private void addUser() {
+		
+		String userAccount = inputName.getSelectedItem().toString();
+		String psd = new String(inputPassword.getPassword());
+	    userServiceImpl = (UserServiceImpl) SpringUtil.getBean("UserServiceImpl");
+	    
+	    //检查该账号是否存在
+	    List<User>  list =userServiceImpl.slectUsers(userAccount);
+		if(list!=null&&list.size()>0) {
+			JOptionPane.showMessageDialog(null,"该账号已存在","提示",JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+		else {
+			try {
+				if(psd.length() == 0) {
+					JOptionPane.showMessageDialog(null,"密码不能为空，请输入密码","提示",JOptionPane.WARNING_MESSAGE);
+					return;	
+				}else {
+					User u = new User();
+					u.setUserName(inputName.getSelectedItem().toString());
+					u.setPassWord(SpringUtil.MD5Encode(psd));
+					SwingWorkerForUser s1 = new SwingWorkerForUser();
+					s1.setUser(u);
+					s1.execute();
+					refreshPasswordFields();
 				}
 			}
-		});
+			catch(Exception e1) {
+				e1.printStackTrace();
+			}
+		}		
+	}
+	/**
+	 * 更新用户账号信息
+	 */
+	private void updateUser() {
+		userServiceImpl = (UserServiceImpl) SpringUtil.getBean("UserServiceImpl");		
+		//旧用户账号
+		String originalUserAccount = sUserAccount;
+		//新用户账号
+		String currentUserAccount = inputName.getSelectedItem().toString();
+		//旧账号密码
+		String originalPsd = new String(inputPassword.getPassword());
+		//新账号密码
+		String currentPsd = new String(newPassword.getPassword());
+		//新账号名为空，提示用户输入账号
+		if(currentUserAccount.length() ==0) {
+			JOptionPane.showMessageDialog(null, "请输入用户账号", "提示", JOptionPane.INFORMATION_MESSAGE);
+			return;
+		}
+		
+		//验证旧账号的密码是否正确
+		if(originalPsd.length() ==0) {
+			JOptionPane.showMessageDialog(null, "请输入用户旧密码", "提示", JOptionPane.INFORMATION_MESSAGE);
+			return;
+		}
+		Object[] params = {originalUserAccount,originalPsd};
+		boolean conformed = (boolean) userServiceImpl.selectUserByUserName(params)[0];
+		if(!conformed) {
+			JOptionPane.showMessageDialog(null, "旧密码错误，请重新输入！", "提示", JOptionPane.INFORMATION_MESSAGE);
+			return;
+		}
+		if(currentPsd.length() ==0) {
+			JOptionPane.showMessageDialog(null, "请输入用户新密码", "提示", JOptionPane.INFORMATION_MESSAGE);
+			return;
+		}
+		
+		int num = JOptionPane.showConfirmDialog(null, "是否修改"+originalUserAccount+"的信息？",
+				"提示",JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+	    switch(num) {
+	    case JOptionPane.YES_OPTION:
+			boolean result = userServiceImpl.updateUser(currentUserAccount,SpringUtil.MD5Encode(currentPsd),originalUserAccount);
+			if(result) {
+				JOptionPane.showMessageDialog(null, "账号信息更新成功", "提示", JOptionPane.INFORMATION_MESSAGE);
+				refreshPasswordFields();
+
+			}
+	    case JOptionPane.NO_OPTION:
+	    	break;
+	    case JOptionPane.CANCEL_OPTION:
+	    	break;
+	    }
+	}
+
+	/**
+	 * 删除用户账号
+	 */
+	private void deleteUser() {
+		//用户账号
+		String userAccount =inputName.getSelectedItem().toString();
+		//账号密码
+		String psd = new String(inputPassword.getPassword());
+		Object[] params = {userAccount,psd};
+		boolean conformed = (boolean) userServiceImpl.selectUserByUserName(params)[0];
+		if(!conformed) {
+			JOptionPane.showMessageDialog(null, "账号密码错误，请重新输入！", "提示", JOptionPane.INFORMATION_MESSAGE);
+			return;
+		}
+		int num = JOptionPane.showConfirmDialog(null, "是否删除账号"+userAccount+"？", "提示",JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+	    switch(num) {
+	    case JOptionPane.YES_OPTION:
+			boolean  result =	userServiceImpl.deleteUser(userAccount);
+			if(result) {
+				contentBody.remove(inputName);
+				inputName = new ComboBox("UserServiceImpl", "getUsersCombox",null);
+				contentBody.add(inputName, "cell 2 1,growx");
+				inputName.validate();
+				inputName.repaint();
+				JOptionPane.showMessageDialog(null, "已成功删除", "提示", JOptionPane.INFORMATION_MESSAGE);
+				refreshPasswordFields();
+			}
+	    case JOptionPane.NO_OPTION:
+	    	break;
+	    case JOptionPane.CANCEL_OPTION:
+	    	break;
+	    }	
+	}
+	
+	/**
+	 * 清空密码框内容
+	 */
+	private void refreshPasswordFields() {
+		inputPassword.setText(null);
+		newPassword.setText(null);
 	}
 }

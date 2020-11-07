@@ -8,11 +8,13 @@ public interface UserDao {
 
 	List<User> getUsers();
 
-	boolean deleteUser(String receiveName);
+	boolean deleteUser(String userAccount);
 
 	List<User> selectPassWordByUserName(String choosenUserName);
 
-	boolean updateUser(String inputNameModify, String inputPasswordModify, String userName3);
+	boolean updateUser(String currentUserAccount, String currentPsd, String originalUserAccount);
+
+	List<User> selectUserDaoByUserName(String userName);
 
 
 

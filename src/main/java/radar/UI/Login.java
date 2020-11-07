@@ -1,44 +1,54 @@
 package radar.UI;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JRootPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
-import java.awt.FlowLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
+
+import lombok.extern.slf4j.Slf4j;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import net.miginfocom.swing.MigLayout;
+import radar.SpringUtil;
+import radar.Service.UserService;
+import radar.ServiceImpl.UserServiceImpl;
+
 import java.awt.Font;
 import java.awt.Color;
+import javax.swing.SwingConstants;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 /**
  * 用户登录界面
  * @author madi
  *
  */
+@Slf4j
 public class Login extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField userAccount;
-	private JTextField passWord;
+	private JPasswordField passWord;
 	
 	private JButton login;
 	private JButton cancle;
@@ -80,6 +90,8 @@ public class Login extends JFrame {
 		panel2.add(label1, "cell 1 0,alignx trailing");
 		
 		userAccount = new JTextField();
+		userAccount.setFont(new Font("仿宋", Font.PLAIN, 14));
+		userAccount.setHorizontalAlignment(SwingConstants.CENTER);
 		panel2.add(userAccount, "cell 2 0,growx");
 		userAccount.setColumns(10);
 		
@@ -88,7 +100,19 @@ public class Login extends JFrame {
 		label2.setFont(new Font("仿宋", Font.BOLD, 16));
 		panel2.add(label2, "cell 1 1");
 		
-		passWord = new JTextField();
+		passWord = new JPasswordField();
+		passWord.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                super.keyTyped(e);
+                if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+                	checkUser();
+                }
+            }
+        });
+		
+		passWord.setHorizontalAlignment(SwingConstants.CENTER);
+		passWord.setFont(new Font("仿宋", Font.BOLD, 14));
 		panel2.add(passWord, "cell 2 1,growx");
 		userAccount.setColumns(10);
 		
@@ -100,17 +124,15 @@ public class Login extends JFrame {
 		login = new JButton("登录");
 		login.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				exit();
-				SystemEntrance systemEntrance = new SystemEntrance();
-	     	    systemEntrance.initUI();
-			}
+				checkUser();				
+			}			
 		});
 		login.setFont(new Font("仿宋", Font.BOLD, 14));
 		panel3.add(login,"cell 1 0,growx,aligny center");
 		cancle = new JButton("注销");
 		cancle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				exit1();
+				exit();
 			}
 		});
 		cancle.setFont(new Font("仿宋", Font.BOLD, 14));
@@ -118,13 +140,27 @@ public class Login extends JFrame {
 	}
 	
 	/**
+	 * 检查用户登录账号密码
+	 */
+	
+	private void checkUser() {
+		Object[] params = {userAccount.getText(),new String(passWord.getPassword())};
+		UserService userService = (UserServiceImpl) SpringUtil.getBean("UserServiceImpl");
+		boolean conformed = (boolean) userService.selectUserByUserName(params)[0];
+		if(conformed) {
+			log.info(userAccount.getText()+" 于"+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())+"登录系统！！！");
+			SystemEntrance systemEntrance = new SystemEntrance(userAccount.getText());
+	 	    systemEntrance.initUI();
+	 	    this.dispose();
+		}
+		else 
+			JOptionPane.showMessageDialog(this,"账号名或账号密码有误","警告",JOptionPane.WARNING_MESSAGE);			
+	}
+	
+	/**
 	 * 退出系统
 	 */
 	private void exit() {
-		this.dispose();
-	}
-	
-	private void exit1() {
 		System.exit(0);
 	}
 	

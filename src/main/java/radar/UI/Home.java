@@ -55,14 +55,10 @@ public class Home extends JPanel implements Init {
 	private RadarStruct c4;
 	private NewRadar c5;
 	private PartsManage c6;
-// 	private PartConsume c7;
-// 	private FaultRecord c8;
-// 	private Parts c6;
 	private PartConsume c7;
 	private FaultRecord c8;
 	private ImportData c9;
 	private NewUser c10;
-//	private UserList c10;
 
 
 	

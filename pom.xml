@@ -92,6 +92,13 @@
 		 	<artifactId>Rserve</artifactId>
 		 	<version>1.8.1</version>
 		 </dependency>
+		 
+		 <!-- Slf4j日志依赖 -->
+		 <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.0</version>
+        </dependency>
 	</dependencies>
 
 	<build>

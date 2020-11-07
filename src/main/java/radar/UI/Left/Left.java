@@ -57,7 +57,7 @@ public class Left extends JPanel {
 		panelForButtons.setBackground(null);
 		add(panelForButtons, BorderLayout.CENTER);
 		
-		panelForButtons.setLayout(new MigLayout("", "[150px]", "[40px][40px][40px][30px][30px][30px][30px][30px][30px][30px][60]"));
+		panelForButtons.setLayout(new MigLayout("", "[150px]", "[40px][40px][40px][30px][30px][30px][30px][30px][30px][30px][30px]"));
 		
 		b1 = new Button("精 准 预 测");
 		b1.setIcon(TopPanel.getIcon("forecast.png",this));
@@ -105,13 +105,12 @@ public class Left extends JPanel {
 		b10 = new Button("数 据 导 入");
 		b10.setIcon(TopPanel.getIcon("item1.png",this));
 		b10.setFont(new Font("仿宋", Font.BOLD, 14));
-		add(b10, "cell 0 9,grow");
+		panelForButtons.add(b10, "cell 0 9,grow");
 		
-		b11 = new Button("用户管理");
+		b11 = new Button("用 户 管 理");
 		b11.setIcon(TopPanel.getIcon("item1.png",this));
 		b11.setFont(new Font("仿宋", Font.BOLD, 14));
-		add(b11, "cell 0 10,grow");
-		panelForButtons.add(b10, "flowy,cell 0 9,grow");
+		panelForButtons.add(b11, "flowy,cell 0 10,grow");
 				
 		showSubTitles(false);
 				
