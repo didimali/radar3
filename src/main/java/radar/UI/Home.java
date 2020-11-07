@@ -71,6 +71,7 @@ public class Home extends JPanel implements Init {
 		setBackground(Color.WHITE);
 		setOpaque(true);
 		setLayout(new BorderLayout(0, 0));	
+		initUI();
 	};
 
 	@Override

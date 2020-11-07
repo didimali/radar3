@@ -18,6 +18,7 @@ import radar.SpringUtil;
 import radar.ServiceImpl.AnalysisServiceImpl;
 import radar.Tools.TableStyleUI;
 import radar.UI.Components.JPanelTransparent;
+import radar.UI.Components.TableWithScrollBar;
 import net.miginfocom.swing.MigLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -49,37 +50,14 @@ public class ABody2 extends JPanelTransparent{
 	}
 
 	private void setJTable(int typeid,int location) {
-		Object[][] list=analysisServiceImpl.getRadar(typeid,location);	
-		table = new JTable();
-		if (list != null && list.length != 0 ) {
-			Object[][] newdata=initResultData(list);
-			table.setModel(new DefaultTableModel(newdata,new String[] {"编号", "雷达编号","所属部队","健康状态"}));
-        } 
-		else {
-            // 如果结果集中没有数据，那么就用空来代替数据集中的每一行
-            Object[][] nothing = { {}, {}, {}, {}, {}, {}, {}, {}, {}, {}};
-            table.setModel(new DefaultTableModel(nothing,new String[] {"编号", "雷达编号","所属部队","健康状态"}));
-        }
-		table.setFont(new Font("仿宋", Font.PLAIN, 14));
-		table.setEnabled(false);
-		table.setRowSelectionAllowed(false);
-		TableStyleUI ui = new TableStyleUI();
-        ui.makeFace(table);
+		String[] header = {"编号", "雷达编号","所属部队","健康状态"};
+		Object[] params = {typeid,location};
+		table = new TableWithScrollBar("AnalysisServiceImpl", "getRadar", params, header,true,0);
+		
         JScrollPane JSP=new JScrollPane(table);
 		add(JSP, "cell 0 0,grow");
 	}
-	private Object[][] initResultData(Object[][] data) {
-		int N = data.length;
-		int l = N%10;
-		int k = N/10;
-		if(l>0)
-			N = 10*(k+1);
-		Object[][] resultData = new Object[N+2][];
-		for(int i=0;i<data.length;i++) {
-			resultData[i] = data[i];
-		}
-		return resultData;
-	}
+
 	
 	private JFreeChart createPieChart(int typeid, int location) {
 		PieDataset paramPieDataset=analysisServiceImpl.createPieData(typeid,location);

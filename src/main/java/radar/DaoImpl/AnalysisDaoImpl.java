@@ -252,7 +252,7 @@ public class AnalysisDaoImpl implements AnalysisDao {
 	@Override
 	public List<Parts> getParts(String id) {
 		EntityManager em = emf.createEntityManager();
-		String sql = "select * from parts where radar_type_id="+id;
+		String sql = "select * from parts where radar_type_id="+id +" " ;
 		Query query = em.createNativeQuery(sql,Parts.class);
 		List<Parts> list = query.getResultList();
 		em.close();
@@ -262,7 +262,9 @@ public class AnalysisDaoImpl implements AnalysisDao {
 	@Override
 	public List<PartConsume> getPartsConsume(int id,String startDate,String endDate) {
 		EntityManager em = emf.createEntityManager();
-		String sql = "select * from part_consume where parts_id="+id+" and consume_date between "+"'"+startDate+"'"+" and "+"'"+endDate+"'";
+		String sql = "select * from part_consume where parts_id="+id
+				+" and consume_date between "+"'"+startDate+"'"+" and "+"'"+endDate+"'"
+				+ " and p_consume_count >0";
 		Query query = em.createNativeQuery(sql,PartConsume.class);
 		List<PartConsume> list = query.getResultList();
 		em.close();

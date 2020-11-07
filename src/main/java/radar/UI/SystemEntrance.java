@@ -17,7 +17,7 @@ import javax.swing.UIManager;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 import radar.UI.Content.NewUser;
-
+import radar.UI.Top.TopPanel;
 
 
 /**
