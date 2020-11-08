@@ -1,9 +1,14 @@
 package radar.Tools;
 
-import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
+import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
+
+import radar.SpringUtil;
+import radar.ServiceImpl.XiTongServiceImpl;
 /**
   * 从sqlite数据库提取数据存入mysql数据中
  * @author madi
@@ -11,26 +16,57 @@ import javax.swing.SwingWorker;
  */
 public class ExtractDataFromSqlite extends SwingWorker<Boolean,Void>{
 	
-	String url;
-	int radarId;
+	private String url;
+	private int radarId;
+	private String radarName;
 	
-	public ExtractDataFromSqlite(int radarId, String url){
+	private int dynamicDataCount = 0;
+	private int faultRecordCount = 0;
+	
+	public ExtractDataFromSqlite(String radarName, int radarId, String url){
 		this.url = url;
+		this.radarId = radarId;
+		this.radarName = radarName;
 	}
 
 	@Override
 	protected Boolean doInBackground() throws Exception {
-		ConnectSqliteDataBase csd = new ConnectSqliteDataBase(url);
-		List<Records> list1 = csd.selectAllRecords();
-		List<Faults> list2 = csd.selectAllFaults();
-		SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
-		System.out.println(sdf.format(list1.get(0).getTime()) +" "+list1.get(0).getTimeb());
-		return null;
+		try {
+			XiTongServiceImpl xt = (XiTongServiceImpl) SpringUtil.getBean("XiTongServiceImpl");
+			//数据尚未插入，解析，插入数据
+			ConnectSqliteDataBase csd = new ConnectSqliteDataBase(url);
+			HashMap<String,List> map = csd.selectAllData();
+			if(map.containsKey("Records")) {
+				xt.AddDynamicData(radarId,map.get("Records"));
+				dynamicDataCount = map.get("Records").size();
+			}				
+			if(map.containsKey("Faults")) {
+				xt.AddFaultRecord(radarId,map.get("Faults"));
+				faultRecordCount = map.get("Faults").size();
+			}
+				
+			return true;
+		}
+		catch(Exception e) {
+			return false;
+		}
+		
 	}
 	
 	@Override
 	protected void done() {
-		
+		try {
+			boolean result = get();
+			if(result) {
+				String str = radarName+"成功导入：";
+				str += dynamicDataCount+"条运行数据, "+faultRecordCount+"条故障数据";				
+				JOptionPane.showMessageDialog(null,str,"提示",JOptionPane.PLAIN_MESSAGE);
+			}				
+			else
+				JOptionPane.showMessageDialog(null,radarName+"数据导入失败","提示",JOptionPane.PLAIN_MESSAGE);
+		} catch (InterruptedException | ExecutionException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

@@ -24,7 +24,6 @@ public class CBody1 extends JScrollPane {
 		String[] header = {"managerId","序号","部队","驻地类型","雷达型号","列装数量（台）","红（台）","黄（台）","绿（台）","备件消耗（件）"};
 //		table = new Table1("AcuteForecastServiceImpl", "getAcuteForecastTable1Data", null, header,true,0);
 		table = new TableWithScrollBar("AcuteForecastServiceImpl", "getAcuteForecastTable1Data", null, header,true,0);
-		table.setToolTipText("查看详情");
 		setViewportView(table);
 	}
 

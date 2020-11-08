@@ -56,8 +56,6 @@ public class CBody2 extends JPanelTransparent{
 	private void setJTable() {
 		String[] header = {"radarId","序号","雷达","健康评估结果","故障预测","维修计划"};
 		table = new TableWithScrollBar("AcuteForecastServiceImpl", "getAcuteForecastTable2Data", params, header,true,0);
-		table.setToolTipText("查看详情");
-		
 		jTable = new JScrollPane(table);
 		add(jTable, "cell 0 0,grow");
 	}

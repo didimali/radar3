@@ -7,9 +7,8 @@ import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
-import org.apache.commons.codec.binary.Hex;
 
 import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
@@ -29,85 +28,56 @@ public class ConnectSqliteDataBase {
 	 * @param url sqlite数据库地址
 	 */
 	public ConnectSqliteDataBase(String url) {
-		this.url = this.url + url;
+		this.url += url;
 	}
 	
-	/**
-	 * 查询数据库Records表数据
-	 * @return
-	 */
-	public List<Records> selectAllRecords() {
-		List<Records> result = new ArrayList<Records>();	 
-        Connection connection = null;
-        try {
+	public HashMap<String,List> selectAllData(){		
+		HashMap<String,List> map = new HashMap<String,List>();
+		Connection connection = null;
+		try {
             connection = createConnection();
-            result = getRecords(connection);
-            url = "jdbc:sqlite:";
-            return result;
-        }  catch (SQLException e) {
+            List<Records> records = getRecords(connection);
+            if(records != null && records.size() >0)
+            	map.put("Records",records);
+            List<Faults> faults = getFaults(connection);
+            if(faults != null && faults.size() >0)
+            	map.put("Faults",faults);
+            return map;
+        }  catch (SQLException | ClassNotFoundException | UnsupportedEncodingException | ParseException e) {
             System.err.println(e.getMessage());
             return null;
-        } catch(Exception e) {
-            e.printStackTrace();
-            return null;
-        } finally{
+        }finally{
             try {
                 if (connection != null)
                     connection.close();
             } catch (SQLException e) {
                 System.err.println(e);
             }
-        }
-    }
-	
-	/**
-	 * 查询数据库Faults表数据
-	 * @return
-	 */
-	public List<Faults> selectAllFaults() {
-		List<Faults> result = new ArrayList<Faults>();	 
-        Connection connection = null;
-        try {
-            connection = createConnection();
-            result = getFaults(connection);
-            url = "jdbc:sqlite:";
-            return result;
-        }  catch (SQLException e) {
-            System.err.println(e.getMessage());
-            return null;
-        } catch(Exception e) {
-            e.printStackTrace();
-            return null;
-        } finally{
-            try {
-                if (connection != null)
-                    connection.close();
-            } catch (SQLException e) {
-                System.err.println(e);
-            }
-        }
-    }
+        }		
+	}
 	    
     private List<Faults> getFaults(Connection connection) throws SQLException, UnsupportedEncodingException, ParseException {
     	List<Faults> result = new ArrayList<Faults>();
         Statement statement = connection.createStatement();
         statement.setQueryTimeout(30); 
         // 执行查询语句
-        ResultSet rs = statement.executeQuery("SELECT * FROM Faults");
+        ResultSet rs = statement.executeQuery("select * from Faults");
         while (rs.next()) {
         	Faults r = new Faults();
-        	SimpleDateFormat sdf =   new SimpleDateFormat( " yyyy-MM-dd HH:mm:ss " ); 
+        	SimpleDateFormat sdf =   new SimpleDateFormat("yyyyMMddHHmmss"); 
             int col1 = rs.getInt("id");
             String col2 = rs.getString("time");
-            String col3 = new String(rs.getString("timeb").getBytes("UTF-8"),"GBK");
+            byte[] byteInfo = rs.getBytes("info");
+            String info = null;
+            if(!(byteInfo == null || byteInfo.length ==0 ))
+            	info = new String(byteInfo,"GBK");
             int col4 = rs.getInt("dev");
-            String col5 = rs.getString("info");
             r.setId(col1);
             r.setTime(sdf.parse(col2));
-            r.setTimeb(col3);
             r.setDev(col4);
-            r.setInfo(col5);
-            result.add(r);           
+            r.setInfo(info);
+            if(info != null)
+            	result.add(r);           
         }
         return result;
 	}
@@ -129,31 +99,20 @@ public class ConnectSqliteDataBase {
         	SimpleDateFormat sdf =   new SimpleDateFormat( "yyyyMMddHHmmss" ); 
             int col1 = rs.getInt("id");
             String col2 = rs.getString("time");
-            String col3 = str2HexStr(rs.getString("timeb"), false,"UTF-8");
-            String timeb = new String(col3.getBytes("GBK"),"UTF-8");  
+            byte[] byteInfo = rs.getBytes("info");
+            String info = null;
+            if(!(byteInfo == null || byteInfo.length ==0 ))
+            	info = new String(byteInfo,"GBK");
             int col4 = rs.getInt("dev");
-            String col5 = rs.getString("info");
             r.setId(col1);
             r.setTime(sdf.parse(col2));
-            r.setTimeb(timeb);
             r.setDev(col4);
-            r.setInfo(col5);
-            result.add(r);           
+            r.setInfo(info);
+            if(info != null)
+            	result.add(r);           
         }
         return result;
     }
+   
     
-    
-    /**
-          * 将普通字符串转换为16进制字符串
-     * @param str 普通字符串
-     * @param lowerCase 转换后的字母为是否为小写  可不传默认为true
-     * @param charset 编码格式  可不传默认为Charset.defaultCharset()
-     * @return
-     * @throws UnsupportedEncodingException
-     */
-    public String str2HexStr(String str,boolean lowerCase,String charset) 
-		throws UnsupportedEncodingException {
-        return Hex.encodeHexString(str.getBytes(charset),lowerCase);
-    }
 }

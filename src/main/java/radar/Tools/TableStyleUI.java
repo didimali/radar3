@@ -71,8 +71,10 @@ public class TableStyleUI {
             @Override
             public Component getTableCellRendererComponent(JTable table,Object value, boolean isSelected,
             		boolean hasFocus,int row, int column) {
-            	
-                if(row%2==0){
+            	Color color = checkRowData(table,row);
+            	if(color != null)
+            		setBackground(color);
+            	else if(row%2==0){    
                     setBackground(new Color(245,245,245));
                 }else{
                     setBackground(new Color(255,255,255));
@@ -82,9 +84,7 @@ public class TableStyleUI {
                 // 列头内容居中
                 ((DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer())
                 	.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
-                table.getTableHeader().setResizingAllowed(true);
-                
-
+                table.getTableHeader().setResizingAllowed(true);   
                 return super.getTableCellRendererComponent(table, value,isSelected, hasFocus, row, column);
             }
         };
@@ -138,7 +138,7 @@ public class TableStyleUI {
                     int row, int column) {
 
                 setHorizontalAlignment(JLabel.CENTER);// 表格内容居中
-                setFont(new Font("仿宋", Font.PLAIN, 16));
+                setFont(new Font("仿宋", Font.BOLD, 16));
                 ((DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer())
                         .setHorizontalAlignment(DefaultTableCellRenderer.CENTER);// 列头内容居中
                 
@@ -146,7 +146,28 @@ public class TableStyleUI {
                         isSelected, hasFocus, row, column);
             }
         };
+        String str = column.getHeaderValue().toString();
+        c = str.contains("红") ? new Color(255,0,0):str.contains("黄")?new Color(255,255,0):str.contains("绿")?new Color(124,252,0):c;
         cellRenderer.setBackground(c);        
         column.setHeaderRenderer(cellRenderer);
+    }
+    
+    /**
+     * 表格行的颜色根据内容自适应
+     * @param table
+     * @param row
+     * @return
+     */
+    private Color checkRowData(JTable table,int row) {
+    	int columns = table.getColumnCount();
+    	for(int i=0;i<columns;i++) {
+    		if(table.getValueAt(row,i) != null && table.getValueAt(row,i).toString().contains("绿"))
+    			return new Color(124,252,0);
+    		if(table.getValueAt(row,i) != null && table.getValueAt(row,i).toString().contains("黄"))
+    			return new Color(255,255,0);
+    		if(table.getValueAt(row,i) != null && table.getValueAt(row,i).toString().contains("红"))
+    			return new Color(255,0,0);
+    	}
+		return null;    	
     }
 }

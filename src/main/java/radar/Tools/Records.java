@@ -2,12 +2,28 @@ package radar.Tools;
 
 import java.util.Date;
 
+/**
+ * sqlite数据库雷达运行数据记录对应实体类
+ * @author madi
+ *
+ */
 public class Records {
 	
+	/**
+	 * 记录id
+	 */
 	private Integer id;
+	/**
+	 * 数据记录时间
+	 */
 	private Date time;
-	private String timeb;
+	/**
+	 * 雷达运行数据对应的结构位置编号（10进制）
+	 */
 	private int dev;
+	/**
+	 * 运行数据内容
+	 */
 	private String info;
 	
 	public Integer getId() {
@@ -21,12 +37,6 @@ public class Records {
 	}
 	public void setTime(Date time) {
 		this.time = time;
-	}
-	public String getTimeb() {
-		return timeb;
-	}
-	public void setTimeb(String timeb) {
-		this.timeb = timeb;
 	}
 	public int getDev() {
 		return dev;

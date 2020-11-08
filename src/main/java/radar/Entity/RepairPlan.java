@@ -34,7 +34,7 @@ public class RepairPlan {
 	}
 
 	@ManyToOne
-	@JoinColumn(name="radarId",columnDefinition = "INT not null default 0")
+	@JoinColumn(name="radarId",nullable=false)
 	public Radar getRadarId() {
 		return radarId;
 	}

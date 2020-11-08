@@ -8,12 +8,14 @@ import radar.UI.Content.FaultRecord;
 import radar.UI.Content.ImportData;
 import radar.UI.Content.NewManager;
 import radar.UI.Content.NewRadar;
+import radar.UI.Content.NewUser;
 import radar.UI.Content.PartConsume;
 import radar.UI.Content.PrecisePrediction;
 import radar.UI.Content.Radartype;
 import radar.UI.Content.StructsManage;
 import radar.UI.Content.PartsManage;
 import radar.UI.Left.Left;
+import radar.UI.Settings.UserList;
 import radar.UI.Top.TopPanel;
 
 import java.awt.BorderLayout;
@@ -44,6 +46,8 @@ public class Home extends JPanel implements Init {
 	private ContentPanel3 p7 = new ContentPanel3();
 	private ContentPanel3 p8 = new ContentPanel3();
 	private ContentPanel3 p9 = new ContentPanel3();
+	private ContentPanel3 p10 = new ContentPanel3();
+
   
 	private PrecisePrediction c1;
 	private Radartype c2;	
@@ -51,12 +55,11 @@ public class Home extends JPanel implements Init {
 	private StructsManage c4;
 	private NewRadar c5;
 	private PartsManage c6;
-// 	private PartConsume c7;
-// 	private FaultRecord c8;
-// 	private Parts c6;
 	private PartConsume c7;
 	private FaultRecord c8;
 	private ImportData c9;
+	private NewUser c10;
+
 
 	
 	
@@ -64,6 +67,7 @@ public class Home extends JPanel implements Init {
 		setBackground(Color.WHITE);
 		setOpaque(true);
 		setLayout(new BorderLayout(0, 0));	
+		initUI();
 	};
 
 	@Override
@@ -81,6 +85,8 @@ public class Home extends JPanel implements Init {
 		panel.add(p7,"p7");
 		panel.add(p8,"p8");
 		panel.add(p9,"p9");
+		panel.add(p10,"p10");
+
 		
 		setTop();
 		setLeft();		
@@ -184,7 +190,16 @@ public class Home extends JPanel implements Init {
 				validate();
 				repaint();
 			}
-		});		
+		});	
+		left.getB11().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				set10();
+				cardLayout.show(panel,"p10");
+				validate();
+				repaint();
+			}
+		});
 		add(left, BorderLayout.WEST);		
 	}
 
@@ -246,6 +261,12 @@ public class Home extends JPanel implements Init {
 			p9.remove(c9);
 		c9 = new ImportData();
 		p9.add(c9, BorderLayout.CENTER);
+	}
+	private void set10() {
+		if(c10 != null)
+			p10.remove(c10);
+		c10 = new NewUser();
+		p10.add(c10, BorderLayout.CENTER);
 	}
 
 	@Override

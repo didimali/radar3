@@ -5,25 +5,40 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
+
+import lombok.extern.slf4j.Slf4j;
+import radar.UI.Content.NewUser;
+import radar.UI.Top.TopPanel;
 
 
 /**
  * 整个窗体框架类
  */
+@Slf4j
 public class SystemEntrance extends JFrame{
 	
 	private static final long serialVersionUID = 1L;
 	
-	public SystemEntrance() {
+	private String userAccount;
+	
+	public SystemEntrance(String userAccount) {
 		getContentPane().setLayout(new BorderLayout(0, 0));
+		this.userAccount = userAccount;
 	}
 	
 	public void initUI() {
@@ -63,11 +78,20 @@ public class SystemEntrance extends JFrame{
               	
        	Home home = new Home();
        	home.initUI();
+    
         // 添加面板
         getContentPane().add(home);
         getContentPane().setBackground(Color.RED); //正确显示黑色
         // 设置界面可见
         setVisible(true);
+        
+        //给右上角的关闭按钮添加日志记录事件
+        this.addWindowListener(new WindowAdapter() {
+        	public void windowClosing(WindowEvent e) {
+        		log.info(userAccount+" 于"+
+        				new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())+"退出系统！！！");
+        	}
+        	});
 	    }
 }
 

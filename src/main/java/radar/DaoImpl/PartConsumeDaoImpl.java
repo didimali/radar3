@@ -41,7 +41,8 @@ public class PartConsumeDaoImpl implements PartConsumeDao {
 					+" on radar_type.radar_type_id = parts.radar_type_id left join part_consume " 
 					+" on parts.parts_id = part_consume.parts_id where part_consume.manager_id = '"+managerId+"'"
 					+ " and parts.radar_type_id = (select radar_type_id from radar_type where radar_type_name = '"+radarType+"')"
-					+ " and part_consume.consume_date between '"+sDate+"' and '"+eDate+"';";
+					+ " and part_consume.consume_date between '"+sDate+"' and '"+eDate+"'"
+					+" and part_consume.p_consume_count > 0;";
 		Query query = em.createNativeQuery(sql,PartConsume.class);
 		List<PartConsume> list = query.getResultList();
 		em.close();

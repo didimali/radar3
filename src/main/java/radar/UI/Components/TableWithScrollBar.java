@@ -26,7 +26,7 @@ public class TableWithScrollBar extends JTable implements LoadingData{
     private Object[][] resultData;
     private DefaultTableModel model = null;
     //空数据集（10行）
-    private Object[][] nothing = { {}, {}, {}, {}, {}, {}, {}, {}, {}, {}};
+    private Object[][] nothing = { {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}};
 	
     //表格将要调用的ServiceImpl类的名字
     private String className;
@@ -188,7 +188,7 @@ public class TableWithScrollBar extends JTable implements LoadingData{
 	//将数据库查询结果装载入表格数据集
 	private Object[][] initResultData(Object[][] data) {
 		int N = data.length;
-		N = N%10 >0 ? 10*(N/10+1):N;
+		N = N%13 >0 ? 13*(N/13+1):N;
 		Object[][] result = new Object[N][];
 		for(int i=0;i<data.length;i++) {
 			if(data[i] == null)

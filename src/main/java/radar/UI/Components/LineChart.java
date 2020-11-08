@@ -8,6 +8,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.block.BlockBorder;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.chart.title.LegendTitle;
 import org.jfree.chart.title.TextTitle;
 import org.jfree.data.category.DefaultCategoryDataset;
@@ -78,12 +79,6 @@ public class LineChart extends JPanelTransparent implements LoadingData{
 	private void createLineChart() {
 		//创建数据集
 		DefaultCategoryDataset data = new DefaultCategoryDataset();
-//		data.addValue( 15 , "schools" , "1970" );
-//		data.addValue( 30 , "schools" , "1980" );
-//		data.addValue( 60 , "schools" , "1990" );
-//		data.addValue( 120 , "schools" , "2000" );
-//		data.addValue( 240 , "schools" , "2010" ); 
-//		data.addValue( 300 , "schools" , "2014" );
 
 		//创建JFreechart对象
 		lineChart = ChartFactory.createLineChart(title,xTitle, yTitle, data,
@@ -129,6 +124,10 @@ public class LineChart extends JPanelTransparent implements LoadingData{
 		//设置柱的透明度 
 		plot.setForegroundAlpha(1.0f); 
 		
+		CategoryPlot categoryPlot = (CategoryPlot)lineChart.getPlot();
+		LineAndShapeRenderer xylinerenderer = (LineAndShapeRenderer)categoryPlot.getRenderer(); 
+   		xylinerenderer.setBaseShapesVisible(true); //显示点
+				
 		//创建呈现媒介
 		chartPanel = new ChartPanel(lineChart);
 	}

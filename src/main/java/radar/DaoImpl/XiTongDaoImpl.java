@@ -11,7 +11,6 @@ import radar.Entity.System;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
-
 import radar.Dao.XiTongDao;
 
 @Repository("XiTongDaoImpl")
@@ -40,5 +39,4 @@ public class XiTongDaoImpl implements XiTongDao{
 		em.close();
 		return list;
 	}
-
 }

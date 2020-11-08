@@ -29,7 +29,7 @@ public class BasicInfoSettingServiceImpl {
 			if(fr.getFaultTypeId()!=null) {
 				faultType=fr.getFaultTypeId().getFaultName();
 			}
-			SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
 			Object[] o = {fr.getFaultId(),i+1,radar,faultType,fr.getFaultReason(),sdf1.format(fr.getFaultDate())};
 			data[i] = o;
 		}

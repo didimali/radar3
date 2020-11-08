@@ -2,12 +2,28 @@ package radar.Tools;
 
 import java.util.Date;
 
+/**
+ * 雷达运行时自动记录的故障记录对应实体
+ * @author madi
+ *
+ */
 public class Faults{
 	
+	/**
+	 * 故障记录id
+	 */
 	private Integer id;
+	/**
+	 * 故障记录时间
+	 */
 	private Date time;
-	private String timeb;
+	/**
+	 * 故障发生位置编号（10进制）
+	 */
 	private int dev;
+	/**
+	 * 故障内容
+	 */
 	private String info;
 	
 	public Integer getId() {
@@ -21,12 +37,6 @@ public class Faults{
 	}
 	public void setTime(Date time) {
 		this.time = time;
-	}
-	public String getTimeb() {
-		return timeb;
-	}
-	public void setTimeb(String timeb) {
-		this.timeb = timeb;
 	}
 	public int getDev() {
 		return dev;

@@ -52,20 +52,7 @@ public class TopPanel extends Background{
 	 * @return: Image
 	 */
 	public  static  ImageIcon getIcon(String imageName,Object c){		
-		
-		try {	
-			InputStream inputStream=c.getClass().getResourceAsStream("/images/"+imageName);
-			if(inputStream != null) {
-				BufferedImage bi=ImageIO.read(inputStream);
-				Image im=(Image)bi;
-				ImageIcon icon = new ImageIcon(im);
-				return icon;
-			}
-			else
-				return null;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}		
+		ImageIcon icon = new ImageIcon(c.getClass().getResource("/images/"+imageName));
+		return icon;
 	}
 }
