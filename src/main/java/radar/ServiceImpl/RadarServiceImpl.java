@@ -9,12 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import radar.Dao.RadarDao;
+import radar.Entity.Equip;
+import radar.Entity.Manager;
 import radar.Entity.PartConsume;
 import radar.Entity.Parts;
 import radar.Entity.Radar;
 import radar.Entity.RadarForecast;
 import radar.Entity.RadarType;
 import radar.Entity.RepairPlan;
+import radar.Entity.System;
 import radar.Repository.PartConsumeRepository;
 import radar.Repository.PartsRepository;
 import radar.Repository.RadarRepository;
@@ -265,4 +268,106 @@ public class RadarServiceImpl implements RadarService{
 			}
 			return result;	
 		}
+
+		public boolean updateRadar(String choosenRadarName, String choosenTypeName, String choosenManagerName,String radarname) {
+			Integer typeid = null;
+			List<Manager> manager=radarDao.selectManagerIDByName(choosenManagerName);
+			Integer managerid=manager.get(0).getManagerId();
+			if(choosenTypeName.equals("I型雷达")) {
+				typeid=1;
+			}else if(choosenTypeName.equals("II型雷达")) {
+				typeid=2;
+			}
+			return radarDao.updateRadar(choosenRadarName,typeid,managerid,radarname);
+		}
+		
+		public Object[] getDataForSystemComboBox(Object[] params) {
+			List<System> list = new ArrayList<System>();
+			list = radarDao.getSystems();
+			Object[] result = new Object[list.size()];
+			for(int i=0;i<list.size();i++) {
+				System m = list.get(i);
+				result[i] = m.getSystemName();
+			}
+			return result;
+		}
+		public Object[] getDataForEquipComboBox(Object[] params) {
+			List<Equip> list = new ArrayList<Equip>();
+			list = radarDao.getEquips();
+			Object[] result = new Object[list.size()];
+			for(int i=0;i<list.size();i++) {
+				Equip m = list.get(i);
+				result[i] = m.getEquipName();
+			}
+			return result;
+		}
+		public Object[] getDataForTypeComboBox(Object[] params) {
+			List<RadarType> list = new ArrayList<RadarType>();
+			list = radarDao.getTypes();
+			Object[] result = new Object[list.size()];
+			for(int i=0;i<list.size();i++) {
+				RadarType t = list.get(i);
+				result[i] = t.getRadarTypeName();
+			}
+			return result;
+		}
+		
+		public boolean addStruct(String type, String system,String equip) {
+			List<RadarType> typeList=radarDao.getRadarTypes();
+			int typeflag=0,systemflag=0,equipflag=0;
+			for(int i=0;i<typeList.size();i++) {
+			if(type.equals(typeList.get(i).getRadarTypeName())) {
+				typeflag=typeList.get(i).getRadarTypeId();
+				break;
+			}
+			}
+			//说明雷达型号已经存在
+			if(typeflag>0) {
+				List<System> systemName=radarDao.getSystemByTypeID(typeflag);
+				if(systemName.size()>0) {
+				if(system.equals(systemName.get(0).getSystemName())) {
+				systemflag=	systemName.get(0).getSystemId();
+				}
+				}
+			}
+			//说明该分系统已经存在
+			if(systemflag>0) {
+				List<Equip> equipName=radarDao.getEquipBySystemID(equipflag);
+				if(equipName.size()>0) {
+				if(equip.equals(equipName.get(0).getEquipName())) {
+				equipflag=equipName.get(0).getEquipId();	
+				}
+			  } 
+			}			
+			if(typeflag>0&&systemflag>0&&equipflag>0) {
+				return false;
+			}else if(typeflag>0&&systemflag>0&&equipflag==0){   //新建所属部件
+			    radarDao.saveEquip(equip,systemflag);
+				return true;
+		    }else if(typeflag>0&&systemflag==0){           //新建分系统及所属部件
+		    	radarDao.saveSystem(system,typeflag);
+		    	int sysid=radarDao.getLastSystem().get(0).getSystemId();
+		    	radarDao.saveEquip(equip,sysid);
+		    	return true;
+		    }else {                                        //新建雷达型号、分系统及所属部件
+		    	radarDao.saveType(type);
+		    	int typeid=radarDao.getLastType().get(0).getRadarTypeId();
+		    	radarDao.saveSystem(system,typeid);
+		    	int sysid=radarDao.getLastSystem().get(0).getSystemId();
+		    	radarDao.saveEquip(equip,sysid);
+		    	return true;
+		    }
+		}
+
+		public boolean deleteStruct(String system, String equip) {
+			if(equip==""){
+				 radarDao.deleteSystem(system);
+				 return true;
+			}else{
+				 radarDao.deleteEquip(equip);
+				 radarDao.deleteSystem(system);
+				 return true;
+			}
+		}
+		
 }

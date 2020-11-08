@@ -14,6 +14,6 @@ public interface RadarService {
 	
 	Object[][] getRadarsByManagerId(Object[] params);
 
-
+    
 
 }

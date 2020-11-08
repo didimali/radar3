@@ -6,6 +6,8 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.JOptionPane;
+
 import radar.SpringUtil;
 import radar.ServiceImpl.AnalysisServiceImpl;
 import radar.Tools.Init;
@@ -37,6 +39,7 @@ public class Radartype extends ContentPanel implements Init{
 	private BBody1 b1;
 	private BBody2 b2;
 	private AFoot foot;
+	private String typeFlag="All";
 	public Radartype() {		
 		initUI();
 		Action();	
@@ -55,8 +58,10 @@ public class Radartype extends ContentPanel implements Init{
 		top1 = new ATop1();	
 		top1.getRadarType().addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
+				
 				if(e.getStateChange() == 1) {
 					String value1 = (String) e.getItem();
+					typeFlag=value1;
 					String value2 = (String) top1.getLocationType().getSelectedItem();
 					int columnIndex1 = 1;
 					int columnIndex2 = 2;
@@ -88,47 +93,44 @@ public class Radartype extends ContentPanel implements Init{
 		top1.getButton1().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				if(typeFlag.equals("All")) {
+					JOptionPane.showMessageDialog(null,"请选择雷达型号","提示",JOptionPane.PLAIN_MESSAGE);
+				}else {
+					if(typeFlag.equals("I型雷达")){
+						typeFlag="1";
+					}else if(typeFlag.equals("II型雷达")){
+						typeFlag="2";
+					}
 				contentTop.remove(top1);
 				contentBody.remove(body1);
 				contentFoot.remove(foot);
-				setA("1");
+				setA(typeFlag);
 				validate();
-				repaint();
+				repaint();		
+				}
 			}
 		});
 		top1.getButton2().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				if(typeFlag.equals("All")) {
+					JOptionPane.showMessageDialog(null,"请选择雷达型号","提示",JOptionPane.PLAIN_MESSAGE);
+				}else {
+					if(typeFlag.equals("I型雷达")){
+						typeFlag="1";
+					}else if(typeFlag.equals("II型雷达")){
+						typeFlag="2";
+					}
 				contentTop.remove(top1);
 				contentBody.remove(body1);
 				contentFoot.remove(foot);
-				setB("1");
+				setB(typeFlag);
 				validate();
 				repaint();
+				}
 			}
 		});
-		top1.getButton3().addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				contentTop.remove(top1);
-				contentBody.remove(body1);
-				contentFoot.remove(foot);
-				setA("2");
-				validate();
-				repaint();
-			}
-		});
-		top1.getButton4().addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				contentTop.remove(top1);
-				contentBody.remove(body1);
-				contentFoot.remove(foot);
-				setB("2");
-				validate();
-				repaint();
-			}
-		});
+
 		
 		body1 = new ABody1();
 		foot = new AFoot();

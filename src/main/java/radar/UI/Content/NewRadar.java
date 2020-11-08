@@ -43,7 +43,7 @@ public class NewRadar extends ContentPanel implements Init{
 	private JComboBox managerNameComboBox;
 	private JLabel radarHealth;
 	private JComboBox radarHealthComboBox;
-	
+	private String rName;
 
 	private JButton add;
 	private JButton update;
@@ -171,22 +171,23 @@ public void initContentBody() {
 				}else if(!radarNameComboBox.getSelectedItem().toString().equals("")) {
 					SpringUtil s = new SpringUtil();
 					RadarServiceImpl radarServiceImpl = (RadarServiceImpl) s.getBean("RadarServiceImpl");
-					String choosenRadarName =radarNameComboBox.getSelectedItem().toString();
+					String choosenRadarName =radarNameComboBox.getSelectedItem().toString();                      //雷达编号
+					rName=choosenRadarName;
 					//雷达型号
-					Object[]  concreteRadarType = radarServiceImpl.selectLocationByRadarName(choosenRadarName);
-					Object[] resultdataRadarType =new String[concreteRadarType.length];
-					resultdataRadarType=concreteRadarType;
-					radarTypeComboBox.setModel(new DefaultComboBoxModel(resultdataRadarType));
+//					Object[]  concreteRadarType = radarServiceImpl.selectLocationByRadarName(choosenRadarName);
+//					Object[] resultdataRadarType =new String[concreteRadarType.length];
+//					resultdataRadarType=concreteRadarType;
+//					radarTypeComboBox.setModel(new DefaultComboBoxModel(concreteRadarType));
 					//部队编号
-					Object[]  managerName = radarServiceImpl.selectManagerNameByRadarName(choosenRadarName);
-					Object[] resultdataManagerName =new String[managerName.length];
-					resultdataManagerName=managerName;
-					managerNameComboBox.setModel(new DefaultComboBoxModel(resultdataManagerName));
+//					Object[]  managerName = radarServiceImpl.selectManagerNameByRadarName(choosenRadarName);
+//					Object[] resultdataManagerName =new String[managerName.length];
+//					resultdataManagerName=managerName;
+//					managerNameComboBox.setModel(new DefaultComboBoxModel(resultdataManagerName));
 					//健康状态
-					Object[]  concreteH = radarServiceImpl.selectHealthByRadarName(choosenRadarName);
-					Object[] resultdataH =new String[concreteH.length];
-					resultdataH=concreteH;
-					radarHealthComboBox.setModel(new DefaultComboBoxModel(resultdataH));
+//					Object[]  concreteH = radarServiceImpl.selectHealthByRadarName(choosenRadarName);
+//					Object[] resultdataH =new String[concreteH.length];
+//					resultdataH=concreteH;
+//					radarHealthComboBox.setModel(new DefaultComboBoxModel(resultdataH));
 				}
 			}
 		});
@@ -258,7 +259,37 @@ public void initContentBody() {
 		update.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+				RadarServiceImpl radarServiceImpl = (RadarServiceImpl) SpringUtil.getBean("RadarServiceImpl");
+				String choosenRadarName =radarNameComboBox.getSelectedItem().toString(); 
+				String choosenTypeName=radarTypeComboBox.getSelectedItem().toString();
+				String choosenManagerName = managerNameComboBox.getSelectedItem().toString();
+				Object[] obj = radarServiceImpl.getDataForRadarComboBox(null);								
+				Boolean flag=true;
+				//获取修改前的值
+				String radarname=rName;
+				for(int i = 0; i < obj.length; i++){
+					if(choosenRadarName.equals("")||choosenTypeName.equals("")||choosenManagerName.equals("")) {
+							JOptionPane.showMessageDialog(null,"请完善修改信息","提示",JOptionPane.WARNING_MESSAGE);
+							flag=false;
+							break;
+						}
+					}
+				if(flag) {
+					int num = JOptionPane.showConfirmDialog(null, "是否修改"+radarname+"的信息？", "提示",JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+				    switch(num) {
+				    case JOptionPane.YES_OPTION:
+						boolean result = radarServiceImpl.updateRadar(choosenRadarName,choosenTypeName,choosenManagerName,radarname);
+						if(result) {
+							JOptionPane.showMessageDialog(null, "更新成功", "提示", JOptionPane.INFORMATION_MESSAGE);
+
+						}
+				    case JOptionPane.NO_OPTION:
+				    	break;
+				    case JOptionPane.CANCEL_OPTION:
+				    	break;
+				    }
+				}
+					
 			}
 		});
 		delete.addMouseListener(new MouseAdapter() {

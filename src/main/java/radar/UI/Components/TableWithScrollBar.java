@@ -90,6 +90,7 @@ public class TableWithScrollBar extends JTable implements LoadingData{
 	public void setStyle() {
         TableStyleUI ui = new TableStyleUI();
         ui.makeFace(this,level);
+        
         //隐藏第一列
         if(noFirstColumn)
         	hideLastColumn();

@@ -27,7 +27,6 @@ public class TableStyleUI {
             @Override
             public Component getTableCellRendererComponent(JTable table,Object value, boolean isSelected,
             		boolean hasFocus,int row, int column) {
-            	
                 if(row%2==0){
                     setBackground(new Color(245,245,245));
                 }else{
