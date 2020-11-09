@@ -3,6 +3,7 @@ package radar.UI.Content;
 import javax.swing.JPanel;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
@@ -22,6 +23,7 @@ import radar.UI.AcuteForecast.CTop2;
 import radar.UI.AcuteForecast.CTop3;
 import radar.UI.AcuteForecast.CTop4;
 import radar.UI.AcuteForecast.CTop5;
+import radar.UI.Components.RoundBorder;
 
 /**
  * 精准预测跳转简单版本
@@ -60,7 +62,7 @@ public class PrecisePrediction extends JPanel {
 		setLayout(new MigLayout("", "[8px][100%][8px]", "[8px][100%][8px]"));
 		
 		panel = new JPanel();
-		panel.setLayout(cardLayout);
+		panel.setLayout(cardLayout);		
 		add(panel, "cell 1 1,grow");
 		panel.add(c1,"c1");
 		panel.add(c2,"c2");

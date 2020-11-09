@@ -58,7 +58,9 @@ public class TableStyleUI {
             TableColumn col = table.getColumn(
                     table.getColumnName(i));
             col.setCellRenderer(renderer);
-            setTableHeaderColor(table,i,new Color(72,171,247));
+//            setTableHeaderColor(table,i,new Color(72,171,247));
+//            setTableHeaderColor(table,i,new Color(51,204,255));
+            setTableHeaderColor(table,i,new Color(0,204,204));
         }
     }
     
@@ -77,7 +79,7 @@ public class TableStyleUI {
             	else if(row%2==0){    
                     setBackground(new Color(245,245,245));
                 }else{
-                    setBackground(new Color(255,255,255));
+                    setBackground(new Color(252,252,252));
                 }               
                 // 表格内容居中
                 setHorizontalAlignment(JLabel.CENTER);
@@ -110,7 +112,9 @@ public class TableStyleUI {
             TableColumn col = table.getColumn(
                     table.getColumnName(i));
             col.setCellRenderer(renderer);
-            setTableHeaderColor(table,i,new Color(72,171,247));
+//            setTableHeaderColor(table,i,new Color(72,171,247));
+//            setTableHeaderColor(table,i,new Color(51,204,255));
+            setTableHeaderColor(table,i,new Color(0,204,204));
         }
     }
 

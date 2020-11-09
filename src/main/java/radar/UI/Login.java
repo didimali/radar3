@@ -30,6 +30,7 @@ import net.miginfocom.swing.MigLayout;
 import radar.SpringUtil;
 import radar.Service.UserService;
 import radar.ServiceImpl.UserServiceImpl;
+import radar.UI.Components.MyFrame;
 
 import java.awt.Font;
 import java.awt.Color;
@@ -43,7 +44,7 @@ import java.awt.event.KeyEvent;
  *
  */
 @Slf4j
-public class Login extends JFrame {
+public class Login extends MyFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -165,24 +166,6 @@ public class Login extends JFrame {
 	}
 	
 	private void init() {
-		//调用Swing皮肤psg
-    	try{
-    		UIManager.setLookAndFeel(new NimbusLookAndFeel());  
-	   	  	SwingUtilities.updateComponentTreeUI(this);
-   	    }
-   	    catch(Exception e){
-   	    	System.out.println(e);
-   	    }
-    	
-    	InputStream inputStream=this.getClass().getResourceAsStream("/images/logo2.png") ;
-		try {
-			BufferedImage bi=ImageIO.read(inputStream);
-			Image im=(Image)bi;
-			//设置右上角图标
-	       	setIconImage(im);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		
 		ImageIcon image = new ImageIcon(this.getClass().getResource("/images/123.gif"));
 		JLabel label = new JLabel(image);

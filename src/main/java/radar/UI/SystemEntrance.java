@@ -3,34 +3,22 @@ package radar.UI;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.plaf.nimbus.NimbusLookAndFeel;
-
 import lombok.extern.slf4j.Slf4j;
-import radar.UI.Content.NewUser;
-import radar.UI.Top.TopPanel;
+import radar.UI.Components.MyFrame;
 
 
 /**
  * 整个窗体框架类
  */
 @Slf4j
-public class SystemEntrance extends JFrame{
+public class SystemEntrance extends MyFrame{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -42,24 +30,6 @@ public class SystemEntrance extends JFrame{
 	}
 	
 	public void initUI() {
-		//调用Swing皮肤psg
-    	try{
-    		UIManager.setLookAndFeel(new NimbusLookAndFeel());  
-	   	  	SwingUtilities.updateComponentTreeUI(this);
-   	    }
-   	    catch(Exception e){
-   	    	System.out.println(e);
-   	    }
-    	
-    	InputStream inputStream=this.getClass().getResourceAsStream("/images/logo2.png") ;
-		try {
-			BufferedImage bi=ImageIO.read(inputStream);
-			Image im=(Image)bi;
-			//设置右上角图标
-	       	setIconImage(im);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		
 		Toolkit kit = Toolkit.getDefaultToolkit();
         Dimension dimension = kit.getScreenSize();

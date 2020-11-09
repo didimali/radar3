@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
+import radar.UI.Components.RoundBorder;
 import radar.UI.Settings.AddConsumeBody;
 import radar.UI.Settings.AddConsumeTop;
 import radar.UI.Settings.ConsumeList;
@@ -40,6 +41,7 @@ public class PartConsume extends JPanel{
 		setLayout(new MigLayout("", "[8px][100%][8px]", "[8px][100%][8px]"));
 		
 		panel = new JPanel();
+		panel.setBorder(new RoundBorder());
 		panel.setLayout(cardLayout);
 		add(panel, "cell 1 1,grow");
 		panel.add(consumeListPanel,"consumeListPanel");

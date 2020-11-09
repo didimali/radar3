@@ -15,7 +15,6 @@ import radar.UI.Content.Radartype;
 import radar.UI.Content.StructsManage;
 import radar.UI.Content.PartsManage;
 import radar.UI.Left.Left;
-import radar.UI.Settings.UserList;
 import radar.UI.Top.TopPanel;
 
 import java.awt.BorderLayout;

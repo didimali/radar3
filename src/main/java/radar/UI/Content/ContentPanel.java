@@ -3,6 +3,7 @@ package radar.UI.Content;
 import javax.swing.JPanel;
 import net.miginfocom.swing.MigLayout;
 import radar.UI.Components.JPanelTransparent;
+import radar.UI.Components.RoundBorder;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -36,6 +37,7 @@ public class ContentPanel extends JPanel{
 		setLayout(new MigLayout("", "[8px][100%][8px]", "[8px][100%][8px]"));
 		
 		panel.setBackground(new Color(248,248,255));
+		panel.setBorder(new RoundBorder());
 		add(panel, "cell 1 1,grow");
 		panel.setLayout(new MigLayout("", "[100%]", "[80px][grow][60px]"));		
 		FlowLayout flowLayout = (FlowLayout) contentTop.getLayout();

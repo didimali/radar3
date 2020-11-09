@@ -9,7 +9,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
-
+import radar.UI.Components.RoundBorder;
 import radar.UI.Settings.AddStructBody;
 import radar.UI.Settings.AddStructTop;
 import radar.UI.Settings.StructList;
@@ -41,6 +41,7 @@ public class StructsManage extends JPanel{
 	public StructsManage() {
 		setLayout(new MigLayout("", "[8px][100%][8px]", "[8px][100%][8px]"));
 		panel = new JPanel();
+		panel.setBorder(new RoundBorder());
 		panel.setLayout(cardLayout);
 		add(panel, "cell 1 1,grow");
 		panel.add(radarStructPanel,"radarStructPanel");

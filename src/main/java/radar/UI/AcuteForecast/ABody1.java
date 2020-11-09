@@ -1,16 +1,9 @@
 package radar.UI.AcuteForecast;
 
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-
 import radar.SpringUtil;
 import radar.ServiceImpl.AnalysisServiceImpl;
-import radar.Tools.TableStyleUI;
-import radar.UI.Components.Table1;
 import radar.UI.Components.TableWithScrollBar;
-
-import java.awt.Font;
 
 /**
  * 统计分析-内容一

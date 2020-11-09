@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 /**
@@ -19,9 +18,7 @@ public class Background extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private Image image;
-	private ImageIcon im;
 	public Background() {
-
 	}
 	
 	@Override
@@ -32,9 +29,7 @@ public class Background extends JPanel {
 	
 	private void getPicture() {
 		
-		im = new ImageIcon(this.getClass().getResource("/images/background4.jpg"));
-
-		InputStream inputStream=this.getClass().getResourceAsStream("/images/background4.jpg") ;
+		InputStream inputStream=this.getClass().getResourceAsStream("/images/background6.jpg") ;
 		try {
 			BufferedImage bi=ImageIO.read(inputStream);
 			image =(Image)bi;
