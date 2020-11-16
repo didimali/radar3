@@ -58,8 +58,8 @@ public class SystemEntrance extends MyFrame{
         //给右上角的关闭按钮添加日志记录事件
         this.addWindowListener(new WindowAdapter() {
         	public void windowClosing(WindowEvent e) {
-        		log.info(userAccount+" 于"+
-        				new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())+"退出系统！！！");
+        		log.info(userAccount+" exit at "+
+        				new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())+"!");
         	}
         	});
 	    }

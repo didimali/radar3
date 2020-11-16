@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -16,7 +15,6 @@ import javax.swing.SwingConstants;
 import net.miginfocom.swing.MigLayout;
 import radar.SpringUtil;
 import radar.Entity.User;
-import radar.Service.UserService;
 import radar.ServiceImpl.UserServiceImpl;
 import radar.SwingWorker.SwingWorkerForUser;
 import radar.Tools.Init;
@@ -34,6 +32,7 @@ import java.awt.event.ActionEvent;
 
 public class NewUser extends ContentPanel implements Init{
 	
+	private static final long serialVersionUID = 1L;
 	private JLabel UserInfo;
 	private JLabel userName;
 	private JComboBox inputName;
@@ -96,7 +95,7 @@ public class NewUser extends ContentPanel implements Init{
 		subtitle = new JPanelTransparent();
 		subtitle.setLayout(new BorderLayout(0, 0));
 		
-		UserInfo = new JLabel("账户管理");
+		UserInfo = new JLabel("用户管理");
 		UserInfo.setFont(new Font("仿宋", Font.BOLD, 24));
 		UserInfo.setHorizontalAlignment(SwingConstants.CENTER);		
 		title.add(UserInfo, "cell 0 0,growx,aligny center");

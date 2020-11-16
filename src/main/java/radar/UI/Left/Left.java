@@ -270,7 +270,7 @@ public class Left extends JPanel {
 		picture.setHorizontalAlignment(SwingConstants.LEFT);
 		//getIcon("test2.gif",this)
 //		ImageIcon icon = new ImageIcon("src/main/resources/images/test2.gif");
-		ImageIcon icon = new ImageIcon(this.getClass().getResource("/images/雷达3.png"));
+		ImageIcon icon = new ImageIcon(this.getClass().getResource("/images/radarBackground.png"));
 		picture.setIcon(icon);
 		panelForPicture.add(picture);
 		
